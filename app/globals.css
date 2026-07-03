@@ -22,6 +22,8 @@
   --color-destructive: var(--destructive);
   --color-success: var(--success);
   --color-success-foreground: var(--success-foreground);
+  --color-highlight: var(--highlight);
+  --color-highlight-foreground: var(--highlight-foreground);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
@@ -40,39 +42,44 @@
 :root {
   color-scheme: light;
 
-  /* Warm off-white base */
-  --background: oklch(0.985 0.004 80);
-  --foreground: oklch(0.22 0.02 55);
+  /* Светло-серый фон страницы, белые карточки — как на e-auction */
+  --background: oklch(0.975 0.002 240);
+  --foreground: oklch(0.24 0.01 250);
 
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.22 0.02 55);
+  --card-foreground: oklch(0.24 0.01 250);
 
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.22 0.02 55);
+  --popover-foreground: oklch(0.24 0.01 250);
 
-  /* Ember / flame — фирменный акцент IGNIS */
-  --primary: oklch(0.6 0.2 34);
-  --primary-foreground: oklch(0.99 0.005 80);
+  /* Фирменный зелёный аукциона */
+  --primary: oklch(0.64 0.15 149);
+  --primary-foreground: oklch(0.99 0.01 150);
 
-  --secondary: oklch(0.95 0.008 70);
-  --secondary-foreground: oklch(0.28 0.02 55);
+  --secondary: oklch(0.955 0.004 240);
+  --secondary-foreground: oklch(0.3 0.01 250);
 
-  --muted: oklch(0.96 0.006 75);
-  --muted-foreground: oklch(0.52 0.02 55);
+  --muted: oklch(0.96 0.003 240);
+  --muted-foreground: oklch(0.52 0.01 250);
 
-  --accent: oklch(0.95 0.02 60);
-  --accent-foreground: oklch(0.3 0.03 45);
+  /* Мягкий зелёный тон для фонов-подложек */
+  --accent: oklch(0.95 0.03 150);
+  --accent-foreground: oklch(0.4 0.1 150);
 
   --destructive: oklch(0.58 0.22 27);
 
-  --success: oklch(0.55 0.13 150);
-  --success-foreground: oklch(0.99 0.005 150);
+  --success: oklch(0.64 0.15 149);
+  --success-foreground: oklch(0.99 0.01 150);
 
-  --border: oklch(0.9 0.008 75);
-  --input: oklch(0.9 0.008 75);
-  --ring: oklch(0.6 0.2 34);
+  /* Оранжевый акцент для бейджа «Новинка» */
+  --highlight: oklch(0.72 0.17 55);
+  --highlight-foreground: oklch(0.99 0.01 80);
 
-  --radius: 0.7rem;
+  --border: oklch(0.9 0.004 240);
+  --input: oklch(0.9 0.004 240);
+  --ring: oklch(0.64 0.15 149);
+
+  --radius: 0.4rem;
 }
 
 @layer base {
@@ -85,16 +92,17 @@
 }
 
 @layer utilities {
-  .text-fire-gradient {
-    background-image: linear-gradient(
-      100deg,
-      oklch(0.68 0.19 55),
-      oklch(0.6 0.21 38),
-      oklch(0.54 0.22 28)
-    );
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+  /* Плотная тонкая зелёная рамка карточек-лотов */
+  .card-lot {
+    border: 2px solid var(--border);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+  .card-lot:hover {
+    border-color: var(--primary);
+    box-shadow: 0 6px 20px -8px oklch(0.64 0.15 149 / 0.35);
+  }
+  .card-lot--featured {
+    border-color: var(--primary);
   }
 
   .marquee {
@@ -118,11 +126,11 @@
     0%,
     100% {
       opacity: 1;
-      box-shadow: 0 0 0 0 oklch(0.6 0.2 34 / 0.5);
+      box-shadow: 0 0 0 0 oklch(0.64 0.15 149 / 0.5);
     }
     50% {
       opacity: 0.8;
-      box-shadow: 0 0 0 5px oklch(0.6 0.2 34 / 0);
+      box-shadow: 0 0 0 5px oklch(0.64 0.15 149 / 0);
     }
   }
 }

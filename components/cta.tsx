@@ -1,12 +1,12 @@
 import Link from 'next/link'
-import { Flame, ArrowRight } from 'lucide-react'
+import { Gavel, ArrowRight } from 'lucide-react'
 
 export function Cta() {
   return (
     <section className="px-4 py-16 sm:py-24">
       <div className="relative mx-auto max-w-6xl overflow-hidden rounded-3xl border border-primary/25 bg-card px-6 py-14 text-center sm:px-12 sm:py-20">
         <span className="mx-auto grid size-14 place-items-center rounded-2xl bg-primary text-primary-foreground">
-          <Flame className="size-7" />
+          <Gavel className="size-7" />
         </span>
         <h2 className="mx-auto mt-6 max-w-2xl font-display text-4xl font-bold uppercase tracking-tight text-balance sm:text-5xl">
           Ваша следующая машина ждёт на торгах

@@ -34,11 +34,11 @@ export default async function AuctionsPage({
       <SiteHeader />
       <main className="flex-1">
         <div className="border-b border-border bg-card">
-          <div className="mx-auto max-w-6xl px-4 py-10">
-            <h1 className="font-display text-4xl font-bold uppercase tracking-tight">
-              Аукционы
+          <div className="mx-auto max-w-6xl px-4 py-8">
+            <h1 className="font-display text-2xl font-bold uppercase tracking-wide sm:text-3xl">
+              Каталог аукционов
             </h1>
-            <p className="mt-2 text-muted-foreground">
+            <p className="mt-2 text-sm text-muted-foreground">
               Выберите автомобиль и сделайте ставку. Участие в торгах доступно
               после регистрации.
             </p>
@@ -62,7 +62,7 @@ export default async function AuctionsPage({
               <p className="mt-6 text-sm text-muted-foreground">
                 Найдено лотов: {total}
               </p>
-              <div className="mt-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="mt-4 grid grid-cols-2 gap-4 lg:grid-cols-3 xl:grid-cols-4">
                 {lots.map((lot) => (
                   <LotCard key={lot.id} lot={lot} />
                 ))}

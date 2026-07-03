@@ -1,8 +1,13 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { Gauge, Calendar, MapPin } from 'lucide-react'
+import { Gauge, Calendar, MapPin, Clock } from 'lucide-react'
 import { Countdown } from '@/components/countdown'
-import { formatBYN, formatNumber, LOT_STATUS_LABEL } from '@/lib/format'
+import {
+  formatBYN,
+  formatNumber,
+  formatDateTime,
+  LOT_STATUS_LABEL,
+} from '@/lib/format'
 
 export type LotCardData = {
   id: string
@@ -17,6 +22,11 @@ export type LotCardData = {
   _count?: { bids: number }
 }
 
+// Короткий номер лота из id — визуально как на площадках госимущества.
+function lotNumber(id: string) {
+  return id.replace(/[^a-z0-9]/gi, '').slice(-8).toUpperCase()
+}
+
 export function LotCard({ lot }: { lot: LotCardData }) {
   const cover = lot.images[0] || '/cars/placeholder.png'
   const isActive = lot.status === 'ACTIVE'
@@ -24,63 +34,70 @@ export function LotCard({ lot }: { lot: LotCardData }) {
   return (
     <Link
       href={`/auctions/${lot.id}`}
-      className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-card transition-all hover:border-primary/40 hover:shadow-lg"
+      className="card-lot group flex flex-col overflow-hidden rounded-md bg-card"
     >
-      <div className="relative aspect-[16/10] overflow-hidden bg-muted">
+      <div className="relative aspect-[4/3] overflow-hidden bg-muted">
         <Image
           src={cover}
           alt={lot.title}
           fill
-          sizes="(max-width: 768px) 100vw, 33vw"
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
           className="object-cover transition-transform duration-500 group-hover:scale-105"
         />
         <span
-          className={`absolute left-3 top-3 rounded-full px-2.5 py-1 text-xs font-semibold ${
+          className={`absolute right-2 top-2 rounded-sm px-2 py-1 text-[11px] font-bold uppercase tracking-wide ${
             isActive
               ? 'bg-primary text-primary-foreground'
-              : 'bg-foreground/80 text-background'
+              : 'bg-foreground/75 text-background'
           }`}
         >
-          {isActive && (
-            <span className="mr-1.5 inline-block size-1.5 animate-pulse-dot rounded-full bg-primary-foreground align-middle" />
-          )}
           {LOT_STATUS_LABEL[lot.status] ?? lot.status}
         </span>
+        {isActive && (
+          <span className="absolute left-2 top-2 rounded-sm bg-highlight px-2 py-1 text-[11px] font-bold uppercase tracking-wide text-highlight-foreground">
+            Торги
+          </span>
+        )}
       </div>
 
-      <div className="flex flex-1 flex-col p-4">
-        <h3 className="font-display text-lg font-bold leading-tight text-balance">
+      <div className="flex flex-1 flex-col p-3">
+        <p className="font-mono text-[11px] text-muted-foreground">
+          № {lotNumber(lot.id)}
+        </p>
+
+        <h3 className="mt-1 line-clamp-2 text-sm font-bold leading-snug text-foreground">
           {lot.title}
         </h3>
 
-        <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1.5 text-xs text-muted-foreground">
+        <div className="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-[11px] text-muted-foreground">
           <span className="inline-flex items-center gap-1">
-            <Calendar className="size-3.5" />
+            <Calendar className="size-3" />
             {lot.year}
           </span>
           <span className="inline-flex items-center gap-1">
-            <Gauge className="size-3.5" />
+            <Gauge className="size-3" />
             {formatNumber(lot.mileage)} км
           </span>
           {lot.location && (
             <span className="inline-flex items-center gap-1">
-              <MapPin className="size-3.5" />
+              <MapPin className="size-3" />
               {lot.location}
             </span>
           )}
         </div>
 
-        <div className="mt-4 flex items-end justify-between gap-3 border-t border-border pt-4">
+        <p className="mt-2 inline-flex items-center gap-1 text-[11px] text-muted-foreground">
+          <Clock className="size-3" />
+          {isActive ? 'Приём ставок до ' : 'Завершён '}
+          {formatDateTime(lot.endsAt)}
+        </p>
+
+        <div className="mt-auto flex items-end justify-between gap-2 pt-3">
           <div>
-            <p className="text-xs text-muted-foreground">Текущая ставка</p>
-            <p className="font-display text-xl font-bold text-primary">
+            <p className="text-[11px] text-muted-foreground">Текущая ставка</p>
+            <p className="text-lg font-extrabold text-primary">
               {formatBYN(lot.currentPrice)}
             </p>
-            {typeof lot._count?.bids === 'number' && (
-              <p className="mt-0.5 text-xs text-muted-foreground">
-                Ставок: {lot._count.bids}
-              </p>
-            )}
           </div>
           {isActive && <Countdown endsAt={lot.endsAt} size="sm" />}
         </div>
