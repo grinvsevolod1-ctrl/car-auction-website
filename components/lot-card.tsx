@@ -18,7 +18,7 @@ export type LotCardData = {
 }
 
 export function LotCard({ lot }: { lot: LotCardData }) {
-  const cover = lot.images[0] ?? '/cars/placeholder.png'
+  const cover = lot.images[0] || '/cars/placeholder.png'
   const isActive = lot.status === 'ACTIVE'
 
   return (
@@ -28,7 +28,7 @@ export function LotCard({ lot }: { lot: LotCardData }) {
     >
       <div className="relative aspect-[16/10] overflow-hidden bg-muted">
         <Image
-          src={cover || "/placeholder.svg"}
+          src={cover}
           alt={lot.title}
           fill
           sizes="(max-width: 768px) 100vw, 33vw"

@@ -27,9 +27,7 @@ export function AuthForm({ mode, next }: { mode: 'login' | 'register'; next?: st
   return (
     <div className="mx-auto w-full max-w-md">
       <div className="mb-8 flex flex-col items-center gap-4 text-center">
-        <Link href="/">
-          <Logo />
-        </Link>
+        <Logo />
         <div>
           <h1 className="font-display text-3xl font-bold uppercase tracking-tight">
             {isLogin ? 'Вход в кабинет' : 'Регистрация'}
