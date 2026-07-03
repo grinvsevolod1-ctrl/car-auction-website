@@ -32,14 +32,50 @@ export type LotFilter = {
   q?: string
   status?: 'ACTIVE' | 'ENDED' | 'SOLD' | 'ALL'
   sort?: 'ending' | 'price_asc' | 'price_desc' | 'new'
+  region?: 'EU' | 'US' | 'OTHER'
+  currency?: 'BYN' | 'USD'
+  make?: string
+  minPrice?: number
+  maxPrice?: number
+  minYear?: number
+  maxYear?: number
   page?: number
+}
+
+// Список доступных марок для фильтра каталога.
+export async function getAvailableMakes(): Promise<string[]> {
+  const rows = await prisma.lot.findMany({
+    where: { status: { in: ['ACTIVE', 'ENDED', 'SOLD'] } },
+    distinct: ['make'],
+    select: { make: true },
+    orderBy: { make: 'asc' },
+  })
+  return rows.map((r) => r.make).filter(Boolean)
 }
 
 export async function getPublicLots(filter: LotFilter = {}) {
   await lazyCloseExpiredLots()
-  const { q, status = 'ACTIVE', sort = 'ending' } = filter
+  const {
+    q,
+    status = 'ACTIVE',
+    sort = 'ending',
+    region,
+    currency,
+    make,
+    minPrice,
+    maxPrice,
+    minYear,
+    maxYear,
+  } = filter
   const pageSize = CATALOG_PAGE_SIZE
   const page = Math.max(1, Math.floor(filter.page ?? 1))
+
+  const priceFilter: { gte?: number; lte?: number } = {}
+  if (typeof minPrice === 'number' && Number.isFinite(minPrice)) priceFilter.gte = minPrice
+  if (typeof maxPrice === 'number' && Number.isFinite(maxPrice)) priceFilter.lte = maxPrice
+  const yearFilter: { gte?: number; lte?: number } = {}
+  if (typeof minYear === 'number' && Number.isFinite(minYear)) yearFilter.gte = minYear
+  if (typeof maxYear === 'number' && Number.isFinite(maxYear)) yearFilter.lte = maxYear
 
   const orderBy =
     sort === 'price_asc'
@@ -64,6 +100,11 @@ export async function getPublicLots(filter: LotFilter = {}) {
           ],
         }
       : {}),
+    ...(region ? { region } : {}),
+    ...(currency ? { currency } : {}),
+    ...(make ? { make: { equals: make, mode: 'insensitive' as const } } : {}),
+    ...(Object.keys(priceFilter).length ? { currentPrice: priceFilter } : {}),
+    ...(Object.keys(yearFilter).length ? { year: yearFilter } : {}),
   }
 
   const [lots, total] = await Promise.all([

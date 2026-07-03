@@ -6,7 +6,8 @@ import { BidForm } from '@/components/bid-form'
 import { AutoBidForm } from '@/components/autobid-form'
 import { WatchButton } from '@/components/watch-button'
 import { Countdown } from '@/components/countdown'
-import { formatBYN, formatDateTime, LOT_STATUS_LABEL } from '@/lib/format'
+import { formatDateTime, LOT_STATUS_LABEL } from '@/lib/format'
+import { formatMoney, type Currency } from '@/lib/money'
 
 type LiveData = {
   currentPrice: number
@@ -49,17 +50,20 @@ function lotNumber(id: string) {
 
 export function LiveLotPanel({
   lot,
+  currency = 'BYN',
   isAuthenticated,
   isVerified,
   initialWatching,
   autoBidMax,
 }: {
   lot: InitialLot
+  currency?: Currency
   isAuthenticated: boolean
   isVerified: boolean
   initialWatching: boolean
   autoBidMax: number | null
 }) {
+  const fmt = (v: number) => formatMoney(v, currency)
   const { data, mutate } = useSWR<LiveData>(`/api/lots/${lot.id}`, fetcher, {
     refreshInterval: 5000,
     fallbackData: {
@@ -134,13 +138,13 @@ export function LiveLotPanel({
             <div className="flex items-center justify-between py-2">
               <dt className="text-muted-foreground">Начальная цена</dt>
               <dd className="font-semibold tabular-nums">
-                {formatBYN(lot.startPrice)}
+                {fmt(lot.startPrice)}
               </dd>
             </div>
             <div className="flex items-center justify-between py-2">
               <dt className="text-muted-foreground">Текущая ставка</dt>
               <dd className="font-display text-xl font-extrabold tabular-nums text-primary">
-                {formatBYN(live.currentPrice)}
+                {fmt(live.currentPrice)}
               </dd>
             </div>
             <div className="flex items-center justify-between py-2">
@@ -151,7 +155,7 @@ export function LiveLotPanel({
               <div className="flex items-center justify-between py-2">
                 <dt className="text-muted-foreground">Купить сразу</dt>
                 <dd className="font-semibold tabular-nums">
-                  {formatBYN(lot.buyNowPrice)}
+                  {fmt(lot.buyNowPrice)}
                 </dd>
               </div>
             )}
@@ -210,7 +214,7 @@ export function LiveLotPanel({
                     {maskName(bid.name)}
                   </span>
                   <span className="font-mono font-semibold tabular-nums">
-                    {formatBYN(bid.amount)}
+                    {fmt(bid.amount)}
                   </span>
                 </li>
               ))}

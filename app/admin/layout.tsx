@@ -27,7 +27,7 @@ export default async function AdminLayout({
             <Link href="/admin" className="mb-4 flex px-2">
               <Logo />
             </Link>
-            <AdminNav />
+            <AdminNav badges={{ deposits, kyc }} />
             <form action={logoutAction} className="mt-2">
               <button
                 type="submit"

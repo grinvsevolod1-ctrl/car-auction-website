@@ -24,6 +24,14 @@ type Lot = {
   location: string | null
   condition: string | null
   description: string | null
+  originCountry: string | null
+  region: string | null
+  auctionSource: string | null
+  lotNumber: string | null
+  titleStatus: string | null
+  damageType: string | null
+  customsFeeBase: number | null
+  currency: string
   images: string[]
   startPrice: number
   bidStep: number
@@ -171,6 +179,40 @@ export function LotForm({
         </div>
       </section>
 
+      {/* Импорт и растаможка */}
+      <section className="rounded-2xl border border-border bg-card p-5 sm:p-6">
+        <h2 className="font-display text-lg font-bold uppercase tracking-tight">
+          Импорт и растаможка
+        </h2>
+        <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <Field label="Регион" name="region" hint="Определяет доставку и расчёт растаможки">
+            <select id="region" name="region" defaultValue={lot?.region ?? 'EU'} className={inputClass}>
+              <option value="EU">Европа</option>
+              <option value="US">США / Канада</option>
+              <option value="OTHER">Другое</option>
+            </select>
+          </Field>
+          <Field label="Страна вывоза" name="originCountry">
+            <input id="originCountry" name="originCountry" defaultValue={lot?.originCountry ?? ''} className={inputClass} placeholder="Германия" />
+          </Field>
+          <Field label="Аукцион-источник" name="auctionSource">
+            <input id="auctionSource" name="auctionSource" defaultValue={lot?.auctionSource ?? ''} className={inputClass} placeholder="Copart / IAAI / OpenLane" />
+          </Field>
+          <Field label="Номер лота на аукционе" name="lotNumber">
+            <input id="lotNumber" name="lotNumber" defaultValue={lot?.lotNumber ?? ''} className={inputClass} placeholder="1-2026-07-00068" />
+          </Field>
+          <Field label="Тип документа (Title)" name="titleStatus">
+            <input id="titleStatus" name="titleStatus" defaultValue={lot?.titleStatus ?? ''} className={inputClass} placeholder="Clean / Salvage" />
+          </Field>
+          <Field label="Тип повреждений" name="damageType">
+            <input id="damageType" name="damageType" defaultValue={lot?.damageType ?? ''} className={inputClass} placeholder="Front / None" />
+          </Field>
+          <Field label="Стоимость авто для растаможки, Br" name="customsFeeBase" hint="Оставьте пустым — возьмётся текущая цена">
+            <input id="customsFeeBase" name="customsFeeBase" type="number" defaultValue={lot?.customsFeeBase ?? ''} className={inputClass} placeholder="Напр. 45000" />
+          </Field>
+        </div>
+      </section>
+
       {/* Фото */}
       <section className="rounded-2xl border border-border bg-card p-5 sm:p-6">
         <h2 className="font-display text-lg font-bold uppercase tracking-tight">
@@ -187,13 +229,19 @@ export function LotForm({
           Параметры торгов
         </h2>
         <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          <Field label="Стартовая цена, Br" name="startPrice">
+          <Field label="Валюта торгов" name="currency" hint="Крипта даёт −70% на сборы и растаможку">
+            <select id="currency" name="currency" defaultValue={lot?.currency ?? 'BYN'} className={inputClass}>
+              <option value="BYN">Рубли (Br)</option>
+              <option value="USD">Крипта (USDT)</option>
+            </select>
+          </Field>
+          <Field label="Стартовая цена" name="startPrice">
             <input id="startPrice" name="startPrice" type="number" defaultValue={lot?.startPrice} required className={inputClass} placeholder="50000" />
           </Field>
-          <Field label="Шаг ставки, Br" name="bidStep">
+          <Field label="Шаг ставки" name="bidStep">
             <input id="bidStep" name="bidStep" type="number" defaultValue={lot?.bidStep ?? 500} required className={inputClass} placeholder="500" />
           </Field>
-          <Field label="Цена «купить сразу», Br" name="buyNowPrice" >
+          <Field label="Цена «купить сразу»" name="buyNowPrice" >
             <input id="buyNowPrice" name="buyNowPrice" type="number" defaultValue={lot?.buyNowPrice ?? ''} className={inputClass} placeholder="Необязательно" />
           </Field>
           <Field label="Статус" name="status">

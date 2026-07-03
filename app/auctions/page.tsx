@@ -5,7 +5,7 @@ import { SiteFooter } from '@/components/site-footer'
 import { AuctionFilters } from '@/components/auction-filters'
 import { LotCard } from '@/components/lot-card'
 import { Pagination } from '@/components/pagination'
-import { getPublicLots, type LotFilter } from '@/lib/queries'
+import { getPublicLots, getAvailableMakes, type LotFilter } from '@/lib/queries'
 
 export const dynamic = 'force-dynamic'
 
@@ -20,14 +20,30 @@ export default async function AuctionsPage({
   searchParams: Promise<Record<string, string | string[] | undefined>>
 }) {
   const sp = await searchParams
+  const str = (v: string | string[] | undefined) =>
+    typeof v === 'string' && v ? v : undefined
+  const num = (v: string | string[] | undefined) => {
+    const n = Number(str(v))
+    return Number.isFinite(n) && str(v) ? n : undefined
+  }
   const filter: LotFilter = {
-    q: typeof sp.q === 'string' ? sp.q : undefined,
-    status: (typeof sp.status === 'string' ? sp.status : 'ACTIVE') as LotFilter['status'],
-    sort: (typeof sp.sort === 'string' ? sp.sort : 'ending') as LotFilter['sort'],
-    page: typeof sp.page === 'string' ? Number(sp.page) : 1,
+    q: str(sp.q),
+    status: (str(sp.status) ?? 'ACTIVE') as LotFilter['status'],
+    sort: (str(sp.sort) ?? 'ending') as LotFilter['sort'],
+    region: str(sp.region) as LotFilter['region'],
+    currency: str(sp.currency) as LotFilter['currency'],
+    make: str(sp.make),
+    minPrice: num(sp.minPrice),
+    maxPrice: num(sp.maxPrice),
+    minYear: num(sp.minYear),
+    maxYear: num(sp.maxYear),
+    page: num(sp.page) ?? 1,
   }
 
-  const { lots, total, page, pages } = await getPublicLots(filter)
+  const [{ lots, total, page, pages }, makes] = await Promise.all([
+    getPublicLots(filter),
+    getAvailableMakes(),
+  ])
 
   return (
     <div className="flex min-h-dvh flex-col">
@@ -47,7 +63,7 @@ export default async function AuctionsPage({
 
         <div className="mx-auto max-w-6xl px-4 py-8">
           <Suspense fallback={<div className="h-32" />}>
-            <AuctionFilters />
+            <AuctionFilters makes={makes} />
           </Suspense>
 
           {lots.length === 0 ? (

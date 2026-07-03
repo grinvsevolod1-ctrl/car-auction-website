@@ -5,11 +5,14 @@ import { SiteHeader } from '@/components/site-header'
 import { SiteFooter } from '@/components/site-footer'
 import { LotGallery } from '@/components/lot-gallery'
 import { LiveLotPanel } from '@/components/live-lot-panel'
+import { CustomsEstimate } from '@/components/customs-estimate'
 import { getLotDetail, getLotUserState } from '@/lib/queries'
 import { getSession } from '@/lib/auth/session'
 import { prisma } from '@/lib/prisma'
 import { REQUIRE_EMAIL_VERIFICATION } from '@/lib/config'
 import { formatNumber } from '@/lib/format'
+import { calcCustoms } from '@/lib/customs'
+import type { Currency } from '@/lib/money'
 
 export const dynamic = 'force-dynamic'
 
@@ -72,6 +75,12 @@ export default async function LotPage({
     ? await getLotUserState(session.userId, lot.id)
     : { watching: false, autoBidMax: null }
 
+  const REGION_LABEL: Record<string, string> = {
+    EU: 'Европа',
+    US: 'США / Канада',
+    OTHER: 'Импорт',
+  }
+
   const specs: { label: string; value: string | number | null }[] = [
     { label: 'Марка', value: lot.make },
     { label: 'Модель', value: lot.model },
@@ -85,9 +94,25 @@ export default async function LotPage({
     { label: 'Привод', value: lot.drive },
     { label: 'Цвет', value: lot.color },
     { label: 'VIN', value: lot.vin },
-    { label: 'Регион', value: lot.location },
+    { label: 'Город / регион', value: lot.location },
     { label: 'Состояние', value: lot.condition },
+    { label: 'Регион ввоза', value: lot.region ? (REGION_LABEL[lot.region] ?? lot.region) : null },
+    { label: 'Страна вывоза', value: lot.originCountry },
+    { label: 'Аукцион-источник', value: lot.auctionSource },
+    { label: 'Номер лота', value: lot.lotNumber },
+    { label: 'Документ (Title)', value: lot.titleStatus },
+    { label: 'Повреждения', value: lot.damageType },
   ].filter((s) => s.value !== null && s.value !== '')
+
+  // Расчёт растаможки/сборов от текущей цены (или заданной базы).
+  const regionText =
+    lot.region === 'US' ? 'Америка' : lot.region === 'EU' ? 'Европа' : ''
+  const customsBase = lot.customsFeeBase ?? lot.currentPrice
+  const customs = await calcCustoms({
+    carValue: customsBase,
+    currency: lot.currency as Currency,
+    region: regionText,
+  })
 
   const initialLot = {
     id: lot.id,
@@ -172,11 +197,16 @@ export default async function LotPage({
                   </p>
                 </div>
               )}
+
+              <div className="mt-8">
+                <CustomsEstimate result={customs} basedOnCurrent />
+              </div>
             </div>
 
             {/* Правая колонка — live-обновление */}
             <LiveLotPanel
               lot={initialLot}
+              currency={lot.currency as Currency}
               isAuthenticated={Boolean(session)}
               isVerified={isVerified}
               initialWatching={userState.watching}
