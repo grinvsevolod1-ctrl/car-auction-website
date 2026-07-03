@@ -29,9 +29,9 @@ const schema = z.object({
   phone: z.string().trim().min(6, 'Укажите телефон'),
   occupation: z.string().trim().optional(),
   sourceOfFunds: z.string().trim().optional(),
-  ageConfirmed: z.literal('on', {
-    errorMap: () => ({ message: 'Подтвердите, что вам исполнилось 18 лет' }),
-  }),
+  ageConfirmed: z
+    .string()
+    .refine((v) => v === 'on', 'Подтвердите, что вам исполнилось 18 лет'),
 })
 
 // Отправка анкеты KYC на модерацию. Проверяет возраст 18+.

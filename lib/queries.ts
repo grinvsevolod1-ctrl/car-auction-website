@@ -10,6 +10,9 @@ const cardSelect = {
   location: true,
   images: true,
   currentPrice: true,
+  currency: true,
+  originCountry: true,
+  region: true,
   status: true,
   endsAt: true,
   _count: { select: { bids: true } },
@@ -216,4 +219,61 @@ export async function getPublicStats() {
     prisma.user.count(),
   ])
   return { activeLots, totalLots, usersCount }
+}
+
+// Баланс, последние транзакции и заявки на пополнение пользователя.
+export async function getUserBalance(userId: string) {
+  const [user, transactions, deposits] = await Promise.all([
+    prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        balanceByn: true,
+        balanceUsd: true,
+        heldByn: true,
+        heldUsd: true,
+      },
+    }),
+    prisma.transaction.findMany({
+      where: { userId },
+      orderBy: { createdAt: 'desc' },
+      take: 30,
+    }),
+    prisma.depositRequest.findMany({
+      where: { userId },
+      orderBy: { createdAt: 'desc' },
+      take: 15,
+      include: {
+        paymentLink: { select: { label: true, url: true } },
+        wallet: { select: { asset: true, network: true, address: true } },
+      },
+    }),
+  ])
+  return {
+    balance: user ?? { balanceByn: 0, balanceUsd: 0, heldByn: 0, heldUsd: 0 },
+    transactions,
+    deposits,
+  }
+}
+
+// Данные KYC-анкеты пользователя.
+export async function getUserKyc(userId: string) {
+  return prisma.user.findUnique({
+    where: { id: userId },
+    select: {
+      firstName: true,
+      lastName: true,
+      middleName: true,
+      birthDate: true,
+      passportNumber: true,
+      country: true,
+      city: true,
+      address: true,
+      phone: true,
+      occupation: true,
+      sourceOfFunds: true,
+      kycStatus: true,
+      kycRejectReason: true,
+      kycSubmittedAt: true,
+    },
+  })
 }

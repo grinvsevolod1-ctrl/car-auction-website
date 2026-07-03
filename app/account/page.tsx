@@ -1,8 +1,14 @@
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { getCurrentUser } from '@/lib/auth/session'
-import { getUserDashboard, getUserNotifications } from '@/lib/queries'
+import {
+  getUserDashboard,
+  getUserNotifications,
+  getUserBalance,
+  getUserKyc,
+} from '@/lib/queries'
 import { formatDateTime } from '@/lib/format'
+import { formatMoney } from '@/lib/money'
 import { REQUIRE_EMAIL_VERIFICATION } from '@/lib/config'
 import { SiteHeader } from '@/components/site-header'
 import { SiteFooter } from '@/components/site-footer'
@@ -16,7 +22,16 @@ import {
   Bell,
   Settings,
   Heart,
+  Wallet,
+  ShieldCheck,
 } from 'lucide-react'
+
+const KYC_BADGE: Record<string, { label: string; cls: string }> = {
+  NONE: { label: 'Не пройдена', cls: 'bg-muted text-muted-foreground' },
+  PENDING: { label: 'На проверке', cls: 'bg-highlight/15 text-highlight' },
+  APPROVED: { label: 'Подтверждена', cls: 'bg-success/15 text-success' },
+  REJECTED: { label: 'Отклонена', cls: 'bg-destructive/15 text-destructive' },
+}
 
 export const dynamic = 'force-dynamic'
 export const metadata = { title: 'Личный кабинет — IGNIS' }
@@ -25,12 +40,18 @@ export default async function AccountPage() {
   const user = await getCurrentUser()
   if (!user) redirect('/login?next=/account')
 
-  const [{ rows, stats }, notifications] = await Promise.all([
+  const [{ rows, stats }, notifications, { balance }, kyc] = await Promise.all([
     getUserDashboard(user.id),
     getUserNotifications(user.id),
+    getUserBalance(user.id),
+    getUserKyc(user.id),
   ])
 
   const showVerify = REQUIRE_EMAIL_VERIFICATION && !user.emailVerified
+  const kycStatus = kyc?.kycStatus ?? 'NONE'
+  const kycBadge = KYC_BADGE[kycStatus] ?? KYC_BADGE.NONE
+  const availByn = balance.balanceByn - balance.heldByn
+  const availUsd = balance.balanceUsd - balance.heldUsd
 
   const cards = [
     { label: 'Участвую в торгах', value: stats.participating, icon: Gavel },
@@ -70,7 +91,56 @@ export default async function AccountPage() {
 
       {showVerify && <VerifyBanner />}
 
-      <div className="mt-8 grid gap-4 sm:grid-cols-3">
+      {/* Баланс и верификация */}
+      <div className="mt-8 grid gap-4 lg:grid-cols-3">
+        <div className="rounded-2xl border border-border bg-card p-5 lg:col-span-2">
+          <div className="flex items-center justify-between">
+            <span className="flex items-center gap-2 text-sm text-muted-foreground">
+              <Wallet className="size-4" />
+              Баланс
+            </span>
+            <Link
+              href="/account/balance"
+              className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-transform hover:scale-[1.02]"
+            >
+              Пополнить
+              <ArrowRight className="size-4" />
+            </Link>
+          </div>
+          <div className="mt-3 grid grid-cols-2 gap-4">
+            <div>
+              <p className="font-display text-2xl font-bold">
+                {formatMoney(availByn, 'BYN')}
+              </p>
+              <p className="text-xs text-muted-foreground">рубли · доступно</p>
+            </div>
+            <div>
+              <p className="font-display text-2xl font-bold">
+                {formatMoney(availUsd, 'USD')}
+              </p>
+              <p className="text-xs text-muted-foreground">крипта · доступно</p>
+            </div>
+          </div>
+        </div>
+
+        <Link
+          href="/account/verification"
+          className="flex flex-col justify-between rounded-2xl border border-border bg-card p-5 transition-colors hover:border-primary"
+        >
+          <span className="flex items-center gap-2 text-sm text-muted-foreground">
+            <ShieldCheck className="size-4" />
+            Верификация личности
+          </span>
+          <div className="mt-3 flex items-center justify-between">
+            <span className={`rounded-md px-2.5 py-1 text-sm font-medium ${kycBadge.cls}`}>
+              {kycBadge.label}
+            </span>
+            <ArrowRight className="size-4 text-muted-foreground" />
+          </div>
+        </Link>
+      </div>
+
+      <div className="mt-4 grid gap-4 sm:grid-cols-3">
         {cards.map((c) => (
           <div
             key={c.label}

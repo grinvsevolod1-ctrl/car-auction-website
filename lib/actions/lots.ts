@@ -85,6 +85,14 @@ function parseForm(formData: FormData) {
     location: String(formData.get('location') ?? '') || undefined,
     condition: String(formData.get('condition') ?? '') || undefined,
     description: String(formData.get('description') ?? '') || undefined,
+    originCountry: String(formData.get('originCountry') ?? '') || undefined,
+    region: String(formData.get('region') ?? '') || undefined,
+    auctionSource: String(formData.get('auctionSource') ?? '') || undefined,
+    lotNumber: String(formData.get('lotNumber') ?? '') || undefined,
+    titleStatus: String(formData.get('titleStatus') ?? '') || undefined,
+    damageType: String(formData.get('damageType') ?? '') || undefined,
+    customsFeeBase: num(formData.get('customsFeeBase')),
+    currency: String(formData.get('currency') ?? 'BYN'),
     images,
     startPrice: num(formData.get('startPrice')),
     bidStep: num(formData.get('bidStep')),
@@ -155,7 +163,11 @@ export async function deleteLotAction(formData: FormData): Promise<void> {
   await assertSameOrigin()
   const id = String(formData.get('id') ?? '')
   if (id) {
-    await prisma.lot.delete({ where: { id } })
+    // Возвращаем замороженные средства всем участникам перед удалением.
+    await prisma.$transaction(async (tx) => {
+      await releaseAllHolds(tx, id)
+      await tx.lot.delete({ where: { id } })
+    })
     revalidatePath('/admin/lots')
     revalidatePath('/auctions')
   }
@@ -169,7 +181,7 @@ export async function finalizeLotAction(formData: FormData): Promise<void> {
   if (!id) return
   const lot = await prisma.lot.findUnique({
     where: { id },
-    select: { title: true, status: true },
+    select: { title: true, status: true, currency: true },
   })
   if (!lot || (lot.status !== 'ACTIVE' && lot.status !== 'DRAFT')) return
 
@@ -178,14 +190,21 @@ export async function finalizeLotAction(formData: FormData): Promise<void> {
     orderBy: { amount: 'desc' },
     include: { user: { select: { id: true, email: true } } },
   })
-  await prisma.lot.update({
-    where: { id },
-    data: {
-      status: topBid ? 'SOLD' : 'ENDED',
-      winnerId: topBid?.userId ?? null,
-      currentPrice: topBid?.amount ?? undefined,
-      endsAt: new Date(),
-    },
+  await prisma.$transaction(async (tx) => {
+    await tx.lot.update({
+      where: { id },
+      data: {
+        status: topBid ? 'SOLD' : 'ENDED',
+        winnerId: topBid?.userId ?? null,
+        currentPrice: topBid?.amount ?? undefined,
+        endsAt: new Date(),
+      },
+    })
+    if (topBid) {
+      await captureWinner(tx, id, topBid.userId, topBid.amount, lot.currency)
+    } else {
+      await releaseAllHolds(tx, id)
+    }
   })
 
   // Уведомляем победителя.

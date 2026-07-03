@@ -6,6 +6,9 @@ import { useFormStatus } from 'react-dom'
 import { loginAction, registerAction, type AuthState } from '@/lib/actions/auth'
 import { Logo } from '@/components/logo'
 
+const inputCls =
+  'w-full rounded-xl border border-border bg-background px-4 py-2.5 outline-none transition-colors focus:border-primary focus:ring-2 focus:ring-primary/20'
+
 function SubmitButton({ label }: { label: string }) {
   const { pending } = useFormStatus()
   return (
@@ -23,6 +26,11 @@ export function AuthForm({ mode, next }: { mode: 'login' | 'register'; next?: st
   const isLogin = mode === 'login'
   const action = isLogin ? loginAction : registerAction
   const [state, formAction] = useActionState<AuthState, FormData>(action, {})
+
+  // Максимально допустимая дата рождения — 18 лет назад от сегодня.
+  const maxBirth = new Date()
+  maxBirth.setFullYear(maxBirth.getFullYear() - 18)
+  const maxBirthStr = maxBirth.toISOString().slice(0, 10)
 
   return (
     <div className="mx-auto w-full max-w-md">
@@ -46,7 +54,7 @@ export function AuthForm({ mode, next }: { mode: 'login' | 'register'; next?: st
         {!isLogin && (
           <div className="mb-4">
             <label htmlFor="name" className="mb-1.5 block text-sm font-medium">
-              Имя
+              Имя и фамилия
             </label>
             <input
               id="name"
@@ -55,7 +63,7 @@ export function AuthForm({ mode, next }: { mode: 'login' | 'register'; next?: st
               autoComplete="name"
               required
               defaultValue={state.values?.name}
-              className="w-full rounded-xl border border-border bg-background px-4 py-2.5 outline-none transition-colors focus:border-primary focus:ring-2 focus:ring-primary/20"
+              className={inputCls}
               placeholder="Иван Петров"
             />
           </div>
@@ -72,10 +80,42 @@ export function AuthForm({ mode, next }: { mode: 'login' | 'register'; next?: st
             autoComplete="email"
             required
             defaultValue={state.values?.email}
-            className="w-full rounded-xl border border-border bg-background px-4 py-2.5 outline-none transition-colors focus:border-primary focus:ring-2 focus:ring-primary/20"
+            className={inputCls}
             placeholder="you@example.com"
           />
         </div>
+
+        {!isLogin && (
+          <div className="mb-4 grid grid-cols-2 gap-3">
+            <div>
+              <label htmlFor="phone" className="mb-1.5 block text-sm font-medium">
+                Телефон
+              </label>
+              <input
+                id="phone"
+                name="phone"
+                type="tel"
+                autoComplete="tel"
+                required
+                className={inputCls}
+                placeholder="+375 29 …"
+              />
+            </div>
+            <div>
+              <label htmlFor="birthDate" className="mb-1.5 block text-sm font-medium">
+                Дата рождения
+              </label>
+              <input
+                id="birthDate"
+                name="birthDate"
+                type="date"
+                required
+                max={maxBirthStr}
+                className={inputCls}
+              />
+            </div>
+          </div>
+        )}
 
         <div className="mb-4">
           <label htmlFor="password" className="mb-1.5 block text-sm font-medium">
@@ -87,13 +127,13 @@ export function AuthForm({ mode, next }: { mode: 'login' | 'register'; next?: st
             type="password"
             autoComplete={isLogin ? 'current-password' : 'new-password'}
             required
-            className="w-full rounded-xl border border-border bg-background px-4 py-2.5 outline-none transition-colors focus:border-primary focus:ring-2 focus:ring-primary/20"
+            className={inputCls}
             placeholder={isLogin ? 'Ваш пароль' : 'Минимум 8 символов'}
           />
         </div>
 
         {!isLogin && (
-          <div className="mb-2">
+          <div className="mb-4">
             <label htmlFor="confirm" className="mb-1.5 block text-sm font-medium">
               Повторите пароль
             </label>
@@ -103,9 +143,40 @@ export function AuthForm({ mode, next }: { mode: 'login' | 'register'; next?: st
               type="password"
               autoComplete="new-password"
               required
-              className="w-full rounded-xl border border-border bg-background px-4 py-2.5 outline-none transition-colors focus:border-primary focus:ring-2 focus:ring-primary/20"
+              className={inputCls}
               placeholder="Ещё раз пароль"
             />
+          </div>
+        )}
+
+        {!isLogin && (
+          <div className="mb-2 space-y-2.5 rounded-xl bg-muted/50 p-3">
+            <label className="flex cursor-pointer items-start gap-2.5 text-sm">
+              <input
+                type="checkbox"
+                name="ageConfirm"
+                required
+                className="mt-0.5 size-4 shrink-0 accent-primary"
+              />
+              <span>
+                Мне исполнилось <b>18 лет</b>, и я вправе участвовать в торгах.
+              </span>
+            </label>
+            <label className="flex cursor-pointer items-start gap-2.5 text-sm">
+              <input
+                type="checkbox"
+                name="terms"
+                required
+                className="mt-0.5 size-4 shrink-0 accent-primary"
+              />
+              <span>
+                Я согласен с{' '}
+                <Link href="/rules" className="font-medium text-primary hover:underline" target="_blank">
+                  правилами площадки
+                </Link>{' '}
+                и обработкой персональных данных.
+              </span>
+            </label>
           </div>
         )}
 

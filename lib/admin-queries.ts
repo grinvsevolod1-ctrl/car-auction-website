@@ -68,3 +68,82 @@ export async function getRecentBids(limit = 8) {
     },
   })
 }
+
+// Платёжные ссылки ЕРИП и криптокошельки для админки.
+export async function getPaymentMethods() {
+  const [links, wallets] = await Promise.all([
+    prisma.paymentLink.findMany({ orderBy: { sortOrder: 'asc' } }),
+    prisma.cryptoWallet.findMany({ orderBy: { sortOrder: 'asc' } }),
+  ])
+  return { links, wallets }
+}
+
+// Заявки на пополнение (по статусу).
+export async function getDeposits(status?: 'PENDING' | 'CONFIRMED' | 'REJECTED') {
+  return prisma.depositRequest.findMany({
+    where: status ? { status } : {},
+    orderBy: { createdAt: 'desc' },
+    take: 100,
+    include: {
+      user: { select: { id: true, name: true, email: true } },
+      paymentLink: { select: { label: true } },
+      wallet: { select: { asset: true, network: true, address: true } },
+    },
+  })
+}
+
+export async function getPendingDepositCount() {
+  return prisma.depositRequest.count({ where: { status: 'PENDING' } })
+}
+
+// Анкеты KYC на модерацию и историю.
+export async function getKycProfiles(status?: 'PENDING' | 'APPROVED' | 'REJECTED') {
+  return prisma.user.findMany({
+    where: status ? { kycStatus: status } : { kycStatus: { not: 'NONE' } },
+    orderBy: { kycSubmittedAt: 'desc' },
+    take: 100,
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      firstName: true,
+      lastName: true,
+      middleName: true,
+      birthDate: true,
+      passportNumber: true,
+      country: true,
+      city: true,
+      address: true,
+      phone: true,
+      occupation: true,
+      sourceOfFunds: true,
+      kycStatus: true,
+      kycSubmittedAt: true,
+      kycRejectReason: true,
+    },
+  })
+}
+
+export async function getPendingKycCount() {
+  return prisma.user.count({ where: { kycStatus: 'PENDING' } })
+}
+
+// Расширенный список пользователей с балансами.
+export async function getAdminUsersFull() {
+  return prisma.user.findMany({
+    orderBy: { createdAt: 'desc' },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      role: true,
+      kycStatus: true,
+      balanceByn: true,
+      balanceUsd: true,
+      heldByn: true,
+      heldUsd: true,
+      createdAt: true,
+      _count: { select: { bids: true, wonLots: true } },
+    },
+  })
+}

@@ -3,6 +3,7 @@ import { requireAdmin } from '@/lib/auth/session'
 import { AdminNav } from '@/components/admin/admin-nav'
 import { Logo } from '@/components/logo'
 import { logoutAction } from '@/lib/actions/auth'
+import { getPendingDepositCount, getPendingKycCount } from '@/lib/admin-queries'
 import { LogOut } from 'lucide-react'
 
 export const metadata = { title: 'Админка — IGNIS' }
@@ -13,6 +14,10 @@ export default async function AdminLayout({
   children: React.ReactNode
 }) {
   await requireAdmin()
+  const [deposits, kyc] = await Promise.all([
+    getPendingDepositCount(),
+    getPendingKycCount(),
+  ])
 
   return (
     <div className="min-h-screen bg-muted/30">

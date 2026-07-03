@@ -12,7 +12,11 @@ import { hashPassword, verifyPassword } from '@/lib/auth/password'
 import { prisma } from '@/lib/prisma'
 import { guard } from '@/lib/security'
 import { RATE_LIMITS } from '@/lib/config'
-import { createAndSendVerification } from '@/lib/verification'
+import {
+  createAndSendVerification,
+  createAndSendEmailCode,
+  verifyEmailCode,
+} from '@/lib/verification'
 import { notify } from '@/lib/notify'
 
 export type AuthState = {
@@ -20,16 +24,36 @@ export type AuthState = {
   values?: { name?: string; email?: string }
 }
 
+function ageFrom(birthDate: Date): number {
+  const now = new Date()
+  let age = now.getFullYear() - birthDate.getFullYear()
+  const m = now.getMonth() - birthDate.getMonth()
+  if (m < 0 || (m === 0 && now.getDate() < birthDate.getDate())) age--
+  return age
+}
+
 const registerSchema = z
   .object({
     name: z.string().trim().min(2, 'Укажите имя (минимум 2 символа)'),
     email: z.string().trim().toLowerCase().email('Некорректный email'),
+    phone: z.string().trim().min(6, 'Укажите телефон').max(32),
+    birthDate: z.coerce.date({ error: 'Укажите дату рождения' }),
     password: z.string().min(8, 'Пароль должен быть не короче 8 символов'),
     confirm: z.string(),
+    ageConfirm: z
+      .string()
+      .refine((v) => v === 'on', 'Подтвердите, что вам исполнилось 18 лет'),
+    terms: z
+      .string()
+      .refine((v) => v === 'on', 'Необходимо принять правила площадки'),
   })
   .refine((d) => d.password === d.confirm, {
     message: 'Пароли не совпадают',
     path: ['confirm'],
+  })
+  .refine((d) => ageFrom(d.birthDate) >= 18, {
+    message: 'Участие в торгах разрешено только с 18 лет',
+    path: ['birthDate'],
   })
 
 export async function registerAction(
@@ -46,8 +70,12 @@ export async function registerAction(
   const raw = {
     name: String(formData.get('name') ?? ''),
     email: String(formData.get('email') ?? ''),
+    phone: String(formData.get('phone') ?? ''),
+    birthDate: String(formData.get('birthDate') ?? ''),
     password: String(formData.get('password') ?? ''),
     confirm: String(formData.get('confirm') ?? ''),
+    ageConfirm: String(formData.get('ageConfirm') ?? ''),
+    terms: String(formData.get('terms') ?? ''),
   }
   const parsed = registerSchema.safeParse(raw)
   if (!parsed.success) {
@@ -56,7 +84,7 @@ export async function registerAction(
       values: { name: raw.name, email: raw.email },
     }
   }
-  const { name, email, password } = parsed.data
+  const { name, email, phone, birthDate, password } = parsed.data
 
   const existing = await prisma.user.findUnique({ where: { email } })
   if (existing) {
@@ -67,20 +95,27 @@ export async function registerAction(
   }
 
   const user = await prisma.user.create({
-    data: { name, email, passwordHash: await hashPassword(password) },
+    data: {
+      name,
+      email,
+      phone,
+      birthDate,
+      ageConfirmed: true,
+      passwordHash: await hashPassword(password),
+    },
   })
 
-  // Приветственное уведомление + письмо подтверждения email.
+  // Приветственное уведомление + код подтверждения email.
   await notify({
     userId: user.id,
     type: 'welcome',
     title: 'Добро пожаловать в IGNIS',
-    body: 'Подтвердите email, чтобы участвовать в торгах.',
+    body: 'Подтвердите email кодом из письма, чтобы участвовать в торгах.',
   })
   try {
-    await createAndSendVerification(user)
+    await createAndSendEmailCode(user)
   } catch (e) {
-    console.error('[register] verification email error:', e)
+    console.error('[register] verification code error:', e)
   }
 
   await createSession({
@@ -90,7 +125,55 @@ export async function registerAction(
     role: user.role,
   })
 
-  redirect('/account')
+  redirect('/verify')
+}
+
+// Проверка 6-значного кода подтверждения email.
+export async function verifyEmailCodeAction(
+  _prev: SimpleState,
+  formData: FormData,
+): Promise<SimpleState> {
+  const g = await guard('login', 10, 60)
+  if (!g.ok) return { error: g.error }
+
+  const session = await getSession()
+  if (!session) return { error: 'Требуется вход' }
+
+  const code = String(formData.get('code') ?? '').trim()
+  if (!/^\d{6}$/.test(code)) return { error: 'Введите 6-значный код' }
+
+  const res = await verifyEmailCode(session.userId, code)
+  if (res === 'ok') {
+    revalidatePath('/account')
+    return { success: 'Email подтверждён' }
+  }
+  if (res === 'expired') return { error: 'Код истёк. Запросите новый.' }
+  if (res === 'too_many')
+    return { error: 'Слишком много попыток. Запросите новый код.' }
+  return { error: 'Неверный код' }
+}
+
+// Повторная отправка кода подтверждения email.
+export async function resendEmailCodeAction(): Promise<SimpleState> {
+  const g = await guard('register', 3, 300)
+  if (!g.ok) return { error: g.error }
+
+  const session = await getSession()
+  if (!session) return { error: 'Требуется вход' }
+
+  const user = await prisma.user.findUnique({
+    where: { id: session.userId },
+    select: { id: true, email: true, name: true, emailVerified: true },
+  })
+  if (!user) return { error: 'Пользователь не найден' }
+  if (user.emailVerified) return { success: 'Email уже подтверждён' }
+
+  try {
+    await createAndSendEmailCode(user)
+  } catch {
+    return { error: 'Не удалось отправить код. Попробуйте позже.' }
+  }
+  return { success: 'Новый код отправлен на почту' }
 }
 
 const loginSchema = z.object({
