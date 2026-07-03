@@ -4,6 +4,7 @@ import { useActionState } from 'react'
 import Link from 'next/link'
 import { useFormStatus } from 'react-dom'
 import type { LotFormState } from '@/lib/actions/lots'
+import { ImageUploader } from '@/components/admin/image-uploader'
 
 type Lot = {
   id: string
@@ -176,20 +177,7 @@ export function LotForm({
           Фотографии
         </h2>
         <div className="mt-4">
-          <Field
-            label="URL изображений"
-            name="images"
-            hint="По одному URL на строку (или через запятую). Первое фото — главное."
-          >
-            <textarea
-              id="images"
-              name="images"
-              defaultValue={lot?.images.join('\n')}
-              rows={4}
-              className={inputClass}
-              placeholder="https://example.com/car-1.jpg&#10;https://example.com/car-2.jpg"
-            />
-          </Field>
+          <ImageUploader initial={lot?.images ?? []} />
         </div>
       </section>
 

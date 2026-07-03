@@ -8,7 +8,8 @@ const columns = [
     links: [
       { label: 'Все лоты', href: '/auctions' },
       { label: 'Как это работает', href: '/#how' },
-      { label: 'Гарантии', href: '/#guarantees' },
+      { label: 'О компании', href: '/about' },
+      { label: 'Правила аукциона', href: '/rules' },
     ],
   },
   {
@@ -84,6 +85,14 @@ export function SiteFooter() {
                 </a>
               </li>
               <li>Минск, Беларусь</li>
+              <li>
+                <Link
+                  href="/contacts"
+                  className="transition-colors hover:text-foreground"
+                >
+                  Все контакты
+                </Link>
+              </li>
             </ul>
           </div>
         </div>

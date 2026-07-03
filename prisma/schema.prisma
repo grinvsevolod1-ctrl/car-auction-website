@@ -22,19 +22,49 @@ enum LotStatus {
 }
 
 model User {
-  id           String   @id @default(cuid())
-  email        String   @unique
-  passwordHash String
-  name         String
-  phone        String?
-  role         Role     @default(USER)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  id            String    @id @default(cuid())
+  email         String    @unique
+  passwordHash  String
+  name          String
+  phone         String?
+  role          Role      @default(USER)
+  emailVerified DateTime? // null => email не подтверждён
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
 
-  bids    Bid[]
-  wonLots Lot[] @relation("LotWinner")
+  bids               Bid[]
+  wonLots            Lot[]               @relation("LotWinner")
+  verificationTokens VerificationToken[]
+  notifications      Notification[]
 
   @@index([email])
+}
+
+model VerificationToken {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  purpose   String   @default("email") // email | reset
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  type      String // outbid | won | ended | welcome
+  title     String
+  body      String
+  lotId     String?
+  read      Boolean  @default(false)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([userId, read])
 }
 
 model Lot {

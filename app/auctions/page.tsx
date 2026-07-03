@@ -4,6 +4,7 @@ import { SiteHeader } from '@/components/site-header'
 import { SiteFooter } from '@/components/site-footer'
 import { AuctionFilters } from '@/components/auction-filters'
 import { LotCard } from '@/components/lot-card'
+import { Pagination } from '@/components/pagination'
 import { getPublicLots, type LotFilter } from '@/lib/queries'
 
 export const dynamic = 'force-dynamic'
@@ -23,9 +24,10 @@ export default async function AuctionsPage({
     q: typeof sp.q === 'string' ? sp.q : undefined,
     status: (typeof sp.status === 'string' ? sp.status : 'ACTIVE') as LotFilter['status'],
     sort: (typeof sp.sort === 'string' ? sp.sort : 'ending') as LotFilter['sort'],
+    page: typeof sp.page === 'string' ? Number(sp.page) : 1,
   }
 
-  const lots = await getPublicLots(filter)
+  const { lots, total, page, pages } = await getPublicLots(filter)
 
   return (
     <div className="flex min-h-dvh flex-col">
@@ -56,11 +58,17 @@ export default async function AuctionsPage({
               </p>
             </div>
           ) : (
-            <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {lots.map((lot) => (
-                <LotCard key={lot.id} lot={lot} />
-              ))}
-            </div>
+            <>
+              <p className="mt-6 text-sm text-muted-foreground">
+                Найдено лотов: {total}
+              </p>
+              <div className="mt-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {lots.map((lot) => (
+                  <LotCard key={lot.id} lot={lot} />
+                ))}
+              </div>
+              <Pagination page={page} pages={pages} params={sp} />
+            </>
           )}
         </div>
       </main>

@@ -43,6 +43,7 @@ export async function getCurrentUser() {
       name: true,
       phone: true,
       role: true,
+      emailVerified: true,
       createdAt: true,
     },
   })

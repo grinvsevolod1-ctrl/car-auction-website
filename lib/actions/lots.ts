@@ -5,6 +5,9 @@ import { redirect } from 'next/navigation'
 import { z } from 'zod'
 import { requireAdmin } from '@/lib/auth/session'
 import { prisma } from '@/lib/prisma'
+import { assertSameOrigin } from '@/lib/security'
+import { notify, wonEmail } from '@/lib/notify'
+import { sendMail } from '@/lib/mail'
 
 export type LotFormState = { error?: string }
 
@@ -28,7 +31,17 @@ const lotSchema = z.object({
   location: z.string().trim().optional(),
   condition: z.string().trim().optional(),
   description: z.string().trim().optional(),
-  images: z.array(z.string().url()).default([]),
+  images: z
+    .array(
+      z
+        .string()
+        .trim()
+        .refine(
+          (s) => s.startsWith('/') || /^https?:\/\//.test(s),
+          'Некорректный адрес изображения',
+        ),
+    )
+    .default([]),
   startPrice: z.number().int().min(1, 'Стартовая цена должна быть больше 0'),
   bidStep: z.number().int().min(1, 'Шаг ставки должен быть больше 0'),
   buyNowPrice: z.number().int().min(0).optional(),
@@ -77,6 +90,7 @@ export async function createLotAction(
   formData: FormData,
 ): Promise<LotFormState> {
   await requireAdmin()
+  await assertSameOrigin()
   const parsed = parseForm(formData)
   if (!parsed.success) {
     return { error: parsed.error.issues[0]?.message ?? 'Проверьте поля формы' }
@@ -100,6 +114,7 @@ export async function updateLotAction(
   formData: FormData,
 ): Promise<LotFormState> {
   await requireAdmin()
+  await assertSameOrigin()
   const parsed = parseForm(formData)
   if (!parsed.success) {
     return { error: parsed.error.issues[0]?.message ?? 'Проверьте поля формы' }
@@ -128,6 +143,7 @@ export async function updateLotAction(
 
 export async function deleteLotAction(formData: FormData): Promise<void> {
   await requireAdmin()
+  await assertSameOrigin()
   const id = String(formData.get('id') ?? '')
   if (id) {
     await prisma.lot.delete({ where: { id } })
@@ -139,20 +155,47 @@ export async function deleteLotAction(formData: FormData): Promise<void> {
 // Завершить торги вручную: назначить победителя по максимальной ставке.
 export async function finalizeLotAction(formData: FormData): Promise<void> {
   await requireAdmin()
+  await assertSameOrigin()
   const id = String(formData.get('id') ?? '')
   if (!id) return
+  const lot = await prisma.lot.findUnique({
+    where: { id },
+    select: { title: true, status: true },
+  })
+  if (!lot || (lot.status !== 'ACTIVE' && lot.status !== 'DRAFT')) return
+
   const topBid = await prisma.bid.findFirst({
     where: { lotId: id },
     orderBy: { amount: 'desc' },
+    include: { user: { select: { id: true, email: true } } },
   })
   await prisma.lot.update({
     where: { id },
     data: {
       status: topBid ? 'SOLD' : 'ENDED',
       winnerId: topBid?.userId ?? null,
+      currentPrice: topBid?.amount ?? undefined,
       endsAt: new Date(),
     },
   })
+
+  // Уведомляем победителя.
+  if (topBid) {
+    await notify({
+      userId: topBid.userId,
+      type: 'won',
+      title: 'Вы выиграли лот',
+      body: `Лот «${lot.title}» продан вам за ${topBid.amount.toLocaleString('ru-RU')} Br.`,
+      lotId: id,
+    })
+    await sendMail({
+      to: topBid.user.email,
+      subject: 'Поздравляем с победой на торгах — IGNIS',
+      html: wonEmail(lot.title, id, topBid.amount),
+      text: `Вы выиграли лот «${lot.title}» за ${topBid.amount} Br.`,
+    })
+  }
+
   revalidatePath('/admin/lots')
   revalidatePath(`/auctions/${id}`)
   revalidatePath('/auctions')
@@ -161,6 +204,7 @@ export async function finalizeLotAction(formData: FormData): Promise<void> {
 // Изменить роль пользователя.
 export async function setUserRoleAction(formData: FormData): Promise<void> {
   const admin = await requireAdmin()
+  await assertSameOrigin()
   const id = String(formData.get('id') ?? '')
   const role = String(formData.get('role') ?? '')
   if (!id || (role !== 'USER' && role !== 'ADMIN')) return

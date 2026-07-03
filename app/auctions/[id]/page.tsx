@@ -1,20 +1,16 @@
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { ChevronLeft, Trophy } from 'lucide-react'
+import { ChevronLeft } from 'lucide-react'
 import { SiteHeader } from '@/components/site-header'
 import { SiteFooter } from '@/components/site-footer'
 import { LotGallery } from '@/components/lot-gallery'
-import { BidForm } from '@/components/bid-form'
-import { Countdown } from '@/components/countdown'
+import { LiveLotPanel } from '@/components/live-lot-panel'
 import { getLotDetail } from '@/lib/queries'
 import { getSession } from '@/lib/auth/session'
-import {
-  formatBYN,
-  formatDateTime,
-  formatNumber,
-  LOT_STATUS_LABEL,
-} from '@/lib/format'
+import { prisma } from '@/lib/prisma'
+import { REQUIRE_EMAIL_VERIFICATION } from '@/lib/config'
+import { formatNumber } from '@/lib/format'
 
 export const dynamic = 'force-dynamic'
 
@@ -28,13 +24,6 @@ export async function generateMetadata({
   return { title: lot?.title ?? 'Лот' }
 }
 
-function maskName(name: string) {
-  const parts = name.trim().split(' ')
-  return parts
-    .map((p) => (p ? p[0].toUpperCase() + '***' : ''))
-    .join(' ')
-}
-
 export default async function LotPage({
   params,
 }: {
@@ -45,7 +34,15 @@ export default async function LotPage({
 
   if (!lot || lot.status === 'DRAFT') notFound()
 
-  const isActive = lot.status === 'ACTIVE' && lot.endsAt.getTime() > Date.now()
+  // Статус подтверждения email текущего пользователя (для гейта ставок).
+  let isVerified = true
+  if (session && REQUIRE_EMAIL_VERIFICATION) {
+    const u = await prisma.user.findUnique({
+      where: { id: session.userId },
+      select: { emailVerified: true },
+    })
+    isVerified = Boolean(u?.emailVerified)
+  }
 
   const specs: { label: string; value: string | number | null }[] = [
     { label: 'Марка', value: lot.make },
@@ -63,6 +60,24 @@ export default async function LotPage({
     { label: 'Регион', value: lot.location },
     { label: 'Состояние', value: lot.condition },
   ].filter((s) => s.value !== null && s.value !== '')
+
+  const initialLot = {
+    id: lot.id,
+    title: lot.title,
+    status: lot.status,
+    startPrice: lot.startPrice,
+    currentPrice: lot.currentPrice,
+    bidStep: lot.bidStep,
+    buyNowPrice: lot.buyNowPrice,
+    endsAt: lot.endsAt.toISOString(),
+    bidCount: lot._count.bids,
+    bids: lot.bids.map((b) => ({
+      id: b.id,
+      amount: b.amount,
+      name: b.user.name,
+    })),
+    winnerName: lot.winner?.name ?? null,
+  }
 
   return (
     <div className="flex min-h-dvh flex-col">
@@ -107,101 +122,12 @@ export default async function LotPage({
               )}
             </div>
 
-            {/* Правая колонка */}
-            <div className="lg:sticky lg:top-20 lg:self-start">
-              <span
-                className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold ${
-                  isActive
-                    ? 'bg-primary text-primary-foreground'
-                    : 'bg-muted text-muted-foreground'
-                }`}
-              >
-                {isActive && (
-                  <span className="inline-block size-1.5 animate-pulse-dot rounded-full bg-primary-foreground" />
-                )}
-                {LOT_STATUS_LABEL[lot.status]}
-              </span>
-
-              <h1 className="mt-3 font-display text-3xl font-bold uppercase tracking-tight text-balance">
-                {lot.title}
-              </h1>
-
-              <div className="mt-5 rounded-2xl border border-border bg-card p-5">
-                <p className="text-sm text-muted-foreground">Текущая ставка</p>
-                <p className="font-display text-4xl font-bold text-primary">
-                  {formatBYN(lot.currentPrice)}
-                </p>
-                <div className="mt-2 flex flex-wrap gap-x-4 text-xs text-muted-foreground">
-                  <span>Старт: {formatBYN(lot.startPrice)}</span>
-                  <span>Ставок: {lot._count.bids}</span>
-                  {lot.buyNowPrice && (
-                    <span>Купить сразу: {formatBYN(lot.buyNowPrice)}</span>
-                  )}
-                </div>
-
-                {isActive ? (
-                  <div className="mt-4 border-t border-border pt-4">
-                    <p className="mb-2 text-xs text-muted-foreground">
-                      До завершения торгов
-                    </p>
-                    <Countdown endsAt={lot.endsAt} />
-                  </div>
-                ) : (
-                  <p className="mt-4 border-t border-border pt-4 text-sm text-muted-foreground">
-                    Завершён {formatDateTime(lot.endsAt)}
-                  </p>
-                )}
-              </div>
-
-              {lot.status === 'SOLD' && lot.winner && (
-                <div className="mt-4 flex items-center gap-3 rounded-2xl border border-success/30 bg-success/10 p-4">
-                  <Trophy className="size-5 text-success" />
-                  <div className="text-sm">
-                    <p className="font-semibold text-foreground">Лот продан</p>
-                    <p className="text-muted-foreground">
-                      Победитель: {maskName(lot.winner.name)}
-                    </p>
-                  </div>
-                </div>
-              )}
-
-              {isActive && (
-                <div className="mt-4">
-                  <BidForm
-                    lotId={lot.id}
-                    currentPrice={lot.currentPrice}
-                    bidStep={lot.bidStep}
-                    isAuthenticated={Boolean(session)}
-                  />
-                </div>
-              )}
-
-              {/* История ставок */}
-              <div className="mt-4 rounded-2xl border border-border bg-card p-5">
-                <h3 className="font-display text-lg font-bold">История ставок</h3>
-                {lot.bids.length === 0 ? (
-                  <p className="mt-2 text-sm text-muted-foreground">
-                    Ставок пока нет. Будьте первым!
-                  </p>
-                ) : (
-                  <ul className="mt-3 divide-y divide-border">
-                    {lot.bids.map((bid) => (
-                      <li
-                        key={bid.id}
-                        className="flex items-center justify-between py-2.5 text-sm"
-                      >
-                        <span className="text-muted-foreground">
-                          {maskName(bid.user.name)}
-                        </span>
-                        <span className="font-mono font-semibold">
-                          {formatBYN(bid.amount)}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
-            </div>
+            {/* Правая колонка — live-обновление */}
+            <LiveLotPanel
+              lot={initialLot}
+              isAuthenticated={Boolean(session)}
+              isVerified={isVerified}
+            />
           </div>
         </div>
       </main>

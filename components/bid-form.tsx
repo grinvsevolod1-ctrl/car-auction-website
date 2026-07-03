@@ -26,11 +26,15 @@ export function BidForm({
   currentPrice,
   bidStep,
   isAuthenticated,
+  isVerified = true,
+  onBidPlaced,
 }: {
   lotId: string
   currentPrice: number
   bidStep: number
   isAuthenticated: boolean
+  isVerified?: boolean
+  onBidPlaced?: () => void
 }) {
   const minBid = currentPrice + bidStep
   const [state, formAction] = useActionState<BidState, FormData>(
@@ -42,6 +46,10 @@ export function BidForm({
   useEffect(() => {
     setAmount(minBid)
   }, [minBid])
+
+  useEffect(() => {
+    if (state.success) onBidPlaced?.()
+  }, [state.success, onBidPlaced])
 
   if (!isAuthenticated) {
     return (
@@ -63,6 +71,24 @@ export function BidForm({
             Регистрация
           </Link>
         </div>
+      </div>
+    )
+  }
+
+  if (!isVerified) {
+    return (
+      <div className="rounded-2xl border border-primary/30 bg-primary/5 p-5">
+        <p className="flex items-start gap-2 text-sm text-foreground">
+          <AlertCircle className="mt-0.5 size-4 shrink-0 text-primary" />
+          Подтвердите email, чтобы участвовать в торгах. Мы отправили ссылку на
+          вашу почту при регистрации.
+        </p>
+        <Link
+          href="/account"
+          className="mt-4 inline-flex rounded-xl border border-border px-4 py-2.5 text-sm font-semibold hover:bg-muted"
+        >
+          Отправить письмо повторно
+        </Link>
       </div>
     )
   }

@@ -7,10 +7,12 @@ export function Countdown({
   endsAt,
   className,
   size = 'md',
+  onEnd,
 }: {
   endsAt: string | Date
   className?: string
   size?: 'sm' | 'md'
+  onEnd?: () => void
 }) {
   const target = new Date(endsAt).getTime()
   const [now, setNow] = useState<number>(() => Date.now())
@@ -21,6 +23,10 @@ export function Countdown({
   }, [])
 
   const remaining = Math.max(0, Math.floor((target - now) / 1000))
+
+  useEffect(() => {
+    if (remaining <= 0) onEnd?.()
+  }, [remaining, onEnd])
   const { d, h, m, s } = formatCountdown(remaining)
   const ended = remaining <= 0
 
