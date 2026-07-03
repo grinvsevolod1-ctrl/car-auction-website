@@ -54,6 +54,22 @@ export function outbidEmail(lotTitle: string, lotId: string, price: number) {
   )
 }
 
+export function endingSoonEmail(
+  lotTitle: string,
+  lotId: string,
+  price: number,
+  minutesLeft: number,
+) {
+  const url = `${siteUrl()}/auctions/${lotId}`
+  return emailLayout(
+    'Лот из избранного скоро завершится',
+    `<p>Торги по лоту <b>${lotTitle}</b> завершатся примерно через <b>${minutesLeft} мин</b>.</p>
+     <p>Текущая цена: <b>${price.toLocaleString('ru-RU')} Br</b>.</p>
+     <p>Успейте сделать ставку, чтобы не упустить автомобиль.</p>
+     <p><a href="${url}" style="display:inline-block;margin-top:8px;background:#f97316;color:#fff;padding:10px 18px;border-radius:10px;text-decoration:none;font-weight:700">Перейти к торгам</a></p>`,
+  )
+}
+
 export function wonEmail(lotTitle: string, lotId: string, price: number) {
   const url = `${siteUrl()}/auctions/${lotId}`
   return emailLayout(

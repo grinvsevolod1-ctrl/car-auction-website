@@ -3,6 +3,8 @@
 import useSWR from 'swr'
 import { Trophy } from 'lucide-react'
 import { BidForm } from '@/components/bid-form'
+import { AutoBidForm } from '@/components/autobid-form'
+import { WatchButton } from '@/components/watch-button'
 import { Countdown } from '@/components/countdown'
 import { formatBYN, formatDateTime, LOT_STATUS_LABEL } from '@/lib/format'
 
@@ -44,10 +46,14 @@ export function LiveLotPanel({
   lot,
   isAuthenticated,
   isVerified,
+  initialWatching,
+  autoBidMax,
 }: {
   lot: InitialLot
   isAuthenticated: boolean
   isVerified: boolean
+  initialWatching: boolean
+  autoBidMax: number | null
 }) {
   const { data, mutate } = useSWR<LiveData>(`/api/lots/${lot.id}`, fetcher, {
     refreshInterval: 5000,
@@ -143,8 +149,23 @@ export function LiveLotPanel({
             isVerified={isVerified}
             onBidPlaced={() => mutate()}
           />
+          {isAuthenticated && isVerified && (
+            <AutoBidForm
+              lotId={lot.id}
+              minMax={live.currentPrice + live.bidStep}
+              currentMax={autoBidMax}
+            />
+          )}
         </div>
       )}
+
+      <div className="mt-4">
+        <WatchButton
+          lotId={lot.id}
+          initialWatching={initialWatching}
+          isAuthenticated={isAuthenticated}
+        />
+      </div>
 
       <div className="mt-4 rounded-2xl border border-border bg-card p-5">
         <h3 className="font-display text-lg font-bold">История ставок</h3>

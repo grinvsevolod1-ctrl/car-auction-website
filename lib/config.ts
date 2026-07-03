@@ -23,6 +23,10 @@ export const VERIFICATION_TTL_HOURS = num('VERIFICATION_TTL_HOURS', 48)
 // Пагинация каталога.
 export const CATALOG_PAGE_SIZE = num('CATALOG_PAGE_SIZE', 12)
 
+// За сколько минут до конца слать email-дайджест «скоро завершится»
+// подписчикам избранного.
+export const ENDING_SOON_MINUTES = num('ENDING_SOON_MINUTES', 30)
+
 // Rate limiting (запросов за окно).
 export const RATE_LIMITS = {
   login: { limit: num('RL_LOGIN', 8), windowSec: 60 },

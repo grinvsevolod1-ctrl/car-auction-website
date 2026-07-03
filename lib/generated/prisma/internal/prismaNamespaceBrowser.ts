@@ -52,6 +52,8 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   User: 'User',
+  Watchlist: 'Watchlist',
+  AutoBid: 'AutoBid',
   VerificationToken: 'VerificationToken',
   Notification: 'Notification',
   Lot: 'Lot',
@@ -87,6 +89,29 @@ export const UserScalarFieldEnum = {
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const WatchlistScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  lotId: 'lotId',
+  createdAt: 'createdAt'
+} as const
+
+export type WatchlistScalarFieldEnum = (typeof WatchlistScalarFieldEnum)[keyof typeof WatchlistScalarFieldEnum]
+
+
+export const AutoBidScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  lotId: 'lotId',
+  maxAmount: 'maxAmount',
+  active: 'active',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AutoBidScalarFieldEnum = (typeof AutoBidScalarFieldEnum)[keyof typeof AutoBidScalarFieldEnum]
 
 
 export const VerificationTokenScalarFieldEnum = {
@@ -142,6 +167,7 @@ export const LotScalarFieldEnum = {
   startsAt: 'startsAt',
   endsAt: 'endsAt',
   winnerId: 'winnerId',
+  endingSoonNotified: 'endingSoonNotified',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

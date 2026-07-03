@@ -9,6 +9,8 @@
  * 🟢 You can import this file directly.
  */
 export type * from './models/User'
+export type * from './models/Watchlist'
+export type * from './models/AutoBid'
 export type * from './models/VerificationToken'
 export type * from './models/Notification'
 export type * from './models/Lot'

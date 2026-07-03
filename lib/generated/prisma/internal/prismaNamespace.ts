@@ -385,6 +385,8 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 export const ModelName = {
   User: 'User',
+  Watchlist: 'Watchlist',
+  AutoBid: 'AutoBid',
   VerificationToken: 'VerificationToken',
   Notification: 'Notification',
   Lot: 'Lot',
@@ -404,7 +406,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "verificationToken" | "notification" | "lot" | "bid"
+    modelProps: "user" | "watchlist" | "autoBid" | "verificationToken" | "notification" | "lot" | "bid"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -479,6 +481,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.UserCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.UserCountAggregateOutputType> | number
+        }
+      }
+    }
+    Watchlist: {
+      payload: Prisma.$WatchlistPayload<ExtArgs>
+      fields: Prisma.WatchlistFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.WatchlistFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WatchlistPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.WatchlistFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WatchlistPayload>
+        }
+        findFirst: {
+          args: Prisma.WatchlistFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WatchlistPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.WatchlistFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WatchlistPayload>
+        }
+        findMany: {
+          args: Prisma.WatchlistFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WatchlistPayload>[]
+        }
+        create: {
+          args: Prisma.WatchlistCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WatchlistPayload>
+        }
+        createMany: {
+          args: Prisma.WatchlistCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.WatchlistCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WatchlistPayload>[]
+        }
+        delete: {
+          args: Prisma.WatchlistDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WatchlistPayload>
+        }
+        update: {
+          args: Prisma.WatchlistUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WatchlistPayload>
+        }
+        deleteMany: {
+          args: Prisma.WatchlistDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.WatchlistUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.WatchlistUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WatchlistPayload>[]
+        }
+        upsert: {
+          args: Prisma.WatchlistUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WatchlistPayload>
+        }
+        aggregate: {
+          args: Prisma.WatchlistAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateWatchlist>
+        }
+        groupBy: {
+          args: Prisma.WatchlistGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.WatchlistGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.WatchlistCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.WatchlistCountAggregateOutputType> | number
+        }
+      }
+    }
+    AutoBid: {
+      payload: Prisma.$AutoBidPayload<ExtArgs>
+      fields: Prisma.AutoBidFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.AutoBidFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AutoBidPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.AutoBidFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AutoBidPayload>
+        }
+        findFirst: {
+          args: Prisma.AutoBidFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AutoBidPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.AutoBidFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AutoBidPayload>
+        }
+        findMany: {
+          args: Prisma.AutoBidFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AutoBidPayload>[]
+        }
+        create: {
+          args: Prisma.AutoBidCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AutoBidPayload>
+        }
+        createMany: {
+          args: Prisma.AutoBidCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.AutoBidCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AutoBidPayload>[]
+        }
+        delete: {
+          args: Prisma.AutoBidDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AutoBidPayload>
+        }
+        update: {
+          args: Prisma.AutoBidUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AutoBidPayload>
+        }
+        deleteMany: {
+          args: Prisma.AutoBidDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.AutoBidUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.AutoBidUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AutoBidPayload>[]
+        }
+        upsert: {
+          args: Prisma.AutoBidUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AutoBidPayload>
+        }
+        aggregate: {
+          args: Prisma.AutoBidAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAutoBid>
+        }
+        groupBy: {
+          args: Prisma.AutoBidGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AutoBidGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.AutoBidCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AutoBidCountAggregateOutputType> | number
         }
       }
     }
@@ -832,6 +982,29 @@ export const UserScalarFieldEnum = {
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
+export const WatchlistScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  lotId: 'lotId',
+  createdAt: 'createdAt'
+} as const
+
+export type WatchlistScalarFieldEnum = (typeof WatchlistScalarFieldEnum)[keyof typeof WatchlistScalarFieldEnum]
+
+
+export const AutoBidScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  lotId: 'lotId',
+  maxAmount: 'maxAmount',
+  active: 'active',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AutoBidScalarFieldEnum = (typeof AutoBidScalarFieldEnum)[keyof typeof AutoBidScalarFieldEnum]
+
+
 export const VerificationTokenScalarFieldEnum = {
   id: 'id',
   token: 'token',
@@ -885,6 +1058,7 @@ export const LotScalarFieldEnum = {
   startsAt: 'startsAt',
   endsAt: 'endsAt',
   winnerId: 'winnerId',
+  endingSoonNotified: 'endingSoonNotified',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -976,13 +1150,6 @@ export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaM
 
 
 /**
- * Reference to a field of type 'Boolean'
- */
-export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
-    
-
-
-/**
  * Reference to a field of type 'Int'
  */
 export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
@@ -993,6 +1160,13 @@ export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'In
  * Reference to a field of type 'Int[]'
  */
 export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Boolean'
+ */
+export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -1134,6 +1308,8 @@ export type PrismaClientOptions = ({
 }
 export type GlobalOmitConfig = {
   user?: Prisma.UserOmit
+  watchlist?: Prisma.WatchlistOmit
+  autoBid?: Prisma.AutoBidOmit
   verificationToken?: Prisma.VerificationTokenOmit
   notification?: Prisma.NotificationOmit
   lot?: Prisma.LotOmit

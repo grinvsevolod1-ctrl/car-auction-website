@@ -1,14 +1,22 @@
 import Link from 'next/link'
-import Image from 'next/image'
 import { redirect } from 'next/navigation'
 import { getCurrentUser } from '@/lib/auth/session'
 import { getUserDashboard, getUserNotifications } from '@/lib/queries'
-import { formatBYN, formatDateTime, statusLabel } from '@/lib/format'
+import { formatDateTime } from '@/lib/format'
 import { REQUIRE_EMAIL_VERIFICATION } from '@/lib/config'
 import { SiteHeader } from '@/components/site-header'
 import { SiteFooter } from '@/components/site-footer'
 import { VerifyBanner } from '@/components/verify-banner'
-import { Trophy, Gavel, Flame, ArrowRight, Bell, Settings } from 'lucide-react'
+import { BidsTabs } from '@/components/account/bids-tabs'
+import {
+  Trophy,
+  Gavel,
+  Flame,
+  ArrowRight,
+  Bell,
+  Settings,
+  Heart,
+} from 'lucide-react'
 
 export const dynamic = 'force-dynamic'
 export const metadata = { title: 'Личный кабинет — IGNIS' }
@@ -42,13 +50,22 @@ export default async function AccountPage() {
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">{user.email}</p>
         </div>
-        <Link
-          href="/account/settings"
-          className="inline-flex items-center gap-2 rounded-xl border border-border px-4 py-2.5 text-sm font-semibold transition-colors hover:bg-muted"
-        >
-          <Settings className="size-4" />
-          Настройки
-        </Link>
+        <div className="flex flex-wrap gap-2">
+          <Link
+            href="/account/watchlist"
+            className="inline-flex items-center gap-2 rounded-xl border border-border px-4 py-2.5 text-sm font-semibold transition-colors hover:bg-muted"
+          >
+            <Heart className="size-4" />
+            Избранное
+          </Link>
+          <Link
+            href="/account/settings"
+            className="inline-flex items-center gap-2 rounded-xl border border-border px-4 py-2.5 text-sm font-semibold transition-colors hover:bg-muted"
+          >
+            <Settings className="size-4" />
+            Настройки
+          </Link>
+        </div>
       </div>
 
       {showVerify && <VerifyBanner />}
@@ -74,64 +91,7 @@ export default async function AccountPage() {
         <h2 className="font-display text-xl font-bold uppercase tracking-tight">
           Мои ставки
         </h2>
-
-        {rows.length === 0 ? (
-          <div className="mt-4 rounded-2xl border border-dashed border-border bg-card p-10 text-center">
-            <p className="text-muted-foreground">
-              Вы ещё не делали ставок. Найдите автомобиль своей мечты на аукционе.
-            </p>
-            <Link
-              href="/auctions"
-              className="mt-4 inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3 font-semibold text-primary-foreground transition-transform hover:scale-[1.02]"
-            >
-              Смотреть аукционы
-              <ArrowRight className="size-4" />
-            </Link>
-          </div>
-        ) : (
-          <div className="mt-4 space-y-3">
-            {rows.map((r) => (
-              <Link
-                key={r.lot.id}
-                href={`/auctions/${r.lot.id}`}
-                className="flex items-center gap-4 rounded-2xl border border-border bg-card p-3 transition-colors hover:border-primary/40"
-              >
-                <div className="relative size-16 shrink-0 overflow-hidden rounded-xl bg-muted sm:size-20">
-                  {r.lot.images[0] && (
-                    <Image
-                      src={r.lot.images[0]}
-                      alt={r.lot.title}
-                      fill
-                      className="object-cover"
-                      sizes="80px"
-                    />
-                  )}
-                </div>
-                <div className="min-w-0 flex-1">
-                  <p className="truncate font-semibold">{r.lot.title}</p>
-                  <p className="mt-0.5 text-sm text-muted-foreground">
-                    Моя ставка: {formatBYN(r.myMax)} · Текущая: {formatBYN(r.lot.currentPrice)}
-                  </p>
-                </div>
-                <div className="shrink-0 text-right">
-                  {r.isWon ? (
-                    <span className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
-                      <Trophy className="size-3" /> Выигран
-                    </span>
-                  ) : r.isLeading ? (
-                    <span className="inline-flex items-center gap-1 rounded-full bg-primary px-3 py-1 text-xs font-semibold text-primary-foreground">
-                      <Flame className="size-3" /> Лидирую
-                    </span>
-                  ) : (
-                    <span className="rounded-full bg-muted px-3 py-1 text-xs font-semibold text-muted-foreground">
-                      {r.lot.status === 'ACTIVE' ? 'Перебита' : statusLabel(r.lot.status)}
-                    </span>
-                  )}
-                </div>
-              </Link>
-            ))}
-          </div>
-        )}
+        <BidsTabs rows={rows} />
       </div>
 
       {notifications.length > 0 && (

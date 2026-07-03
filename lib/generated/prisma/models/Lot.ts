@@ -74,6 +74,7 @@ export type LotMinAggregateOutputType = {
   startsAt: Date | null
   endsAt: Date | null
   winnerId: string | null
+  endingSoonNotified: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -104,6 +105,7 @@ export type LotMaxAggregateOutputType = {
   startsAt: Date | null
   endsAt: Date | null
   winnerId: string | null
+  endingSoonNotified: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -135,6 +137,7 @@ export type LotCountAggregateOutputType = {
   startsAt: number
   endsAt: number
   winnerId: number
+  endingSoonNotified: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -189,6 +192,7 @@ export type LotMinAggregateInputType = {
   startsAt?: true
   endsAt?: true
   winnerId?: true
+  endingSoonNotified?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -219,6 +223,7 @@ export type LotMaxAggregateInputType = {
   startsAt?: true
   endsAt?: true
   winnerId?: true
+  endingSoonNotified?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -250,6 +255,7 @@ export type LotCountAggregateInputType = {
   startsAt?: true
   endsAt?: true
   winnerId?: true
+  endingSoonNotified?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -368,6 +374,7 @@ export type LotGroupByOutputType = {
   startsAt: Date
   endsAt: Date
   winnerId: string | null
+  endingSoonNotified: boolean
   createdAt: Date
   updatedAt: Date
   _count: LotCountAggregateOutputType | null
@@ -422,10 +429,13 @@ export type LotWhereInput = {
   startsAt?: Prisma.DateTimeFilter<"Lot"> | Date | string
   endsAt?: Prisma.DateTimeFilter<"Lot"> | Date | string
   winnerId?: Prisma.StringNullableFilter<"Lot"> | string | null
+  endingSoonNotified?: Prisma.BoolFilter<"Lot"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Lot"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Lot"> | Date | string
   winner?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   bids?: Prisma.BidListRelationFilter
+  watchers?: Prisma.WatchlistListRelationFilter
+  autoBids?: Prisma.AutoBidListRelationFilter
 }
 
 export type LotOrderByWithRelationInput = {
@@ -455,10 +465,13 @@ export type LotOrderByWithRelationInput = {
   startsAt?: Prisma.SortOrder
   endsAt?: Prisma.SortOrder
   winnerId?: Prisma.SortOrderInput | Prisma.SortOrder
+  endingSoonNotified?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   winner?: Prisma.UserOrderByWithRelationInput
   bids?: Prisma.BidOrderByRelationAggregateInput
+  watchers?: Prisma.WatchlistOrderByRelationAggregateInput
+  autoBids?: Prisma.AutoBidOrderByRelationAggregateInput
 }
 
 export type LotWhereUniqueInput = Prisma.AtLeast<{
@@ -491,10 +504,13 @@ export type LotWhereUniqueInput = Prisma.AtLeast<{
   startsAt?: Prisma.DateTimeFilter<"Lot"> | Date | string
   endsAt?: Prisma.DateTimeFilter<"Lot"> | Date | string
   winnerId?: Prisma.StringNullableFilter<"Lot"> | string | null
+  endingSoonNotified?: Prisma.BoolFilter<"Lot"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Lot"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Lot"> | Date | string
   winner?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   bids?: Prisma.BidListRelationFilter
+  watchers?: Prisma.WatchlistListRelationFilter
+  autoBids?: Prisma.AutoBidListRelationFilter
 }, "id">
 
 export type LotOrderByWithAggregationInput = {
@@ -524,6 +540,7 @@ export type LotOrderByWithAggregationInput = {
   startsAt?: Prisma.SortOrder
   endsAt?: Prisma.SortOrder
   winnerId?: Prisma.SortOrderInput | Prisma.SortOrder
+  endingSoonNotified?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.LotCountOrderByAggregateInput
@@ -563,6 +580,7 @@ export type LotScalarWhereWithAggregatesInput = {
   startsAt?: Prisma.DateTimeWithAggregatesFilter<"Lot"> | Date | string
   endsAt?: Prisma.DateTimeWithAggregatesFilter<"Lot"> | Date | string
   winnerId?: Prisma.StringNullableWithAggregatesFilter<"Lot"> | string | null
+  endingSoonNotified?: Prisma.BoolWithAggregatesFilter<"Lot"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Lot"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Lot"> | Date | string
 }
@@ -593,10 +611,13 @@ export type LotCreateInput = {
   status?: $Enums.LotStatus
   startsAt?: Date | string
   endsAt: Date | string
+  endingSoonNotified?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   winner?: Prisma.UserCreateNestedOneWithoutWonLotsInput
   bids?: Prisma.BidCreateNestedManyWithoutLotInput
+  watchers?: Prisma.WatchlistCreateNestedManyWithoutLotInput
+  autoBids?: Prisma.AutoBidCreateNestedManyWithoutLotInput
 }
 
 export type LotUncheckedCreateInput = {
@@ -626,9 +647,12 @@ export type LotUncheckedCreateInput = {
   startsAt?: Date | string
   endsAt: Date | string
   winnerId?: string | null
+  endingSoonNotified?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   bids?: Prisma.BidUncheckedCreateNestedManyWithoutLotInput
+  watchers?: Prisma.WatchlistUncheckedCreateNestedManyWithoutLotInput
+  autoBids?: Prisma.AutoBidUncheckedCreateNestedManyWithoutLotInput
 }
 
 export type LotUpdateInput = {
@@ -657,10 +681,13 @@ export type LotUpdateInput = {
   status?: Prisma.EnumLotStatusFieldUpdateOperationsInput | $Enums.LotStatus
   startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endingSoonNotified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   winner?: Prisma.UserUpdateOneWithoutWonLotsNestedInput
   bids?: Prisma.BidUpdateManyWithoutLotNestedInput
+  watchers?: Prisma.WatchlistUpdateManyWithoutLotNestedInput
+  autoBids?: Prisma.AutoBidUpdateManyWithoutLotNestedInput
 }
 
 export type LotUncheckedUpdateInput = {
@@ -690,9 +717,12 @@ export type LotUncheckedUpdateInput = {
   startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   winnerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endingSoonNotified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bids?: Prisma.BidUncheckedUpdateManyWithoutLotNestedInput
+  watchers?: Prisma.WatchlistUncheckedUpdateManyWithoutLotNestedInput
+  autoBids?: Prisma.AutoBidUncheckedUpdateManyWithoutLotNestedInput
 }
 
 export type LotCreateManyInput = {
@@ -722,6 +752,7 @@ export type LotCreateManyInput = {
   startsAt?: Date | string
   endsAt: Date | string
   winnerId?: string | null
+  endingSoonNotified?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -752,6 +783,7 @@ export type LotUpdateManyMutationInput = {
   status?: Prisma.EnumLotStatusFieldUpdateOperationsInput | $Enums.LotStatus
   startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endingSoonNotified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -783,6 +815,7 @@ export type LotUncheckedUpdateManyInput = {
   startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   winnerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endingSoonNotified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -795,6 +828,11 @@ export type LotListRelationFilter = {
 
 export type LotOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type LotScalarRelationFilter = {
+  is?: Prisma.LotWhereInput
+  isNot?: Prisma.LotWhereInput
 }
 
 export type StringNullableListFilter<$PrismaModel = never> = {
@@ -832,6 +870,7 @@ export type LotCountOrderByAggregateInput = {
   startsAt?: Prisma.SortOrder
   endsAt?: Prisma.SortOrder
   winnerId?: Prisma.SortOrder
+  endingSoonNotified?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -873,6 +912,7 @@ export type LotMaxOrderByAggregateInput = {
   startsAt?: Prisma.SortOrder
   endsAt?: Prisma.SortOrder
   winnerId?: Prisma.SortOrder
+  endingSoonNotified?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -903,6 +943,7 @@ export type LotMinOrderByAggregateInput = {
   startsAt?: Prisma.SortOrder
   endsAt?: Prisma.SortOrder
   winnerId?: Prisma.SortOrder
+  endingSoonNotified?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -916,11 +957,6 @@ export type LotSumOrderByAggregateInput = {
   bidStep?: Prisma.SortOrder
   currentPrice?: Prisma.SortOrder
   buyNowPrice?: Prisma.SortOrder
-}
-
-export type LotScalarRelationFilter = {
-  is?: Prisma.LotWhereInput
-  isNot?: Prisma.LotWhereInput
 }
 
 export type LotCreateNestedManyWithoutWinnerInput = {
@@ -965,16 +1001,36 @@ export type LotUncheckedUpdateManyWithoutWinnerNestedInput = {
   deleteMany?: Prisma.LotScalarWhereInput | Prisma.LotScalarWhereInput[]
 }
 
-export type LotCreateimagesInput = {
-  set: string[]
+export type LotCreateNestedOneWithoutWatchersInput = {
+  create?: Prisma.XOR<Prisma.LotCreateWithoutWatchersInput, Prisma.LotUncheckedCreateWithoutWatchersInput>
+  connectOrCreate?: Prisma.LotCreateOrConnectWithoutWatchersInput
+  connect?: Prisma.LotWhereUniqueInput
 }
 
-export type IntFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
+export type LotUpdateOneRequiredWithoutWatchersNestedInput = {
+  create?: Prisma.XOR<Prisma.LotCreateWithoutWatchersInput, Prisma.LotUncheckedCreateWithoutWatchersInput>
+  connectOrCreate?: Prisma.LotCreateOrConnectWithoutWatchersInput
+  upsert?: Prisma.LotUpsertWithoutWatchersInput
+  connect?: Prisma.LotWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.LotUpdateToOneWithWhereWithoutWatchersInput, Prisma.LotUpdateWithoutWatchersInput>, Prisma.LotUncheckedUpdateWithoutWatchersInput>
+}
+
+export type LotCreateNestedOneWithoutAutoBidsInput = {
+  create?: Prisma.XOR<Prisma.LotCreateWithoutAutoBidsInput, Prisma.LotUncheckedCreateWithoutAutoBidsInput>
+  connectOrCreate?: Prisma.LotCreateOrConnectWithoutAutoBidsInput
+  connect?: Prisma.LotWhereUniqueInput
+}
+
+export type LotUpdateOneRequiredWithoutAutoBidsNestedInput = {
+  create?: Prisma.XOR<Prisma.LotCreateWithoutAutoBidsInput, Prisma.LotUncheckedCreateWithoutAutoBidsInput>
+  connectOrCreate?: Prisma.LotCreateOrConnectWithoutAutoBidsInput
+  upsert?: Prisma.LotUpsertWithoutAutoBidsInput
+  connect?: Prisma.LotWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.LotUpdateToOneWithWhereWithoutAutoBidsInput, Prisma.LotUpdateWithoutAutoBidsInput>, Prisma.LotUncheckedUpdateWithoutAutoBidsInput>
+}
+
+export type LotCreateimagesInput = {
+  set: string[]
 }
 
 export type NullableFloatFieldUpdateOperationsInput = {
@@ -1042,9 +1098,12 @@ export type LotCreateWithoutWinnerInput = {
   status?: $Enums.LotStatus
   startsAt?: Date | string
   endsAt: Date | string
+  endingSoonNotified?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   bids?: Prisma.BidCreateNestedManyWithoutLotInput
+  watchers?: Prisma.WatchlistCreateNestedManyWithoutLotInput
+  autoBids?: Prisma.AutoBidCreateNestedManyWithoutLotInput
 }
 
 export type LotUncheckedCreateWithoutWinnerInput = {
@@ -1073,9 +1132,12 @@ export type LotUncheckedCreateWithoutWinnerInput = {
   status?: $Enums.LotStatus
   startsAt?: Date | string
   endsAt: Date | string
+  endingSoonNotified?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   bids?: Prisma.BidUncheckedCreateNestedManyWithoutLotInput
+  watchers?: Prisma.WatchlistUncheckedCreateNestedManyWithoutLotInput
+  autoBids?: Prisma.AutoBidUncheckedCreateNestedManyWithoutLotInput
 }
 
 export type LotCreateOrConnectWithoutWinnerInput = {
@@ -1134,8 +1196,313 @@ export type LotScalarWhereInput = {
   startsAt?: Prisma.DateTimeFilter<"Lot"> | Date | string
   endsAt?: Prisma.DateTimeFilter<"Lot"> | Date | string
   winnerId?: Prisma.StringNullableFilter<"Lot"> | string | null
+  endingSoonNotified?: Prisma.BoolFilter<"Lot"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Lot"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Lot"> | Date | string
+}
+
+export type LotCreateWithoutWatchersInput = {
+  id?: string
+  title: string
+  make: string
+  model: string
+  year: number
+  mileage: number
+  engineVol?: number | null
+  power?: number | null
+  transmission?: string | null
+  bodyType?: string | null
+  fuelType?: string | null
+  drive?: string | null
+  color?: string | null
+  vin?: string | null
+  location?: string | null
+  condition?: string | null
+  description?: string | null
+  images?: Prisma.LotCreateimagesInput | string[]
+  startPrice: number
+  bidStep?: number
+  currentPrice: number
+  buyNowPrice?: number | null
+  status?: $Enums.LotStatus
+  startsAt?: Date | string
+  endsAt: Date | string
+  endingSoonNotified?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  winner?: Prisma.UserCreateNestedOneWithoutWonLotsInput
+  bids?: Prisma.BidCreateNestedManyWithoutLotInput
+  autoBids?: Prisma.AutoBidCreateNestedManyWithoutLotInput
+}
+
+export type LotUncheckedCreateWithoutWatchersInput = {
+  id?: string
+  title: string
+  make: string
+  model: string
+  year: number
+  mileage: number
+  engineVol?: number | null
+  power?: number | null
+  transmission?: string | null
+  bodyType?: string | null
+  fuelType?: string | null
+  drive?: string | null
+  color?: string | null
+  vin?: string | null
+  location?: string | null
+  condition?: string | null
+  description?: string | null
+  images?: Prisma.LotCreateimagesInput | string[]
+  startPrice: number
+  bidStep?: number
+  currentPrice: number
+  buyNowPrice?: number | null
+  status?: $Enums.LotStatus
+  startsAt?: Date | string
+  endsAt: Date | string
+  winnerId?: string | null
+  endingSoonNotified?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  bids?: Prisma.BidUncheckedCreateNestedManyWithoutLotInput
+  autoBids?: Prisma.AutoBidUncheckedCreateNestedManyWithoutLotInput
+}
+
+export type LotCreateOrConnectWithoutWatchersInput = {
+  where: Prisma.LotWhereUniqueInput
+  create: Prisma.XOR<Prisma.LotCreateWithoutWatchersInput, Prisma.LotUncheckedCreateWithoutWatchersInput>
+}
+
+export type LotUpsertWithoutWatchersInput = {
+  update: Prisma.XOR<Prisma.LotUpdateWithoutWatchersInput, Prisma.LotUncheckedUpdateWithoutWatchersInput>
+  create: Prisma.XOR<Prisma.LotCreateWithoutWatchersInput, Prisma.LotUncheckedCreateWithoutWatchersInput>
+  where?: Prisma.LotWhereInput
+}
+
+export type LotUpdateToOneWithWhereWithoutWatchersInput = {
+  where?: Prisma.LotWhereInput
+  data: Prisma.XOR<Prisma.LotUpdateWithoutWatchersInput, Prisma.LotUncheckedUpdateWithoutWatchersInput>
+}
+
+export type LotUpdateWithoutWatchersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  make?: Prisma.StringFieldUpdateOperationsInput | string
+  model?: Prisma.StringFieldUpdateOperationsInput | string
+  year?: Prisma.IntFieldUpdateOperationsInput | number
+  mileage?: Prisma.IntFieldUpdateOperationsInput | number
+  engineVol?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  power?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  transmission?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bodyType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fuelType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  drive?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  condition?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  images?: Prisma.LotUpdateimagesInput | string[]
+  startPrice?: Prisma.IntFieldUpdateOperationsInput | number
+  bidStep?: Prisma.IntFieldUpdateOperationsInput | number
+  currentPrice?: Prisma.IntFieldUpdateOperationsInput | number
+  buyNowPrice?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  status?: Prisma.EnumLotStatusFieldUpdateOperationsInput | $Enums.LotStatus
+  startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endingSoonNotified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  winner?: Prisma.UserUpdateOneWithoutWonLotsNestedInput
+  bids?: Prisma.BidUpdateManyWithoutLotNestedInput
+  autoBids?: Prisma.AutoBidUpdateManyWithoutLotNestedInput
+}
+
+export type LotUncheckedUpdateWithoutWatchersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  make?: Prisma.StringFieldUpdateOperationsInput | string
+  model?: Prisma.StringFieldUpdateOperationsInput | string
+  year?: Prisma.IntFieldUpdateOperationsInput | number
+  mileage?: Prisma.IntFieldUpdateOperationsInput | number
+  engineVol?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  power?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  transmission?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bodyType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fuelType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  drive?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  condition?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  images?: Prisma.LotUpdateimagesInput | string[]
+  startPrice?: Prisma.IntFieldUpdateOperationsInput | number
+  bidStep?: Prisma.IntFieldUpdateOperationsInput | number
+  currentPrice?: Prisma.IntFieldUpdateOperationsInput | number
+  buyNowPrice?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  status?: Prisma.EnumLotStatusFieldUpdateOperationsInput | $Enums.LotStatus
+  startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  winnerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endingSoonNotified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  bids?: Prisma.BidUncheckedUpdateManyWithoutLotNestedInput
+  autoBids?: Prisma.AutoBidUncheckedUpdateManyWithoutLotNestedInput
+}
+
+export type LotCreateWithoutAutoBidsInput = {
+  id?: string
+  title: string
+  make: string
+  model: string
+  year: number
+  mileage: number
+  engineVol?: number | null
+  power?: number | null
+  transmission?: string | null
+  bodyType?: string | null
+  fuelType?: string | null
+  drive?: string | null
+  color?: string | null
+  vin?: string | null
+  location?: string | null
+  condition?: string | null
+  description?: string | null
+  images?: Prisma.LotCreateimagesInput | string[]
+  startPrice: number
+  bidStep?: number
+  currentPrice: number
+  buyNowPrice?: number | null
+  status?: $Enums.LotStatus
+  startsAt?: Date | string
+  endsAt: Date | string
+  endingSoonNotified?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  winner?: Prisma.UserCreateNestedOneWithoutWonLotsInput
+  bids?: Prisma.BidCreateNestedManyWithoutLotInput
+  watchers?: Prisma.WatchlistCreateNestedManyWithoutLotInput
+}
+
+export type LotUncheckedCreateWithoutAutoBidsInput = {
+  id?: string
+  title: string
+  make: string
+  model: string
+  year: number
+  mileage: number
+  engineVol?: number | null
+  power?: number | null
+  transmission?: string | null
+  bodyType?: string | null
+  fuelType?: string | null
+  drive?: string | null
+  color?: string | null
+  vin?: string | null
+  location?: string | null
+  condition?: string | null
+  description?: string | null
+  images?: Prisma.LotCreateimagesInput | string[]
+  startPrice: number
+  bidStep?: number
+  currentPrice: number
+  buyNowPrice?: number | null
+  status?: $Enums.LotStatus
+  startsAt?: Date | string
+  endsAt: Date | string
+  winnerId?: string | null
+  endingSoonNotified?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  bids?: Prisma.BidUncheckedCreateNestedManyWithoutLotInput
+  watchers?: Prisma.WatchlistUncheckedCreateNestedManyWithoutLotInput
+}
+
+export type LotCreateOrConnectWithoutAutoBidsInput = {
+  where: Prisma.LotWhereUniqueInput
+  create: Prisma.XOR<Prisma.LotCreateWithoutAutoBidsInput, Prisma.LotUncheckedCreateWithoutAutoBidsInput>
+}
+
+export type LotUpsertWithoutAutoBidsInput = {
+  update: Prisma.XOR<Prisma.LotUpdateWithoutAutoBidsInput, Prisma.LotUncheckedUpdateWithoutAutoBidsInput>
+  create: Prisma.XOR<Prisma.LotCreateWithoutAutoBidsInput, Prisma.LotUncheckedCreateWithoutAutoBidsInput>
+  where?: Prisma.LotWhereInput
+}
+
+export type LotUpdateToOneWithWhereWithoutAutoBidsInput = {
+  where?: Prisma.LotWhereInput
+  data: Prisma.XOR<Prisma.LotUpdateWithoutAutoBidsInput, Prisma.LotUncheckedUpdateWithoutAutoBidsInput>
+}
+
+export type LotUpdateWithoutAutoBidsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  make?: Prisma.StringFieldUpdateOperationsInput | string
+  model?: Prisma.StringFieldUpdateOperationsInput | string
+  year?: Prisma.IntFieldUpdateOperationsInput | number
+  mileage?: Prisma.IntFieldUpdateOperationsInput | number
+  engineVol?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  power?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  transmission?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bodyType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fuelType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  drive?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  condition?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  images?: Prisma.LotUpdateimagesInput | string[]
+  startPrice?: Prisma.IntFieldUpdateOperationsInput | number
+  bidStep?: Prisma.IntFieldUpdateOperationsInput | number
+  currentPrice?: Prisma.IntFieldUpdateOperationsInput | number
+  buyNowPrice?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  status?: Prisma.EnumLotStatusFieldUpdateOperationsInput | $Enums.LotStatus
+  startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endingSoonNotified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  winner?: Prisma.UserUpdateOneWithoutWonLotsNestedInput
+  bids?: Prisma.BidUpdateManyWithoutLotNestedInput
+  watchers?: Prisma.WatchlistUpdateManyWithoutLotNestedInput
+}
+
+export type LotUncheckedUpdateWithoutAutoBidsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  make?: Prisma.StringFieldUpdateOperationsInput | string
+  model?: Prisma.StringFieldUpdateOperationsInput | string
+  year?: Prisma.IntFieldUpdateOperationsInput | number
+  mileage?: Prisma.IntFieldUpdateOperationsInput | number
+  engineVol?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  power?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  transmission?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bodyType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fuelType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  drive?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  condition?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  images?: Prisma.LotUpdateimagesInput | string[]
+  startPrice?: Prisma.IntFieldUpdateOperationsInput | number
+  bidStep?: Prisma.IntFieldUpdateOperationsInput | number
+  currentPrice?: Prisma.IntFieldUpdateOperationsInput | number
+  buyNowPrice?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  status?: Prisma.EnumLotStatusFieldUpdateOperationsInput | $Enums.LotStatus
+  startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  winnerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endingSoonNotified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  bids?: Prisma.BidUncheckedUpdateManyWithoutLotNestedInput
+  watchers?: Prisma.WatchlistUncheckedUpdateManyWithoutLotNestedInput
 }
 
 export type LotCreateWithoutBidsInput = {
@@ -1164,9 +1531,12 @@ export type LotCreateWithoutBidsInput = {
   status?: $Enums.LotStatus
   startsAt?: Date | string
   endsAt: Date | string
+  endingSoonNotified?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   winner?: Prisma.UserCreateNestedOneWithoutWonLotsInput
+  watchers?: Prisma.WatchlistCreateNestedManyWithoutLotInput
+  autoBids?: Prisma.AutoBidCreateNestedManyWithoutLotInput
 }
 
 export type LotUncheckedCreateWithoutBidsInput = {
@@ -1196,8 +1566,11 @@ export type LotUncheckedCreateWithoutBidsInput = {
   startsAt?: Date | string
   endsAt: Date | string
   winnerId?: string | null
+  endingSoonNotified?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  watchers?: Prisma.WatchlistUncheckedCreateNestedManyWithoutLotInput
+  autoBids?: Prisma.AutoBidUncheckedCreateNestedManyWithoutLotInput
 }
 
 export type LotCreateOrConnectWithoutBidsInput = {
@@ -1242,9 +1615,12 @@ export type LotUpdateWithoutBidsInput = {
   status?: Prisma.EnumLotStatusFieldUpdateOperationsInput | $Enums.LotStatus
   startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endingSoonNotified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   winner?: Prisma.UserUpdateOneWithoutWonLotsNestedInput
+  watchers?: Prisma.WatchlistUpdateManyWithoutLotNestedInput
+  autoBids?: Prisma.AutoBidUpdateManyWithoutLotNestedInput
 }
 
 export type LotUncheckedUpdateWithoutBidsInput = {
@@ -1274,8 +1650,11 @@ export type LotUncheckedUpdateWithoutBidsInput = {
   startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   winnerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endingSoonNotified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  watchers?: Prisma.WatchlistUncheckedUpdateManyWithoutLotNestedInput
+  autoBids?: Prisma.AutoBidUncheckedUpdateManyWithoutLotNestedInput
 }
 
 export type LotCreateManyWinnerInput = {
@@ -1304,6 +1683,7 @@ export type LotCreateManyWinnerInput = {
   status?: $Enums.LotStatus
   startsAt?: Date | string
   endsAt: Date | string
+  endingSoonNotified?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -1334,9 +1714,12 @@ export type LotUpdateWithoutWinnerInput = {
   status?: Prisma.EnumLotStatusFieldUpdateOperationsInput | $Enums.LotStatus
   startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endingSoonNotified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bids?: Prisma.BidUpdateManyWithoutLotNestedInput
+  watchers?: Prisma.WatchlistUpdateManyWithoutLotNestedInput
+  autoBids?: Prisma.AutoBidUpdateManyWithoutLotNestedInput
 }
 
 export type LotUncheckedUpdateWithoutWinnerInput = {
@@ -1365,9 +1748,12 @@ export type LotUncheckedUpdateWithoutWinnerInput = {
   status?: Prisma.EnumLotStatusFieldUpdateOperationsInput | $Enums.LotStatus
   startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endingSoonNotified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bids?: Prisma.BidUncheckedUpdateManyWithoutLotNestedInput
+  watchers?: Prisma.WatchlistUncheckedUpdateManyWithoutLotNestedInput
+  autoBids?: Prisma.AutoBidUncheckedUpdateManyWithoutLotNestedInput
 }
 
 export type LotUncheckedUpdateManyWithoutWinnerInput = {
@@ -1396,6 +1782,7 @@ export type LotUncheckedUpdateManyWithoutWinnerInput = {
   status?: Prisma.EnumLotStatusFieldUpdateOperationsInput | $Enums.LotStatus
   startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endingSoonNotified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1407,10 +1794,14 @@ export type LotUncheckedUpdateManyWithoutWinnerInput = {
 
 export type LotCountOutputType = {
   bids: number
+  watchers: number
+  autoBids: number
 }
 
 export type LotCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   bids?: boolean | LotCountOutputTypeCountBidsArgs
+  watchers?: boolean | LotCountOutputTypeCountWatchersArgs
+  autoBids?: boolean | LotCountOutputTypeCountAutoBidsArgs
 }
 
 /**
@@ -1428,6 +1819,20 @@ export type LotCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensio
  */
 export type LotCountOutputTypeCountBidsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.BidWhereInput
+}
+
+/**
+ * LotCountOutputType without action
+ */
+export type LotCountOutputTypeCountWatchersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.WatchlistWhereInput
+}
+
+/**
+ * LotCountOutputType without action
+ */
+export type LotCountOutputTypeCountAutoBidsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AutoBidWhereInput
 }
 
 
@@ -1458,10 +1863,13 @@ export type LotSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = ru
   startsAt?: boolean
   endsAt?: boolean
   winnerId?: boolean
+  endingSoonNotified?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   winner?: boolean | Prisma.Lot$winnerArgs<ExtArgs>
   bids?: boolean | Prisma.Lot$bidsArgs<ExtArgs>
+  watchers?: boolean | Prisma.Lot$watchersArgs<ExtArgs>
+  autoBids?: boolean | Prisma.Lot$autoBidsArgs<ExtArgs>
   _count?: boolean | Prisma.LotCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["lot"]>
 
@@ -1492,6 +1900,7 @@ export type LotSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extension
   startsAt?: boolean
   endsAt?: boolean
   winnerId?: boolean
+  endingSoonNotified?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   winner?: boolean | Prisma.Lot$winnerArgs<ExtArgs>
@@ -1524,6 +1933,7 @@ export type LotSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extension
   startsAt?: boolean
   endsAt?: boolean
   winnerId?: boolean
+  endingSoonNotified?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   winner?: boolean | Prisma.Lot$winnerArgs<ExtArgs>
@@ -1556,14 +1966,17 @@ export type LotSelectScalar = {
   startsAt?: boolean
   endsAt?: boolean
   winnerId?: boolean
+  endingSoonNotified?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type LotOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "make" | "model" | "year" | "mileage" | "engineVol" | "power" | "transmission" | "bodyType" | "fuelType" | "drive" | "color" | "vin" | "location" | "condition" | "description" | "images" | "startPrice" | "bidStep" | "currentPrice" | "buyNowPrice" | "status" | "startsAt" | "endsAt" | "winnerId" | "createdAt" | "updatedAt", ExtArgs["result"]["lot"]>
+export type LotOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "make" | "model" | "year" | "mileage" | "engineVol" | "power" | "transmission" | "bodyType" | "fuelType" | "drive" | "color" | "vin" | "location" | "condition" | "description" | "images" | "startPrice" | "bidStep" | "currentPrice" | "buyNowPrice" | "status" | "startsAt" | "endsAt" | "winnerId" | "endingSoonNotified" | "createdAt" | "updatedAt", ExtArgs["result"]["lot"]>
 export type LotInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   winner?: boolean | Prisma.Lot$winnerArgs<ExtArgs>
   bids?: boolean | Prisma.Lot$bidsArgs<ExtArgs>
+  watchers?: boolean | Prisma.Lot$watchersArgs<ExtArgs>
+  autoBids?: boolean | Prisma.Lot$autoBidsArgs<ExtArgs>
   _count?: boolean | Prisma.LotCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type LotIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1578,6 +1991,8 @@ export type $LotPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   objects: {
     winner: Prisma.$UserPayload<ExtArgs> | null
     bids: Prisma.$BidPayload<ExtArgs>[]
+    watchers: Prisma.$WatchlistPayload<ExtArgs>[]
+    autoBids: Prisma.$AutoBidPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1606,6 +2021,7 @@ export type $LotPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
     startsAt: Date
     endsAt: Date
     winnerId: string | null
+    endingSoonNotified: boolean
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["lot"]>
@@ -2004,6 +2420,8 @@ export interface Prisma__LotClient<T, Null = never, ExtArgs extends runtime.Type
   readonly [Symbol.toStringTag]: "PrismaPromise"
   winner<T extends Prisma.Lot$winnerArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Lot$winnerArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   bids<T extends Prisma.Lot$bidsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Lot$bidsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BidPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  watchers<T extends Prisma.Lot$watchersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Lot$watchersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WatchlistPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  autoBids<T extends Prisma.Lot$autoBidsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Lot$autoBidsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AutoBidPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2059,6 +2477,7 @@ export interface LotFieldRefs {
   readonly startsAt: Prisma.FieldRef<"Lot", 'DateTime'>
   readonly endsAt: Prisma.FieldRef<"Lot", 'DateTime'>
   readonly winnerId: Prisma.FieldRef<"Lot", 'String'>
+  readonly endingSoonNotified: Prisma.FieldRef<"Lot", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"Lot", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Lot", 'DateTime'>
 }
@@ -2502,6 +2921,54 @@ export type Lot$bidsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   take?: number
   skip?: number
   distinct?: Prisma.BidScalarFieldEnum | Prisma.BidScalarFieldEnum[]
+}
+
+/**
+ * Lot.watchers
+ */
+export type Lot$watchersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Watchlist
+   */
+  select?: Prisma.WatchlistSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Watchlist
+   */
+  omit?: Prisma.WatchlistOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.WatchlistInclude<ExtArgs> | null
+  where?: Prisma.WatchlistWhereInput
+  orderBy?: Prisma.WatchlistOrderByWithRelationInput | Prisma.WatchlistOrderByWithRelationInput[]
+  cursor?: Prisma.WatchlistWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.WatchlistScalarFieldEnum | Prisma.WatchlistScalarFieldEnum[]
+}
+
+/**
+ * Lot.autoBids
+ */
+export type Lot$autoBidsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AutoBid
+   */
+  select?: Prisma.AutoBidSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the AutoBid
+   */
+  omit?: Prisma.AutoBidOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AutoBidInclude<ExtArgs> | null
+  where?: Prisma.AutoBidWhereInput
+  orderBy?: Prisma.AutoBidOrderByWithRelationInput | Prisma.AutoBidOrderByWithRelationInput[]
+  cursor?: Prisma.AutoBidWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AutoBidScalarFieldEnum | Prisma.AutoBidScalarFieldEnum[]
 }
 
 /**

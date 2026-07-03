@@ -6,7 +6,7 @@ import { SiteHeader } from '@/components/site-header'
 import { SiteFooter } from '@/components/site-footer'
 import { LotGallery } from '@/components/lot-gallery'
 import { LiveLotPanel } from '@/components/live-lot-panel'
-import { getLotDetail } from '@/lib/queries'
+import { getLotDetail, getLotUserState } from '@/lib/queries'
 import { getSession } from '@/lib/auth/session'
 import { prisma } from '@/lib/prisma'
 import { REQUIRE_EMAIL_VERIFICATION } from '@/lib/config'
@@ -21,7 +21,31 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { id } = await params
   const lot = await getLotDetail(id)
-  return { title: lot?.title ?? 'Лот' }
+  if (!lot) return { title: 'Лот не найден' }
+
+  const desc =
+    lot.description?.slice(0, 160) ||
+    `${lot.make} ${lot.model}, ${lot.year} г. — текущая ставка ${formatNumber(
+      lot.currentPrice,
+    )} Br. Участвуйте в торгах на IGNIS.`
+  const cover = lot.images[0] || '/og-image.png'
+
+  return {
+    title: lot.title,
+    description: desc,
+    openGraph: {
+      type: 'website',
+      title: lot.title,
+      description: desc,
+      images: [{ url: cover, alt: lot.title }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: lot.title,
+      description: desc,
+      images: [cover],
+    },
+  }
 }
 
 export default async function LotPage({
@@ -43,6 +67,11 @@ export default async function LotPage({
     })
     isVerified = Boolean(u?.emailVerified)
   }
+
+  // Избранное и автоставка текущего пользователя по этому лоту.
+  const userState = session
+    ? await getLotUserState(session.userId, lot.id)
+    : { watching: false, autoBidMax: null }
 
   const specs: { label: string; value: string | number | null }[] = [
     { label: 'Марка', value: lot.make },
@@ -127,6 +156,8 @@ export default async function LotPage({
               lot={initialLot}
               isAuthenticated={Boolean(session)}
               isVerified={isVerified}
+              initialWatching={userState.watching}
+              autoBidMax={userState.autoBidMax}
             />
           </div>
         </div>

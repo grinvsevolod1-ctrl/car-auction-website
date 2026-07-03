@@ -181,6 +181,34 @@ export async function getUserNotifications(userId: string, limit = 8) {
   })
 }
 
+export async function getUserWatchlist(userId: string) {
+  await lazyCloseExpiredLots()
+  const rows = await prisma.watchlist.findMany({
+    where: { userId },
+    orderBy: { createdAt: 'desc' },
+    select: { lot: { select: cardSelect } },
+  })
+  return rows.map((r) => r.lot)
+}
+
+// Статус избранного/автоставки текущего пользователя для конкретного лота.
+export async function getLotUserState(userId: string, lotId: string) {
+  const [watch, autoBid] = await Promise.all([
+    prisma.watchlist.findUnique({
+      where: { userId_lotId: { userId, lotId } },
+      select: { id: true },
+    }),
+    prisma.autoBid.findUnique({
+      where: { userId_lotId: { userId, lotId } },
+      select: { maxAmount: true, active: true },
+    }),
+  ])
+  return {
+    watching: Boolean(watch),
+    autoBidMax: autoBid?.active ? autoBid.maxAmount : null,
+  }
+}
+
 export async function getPublicStats() {
   const [activeLots, totalLots, usersCount] = await Promise.all([
     prisma.lot.count({ where: { status: 'ACTIVE' } }),

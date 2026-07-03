@@ -6,6 +6,8 @@ import { prisma } from '@/lib/prisma'
 import { guard } from '@/lib/security'
 import { notify, outbidEmail } from '@/lib/notify'
 import { sendMail } from '@/lib/mail'
+import { resolveAutoBids } from '@/lib/autobid'
+import { logger } from '@/lib/logger'
 import {
   ANTISNIPE_EXTEND_SEC,
   ANTISNIPE_WINDOW_SEC,
@@ -111,6 +113,17 @@ export async function placeBidAction(
           title: lot.title,
           price: amount,
         }
+      }
+
+      // Ставящий вручную отменяет собственную автоставку (он и так лидирует).
+      await tx.autoBid.updateMany({
+        where: { lotId, userId: session.userId },
+        data: { active: false },
+      })
+
+      // Автоответ чужих автоставок (proxy bidding).
+      if (!soldNow) {
+        await resolveAutoBids(tx, lotId)
       }
     })
   } catch (e) {

@@ -36,8 +36,39 @@ model User {
   wonLots            Lot[]               @relation("LotWinner")
   verificationTokens VerificationToken[]
   notifications      Notification[]
+  watchlist          Watchlist[]
+  autoBids           AutoBid[]
 
   @@index([email])
+}
+
+model Watchlist {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lotId     String
+  lot       Lot      @relation(fields: [lotId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([userId, lotId])
+  @@index([userId])
+}
+
+// Автоставка (proxy bidding): система сама повышает ставку пользователя
+// до maxAmount, пока его перебивают, минимально возможным шагом.
+model AutoBid {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lotId     String
+  lot       Lot      @relation(fields: [lotId], references: [id], onDelete: Cascade)
+  maxAmount Int
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, lotId])
+  @@index([lotId, active])
 }
 
 model VerificationToken {
@@ -99,7 +130,12 @@ model Lot {
   winnerId String?
   winner   User?   @relation("LotWinner", fields: [winnerId], references: [id])
 
-  bids Bid[]
+  bids      Bid[]
+  watchers  Watchlist[]
+  autoBids  AutoBid[]
+
+  // Флаг для email-дайджеста «скоро завершается» — чтобы не слать повторно.
+  endingSoonNotified Boolean @default(false)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

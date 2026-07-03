@@ -218,6 +218,8 @@ export type UserWhereInput = {
   wonLots?: Prisma.LotListRelationFilter
   verificationTokens?: Prisma.VerificationTokenListRelationFilter
   notifications?: Prisma.NotificationListRelationFilter
+  watchlist?: Prisma.WatchlistListRelationFilter
+  autoBids?: Prisma.AutoBidListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -234,6 +236,8 @@ export type UserOrderByWithRelationInput = {
   wonLots?: Prisma.LotOrderByRelationAggregateInput
   verificationTokens?: Prisma.VerificationTokenOrderByRelationAggregateInput
   notifications?: Prisma.NotificationOrderByRelationAggregateInput
+  watchlist?: Prisma.WatchlistOrderByRelationAggregateInput
+  autoBids?: Prisma.AutoBidOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -253,6 +257,8 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   wonLots?: Prisma.LotListRelationFilter
   verificationTokens?: Prisma.VerificationTokenListRelationFilter
   notifications?: Prisma.NotificationListRelationFilter
+  watchlist?: Prisma.WatchlistListRelationFilter
+  autoBids?: Prisma.AutoBidListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -299,6 +305,8 @@ export type UserCreateInput = {
   wonLots?: Prisma.LotCreateNestedManyWithoutWinnerInput
   verificationTokens?: Prisma.VerificationTokenCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  watchlist?: Prisma.WatchlistCreateNestedManyWithoutUserInput
+  autoBids?: Prisma.AutoBidCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -315,6 +323,8 @@ export type UserUncheckedCreateInput = {
   wonLots?: Prisma.LotUncheckedCreateNestedManyWithoutWinnerInput
   verificationTokens?: Prisma.VerificationTokenUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  watchlist?: Prisma.WatchlistUncheckedCreateNestedManyWithoutUserInput
+  autoBids?: Prisma.AutoBidUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -331,6 +341,8 @@ export type UserUpdateInput = {
   wonLots?: Prisma.LotUpdateManyWithoutWinnerNestedInput
   verificationTokens?: Prisma.VerificationTokenUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  watchlist?: Prisma.WatchlistUpdateManyWithoutUserNestedInput
+  autoBids?: Prisma.AutoBidUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -347,6 +359,8 @@ export type UserUncheckedUpdateInput = {
   wonLots?: Prisma.LotUncheckedUpdateManyWithoutWinnerNestedInput
   verificationTokens?: Prisma.VerificationTokenUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  watchlist?: Prisma.WatchlistUncheckedUpdateManyWithoutUserNestedInput
+  autoBids?: Prisma.AutoBidUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -451,6 +465,34 @@ export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
 }
 
+export type UserCreateNestedOneWithoutWatchlistInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutWatchlistInput, Prisma.UserUncheckedCreateWithoutWatchlistInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutWatchlistInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutWatchlistNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutWatchlistInput, Prisma.UserUncheckedCreateWithoutWatchlistInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutWatchlistInput
+  upsert?: Prisma.UserUpsertWithoutWatchlistInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutWatchlistInput, Prisma.UserUpdateWithoutWatchlistInput>, Prisma.UserUncheckedUpdateWithoutWatchlistInput>
+}
+
+export type UserCreateNestedOneWithoutAutoBidsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAutoBidsInput, Prisma.UserUncheckedCreateWithoutAutoBidsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAutoBidsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutAutoBidsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAutoBidsInput, Prisma.UserUncheckedCreateWithoutAutoBidsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAutoBidsInput
+  upsert?: Prisma.UserUpsertWithoutAutoBidsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAutoBidsInput, Prisma.UserUpdateWithoutAutoBidsInput>, Prisma.UserUncheckedUpdateWithoutAutoBidsInput>
+}
+
 export type UserCreateNestedOneWithoutVerificationTokensInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutVerificationTokensInput, Prisma.UserUncheckedCreateWithoutVerificationTokensInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutVerificationTokensInput
@@ -509,6 +551,174 @@ export type UserUpdateOneRequiredWithoutBidsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutBidsInput, Prisma.UserUpdateWithoutBidsInput>, Prisma.UserUncheckedUpdateWithoutBidsInput>
 }
 
+export type UserCreateWithoutWatchlistInput = {
+  id?: string
+  email: string
+  passwordHash: string
+  name: string
+  phone?: string | null
+  role?: $Enums.Role
+  emailVerified?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  bids?: Prisma.BidCreateNestedManyWithoutUserInput
+  wonLots?: Prisma.LotCreateNestedManyWithoutWinnerInput
+  verificationTokens?: Prisma.VerificationTokenCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  autoBids?: Prisma.AutoBidCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutWatchlistInput = {
+  id?: string
+  email: string
+  passwordHash: string
+  name: string
+  phone?: string | null
+  role?: $Enums.Role
+  emailVerified?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  bids?: Prisma.BidUncheckedCreateNestedManyWithoutUserInput
+  wonLots?: Prisma.LotUncheckedCreateNestedManyWithoutWinnerInput
+  verificationTokens?: Prisma.VerificationTokenUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  autoBids?: Prisma.AutoBidUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutWatchlistInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutWatchlistInput, Prisma.UserUncheckedCreateWithoutWatchlistInput>
+}
+
+export type UserUpsertWithoutWatchlistInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutWatchlistInput, Prisma.UserUncheckedUpdateWithoutWatchlistInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutWatchlistInput, Prisma.UserUncheckedCreateWithoutWatchlistInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutWatchlistInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutWatchlistInput, Prisma.UserUncheckedUpdateWithoutWatchlistInput>
+}
+
+export type UserUpdateWithoutWatchlistInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  bids?: Prisma.BidUpdateManyWithoutUserNestedInput
+  wonLots?: Prisma.LotUpdateManyWithoutWinnerNestedInput
+  verificationTokens?: Prisma.VerificationTokenUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  autoBids?: Prisma.AutoBidUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutWatchlistInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  bids?: Prisma.BidUncheckedUpdateManyWithoutUserNestedInput
+  wonLots?: Prisma.LotUncheckedUpdateManyWithoutWinnerNestedInput
+  verificationTokens?: Prisma.VerificationTokenUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  autoBids?: Prisma.AutoBidUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutAutoBidsInput = {
+  id?: string
+  email: string
+  passwordHash: string
+  name: string
+  phone?: string | null
+  role?: $Enums.Role
+  emailVerified?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  bids?: Prisma.BidCreateNestedManyWithoutUserInput
+  wonLots?: Prisma.LotCreateNestedManyWithoutWinnerInput
+  verificationTokens?: Prisma.VerificationTokenCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  watchlist?: Prisma.WatchlistCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutAutoBidsInput = {
+  id?: string
+  email: string
+  passwordHash: string
+  name: string
+  phone?: string | null
+  role?: $Enums.Role
+  emailVerified?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  bids?: Prisma.BidUncheckedCreateNestedManyWithoutUserInput
+  wonLots?: Prisma.LotUncheckedCreateNestedManyWithoutWinnerInput
+  verificationTokens?: Prisma.VerificationTokenUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  watchlist?: Prisma.WatchlistUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutAutoBidsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutAutoBidsInput, Prisma.UserUncheckedCreateWithoutAutoBidsInput>
+}
+
+export type UserUpsertWithoutAutoBidsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutAutoBidsInput, Prisma.UserUncheckedUpdateWithoutAutoBidsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutAutoBidsInput, Prisma.UserUncheckedCreateWithoutAutoBidsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutAutoBidsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutAutoBidsInput, Prisma.UserUncheckedUpdateWithoutAutoBidsInput>
+}
+
+export type UserUpdateWithoutAutoBidsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  bids?: Prisma.BidUpdateManyWithoutUserNestedInput
+  wonLots?: Prisma.LotUpdateManyWithoutWinnerNestedInput
+  verificationTokens?: Prisma.VerificationTokenUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  watchlist?: Prisma.WatchlistUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutAutoBidsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  bids?: Prisma.BidUncheckedUpdateManyWithoutUserNestedInput
+  wonLots?: Prisma.LotUncheckedUpdateManyWithoutWinnerNestedInput
+  verificationTokens?: Prisma.VerificationTokenUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  watchlist?: Prisma.WatchlistUncheckedUpdateManyWithoutUserNestedInput
+}
+
 export type UserCreateWithoutVerificationTokensInput = {
   id?: string
   email: string
@@ -522,6 +732,8 @@ export type UserCreateWithoutVerificationTokensInput = {
   bids?: Prisma.BidCreateNestedManyWithoutUserInput
   wonLots?: Prisma.LotCreateNestedManyWithoutWinnerInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  watchlist?: Prisma.WatchlistCreateNestedManyWithoutUserInput
+  autoBids?: Prisma.AutoBidCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutVerificationTokensInput = {
@@ -537,6 +749,8 @@ export type UserUncheckedCreateWithoutVerificationTokensInput = {
   bids?: Prisma.BidUncheckedCreateNestedManyWithoutUserInput
   wonLots?: Prisma.LotUncheckedCreateNestedManyWithoutWinnerInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  watchlist?: Prisma.WatchlistUncheckedCreateNestedManyWithoutUserInput
+  autoBids?: Prisma.AutoBidUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutVerificationTokensInput = {
@@ -568,6 +782,8 @@ export type UserUpdateWithoutVerificationTokensInput = {
   bids?: Prisma.BidUpdateManyWithoutUserNestedInput
   wonLots?: Prisma.LotUpdateManyWithoutWinnerNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  watchlist?: Prisma.WatchlistUpdateManyWithoutUserNestedInput
+  autoBids?: Prisma.AutoBidUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutVerificationTokensInput = {
@@ -583,6 +799,8 @@ export type UserUncheckedUpdateWithoutVerificationTokensInput = {
   bids?: Prisma.BidUncheckedUpdateManyWithoutUserNestedInput
   wonLots?: Prisma.LotUncheckedUpdateManyWithoutWinnerNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  watchlist?: Prisma.WatchlistUncheckedUpdateManyWithoutUserNestedInput
+  autoBids?: Prisma.AutoBidUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutNotificationsInput = {
@@ -598,6 +816,8 @@ export type UserCreateWithoutNotificationsInput = {
   bids?: Prisma.BidCreateNestedManyWithoutUserInput
   wonLots?: Prisma.LotCreateNestedManyWithoutWinnerInput
   verificationTokens?: Prisma.VerificationTokenCreateNestedManyWithoutUserInput
+  watchlist?: Prisma.WatchlistCreateNestedManyWithoutUserInput
+  autoBids?: Prisma.AutoBidCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutNotificationsInput = {
@@ -613,6 +833,8 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   bids?: Prisma.BidUncheckedCreateNestedManyWithoutUserInput
   wonLots?: Prisma.LotUncheckedCreateNestedManyWithoutWinnerInput
   verificationTokens?: Prisma.VerificationTokenUncheckedCreateNestedManyWithoutUserInput
+  watchlist?: Prisma.WatchlistUncheckedCreateNestedManyWithoutUserInput
+  autoBids?: Prisma.AutoBidUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutNotificationsInput = {
@@ -644,6 +866,8 @@ export type UserUpdateWithoutNotificationsInput = {
   bids?: Prisma.BidUpdateManyWithoutUserNestedInput
   wonLots?: Prisma.LotUpdateManyWithoutWinnerNestedInput
   verificationTokens?: Prisma.VerificationTokenUpdateManyWithoutUserNestedInput
+  watchlist?: Prisma.WatchlistUpdateManyWithoutUserNestedInput
+  autoBids?: Prisma.AutoBidUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutNotificationsInput = {
@@ -659,6 +883,8 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   bids?: Prisma.BidUncheckedUpdateManyWithoutUserNestedInput
   wonLots?: Prisma.LotUncheckedUpdateManyWithoutWinnerNestedInput
   verificationTokens?: Prisma.VerificationTokenUncheckedUpdateManyWithoutUserNestedInput
+  watchlist?: Prisma.WatchlistUncheckedUpdateManyWithoutUserNestedInput
+  autoBids?: Prisma.AutoBidUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutWonLotsInput = {
@@ -674,6 +900,8 @@ export type UserCreateWithoutWonLotsInput = {
   bids?: Prisma.BidCreateNestedManyWithoutUserInput
   verificationTokens?: Prisma.VerificationTokenCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  watchlist?: Prisma.WatchlistCreateNestedManyWithoutUserInput
+  autoBids?: Prisma.AutoBidCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutWonLotsInput = {
@@ -689,6 +917,8 @@ export type UserUncheckedCreateWithoutWonLotsInput = {
   bids?: Prisma.BidUncheckedCreateNestedManyWithoutUserInput
   verificationTokens?: Prisma.VerificationTokenUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  watchlist?: Prisma.WatchlistUncheckedCreateNestedManyWithoutUserInput
+  autoBids?: Prisma.AutoBidUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutWonLotsInput = {
@@ -720,6 +950,8 @@ export type UserUpdateWithoutWonLotsInput = {
   bids?: Prisma.BidUpdateManyWithoutUserNestedInput
   verificationTokens?: Prisma.VerificationTokenUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  watchlist?: Prisma.WatchlistUpdateManyWithoutUserNestedInput
+  autoBids?: Prisma.AutoBidUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutWonLotsInput = {
@@ -735,6 +967,8 @@ export type UserUncheckedUpdateWithoutWonLotsInput = {
   bids?: Prisma.BidUncheckedUpdateManyWithoutUserNestedInput
   verificationTokens?: Prisma.VerificationTokenUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  watchlist?: Prisma.WatchlistUncheckedUpdateManyWithoutUserNestedInput
+  autoBids?: Prisma.AutoBidUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutBidsInput = {
@@ -750,6 +984,8 @@ export type UserCreateWithoutBidsInput = {
   wonLots?: Prisma.LotCreateNestedManyWithoutWinnerInput
   verificationTokens?: Prisma.VerificationTokenCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  watchlist?: Prisma.WatchlistCreateNestedManyWithoutUserInput
+  autoBids?: Prisma.AutoBidCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutBidsInput = {
@@ -765,6 +1001,8 @@ export type UserUncheckedCreateWithoutBidsInput = {
   wonLots?: Prisma.LotUncheckedCreateNestedManyWithoutWinnerInput
   verificationTokens?: Prisma.VerificationTokenUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  watchlist?: Prisma.WatchlistUncheckedCreateNestedManyWithoutUserInput
+  autoBids?: Prisma.AutoBidUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutBidsInput = {
@@ -796,6 +1034,8 @@ export type UserUpdateWithoutBidsInput = {
   wonLots?: Prisma.LotUpdateManyWithoutWinnerNestedInput
   verificationTokens?: Prisma.VerificationTokenUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  watchlist?: Prisma.WatchlistUpdateManyWithoutUserNestedInput
+  autoBids?: Prisma.AutoBidUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutBidsInput = {
@@ -811,6 +1051,8 @@ export type UserUncheckedUpdateWithoutBidsInput = {
   wonLots?: Prisma.LotUncheckedUpdateManyWithoutWinnerNestedInput
   verificationTokens?: Prisma.VerificationTokenUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  watchlist?: Prisma.WatchlistUncheckedUpdateManyWithoutUserNestedInput
+  autoBids?: Prisma.AutoBidUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -823,6 +1065,8 @@ export type UserCountOutputType = {
   wonLots: number
   verificationTokens: number
   notifications: number
+  watchlist: number
+  autoBids: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -830,6 +1074,8 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   wonLots?: boolean | UserCountOutputTypeCountWonLotsArgs
   verificationTokens?: boolean | UserCountOutputTypeCountVerificationTokensArgs
   notifications?: boolean | UserCountOutputTypeCountNotificationsArgs
+  watchlist?: boolean | UserCountOutputTypeCountWatchlistArgs
+  autoBids?: boolean | UserCountOutputTypeCountAutoBidsArgs
 }
 
 /**
@@ -870,6 +1116,20 @@ export type UserCountOutputTypeCountNotificationsArgs<ExtArgs extends runtime.Ty
   where?: Prisma.NotificationWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountWatchlistArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.WatchlistWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountAutoBidsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AutoBidWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -885,6 +1145,8 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   wonLots?: boolean | Prisma.User$wonLotsArgs<ExtArgs>
   verificationTokens?: boolean | Prisma.User$verificationTokensArgs<ExtArgs>
   notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
+  watchlist?: boolean | Prisma.User$watchlistArgs<ExtArgs>
+  autoBids?: boolean | Prisma.User$autoBidsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -930,6 +1192,8 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   wonLots?: boolean | Prisma.User$wonLotsArgs<ExtArgs>
   verificationTokens?: boolean | Prisma.User$verificationTokensArgs<ExtArgs>
   notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
+  watchlist?: boolean | Prisma.User$watchlistArgs<ExtArgs>
+  autoBids?: boolean | Prisma.User$autoBidsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -942,6 +1206,8 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     wonLots: Prisma.$LotPayload<ExtArgs>[]
     verificationTokens: Prisma.$VerificationTokenPayload<ExtArgs>[]
     notifications: Prisma.$NotificationPayload<ExtArgs>[]
+    watchlist: Prisma.$WatchlistPayload<ExtArgs>[]
+    autoBids: Prisma.$AutoBidPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1351,6 +1617,8 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   wonLots<T extends Prisma.User$wonLotsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$wonLotsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LotPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   verificationTokens<T extends Prisma.User$verificationTokensArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$verificationTokensArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$VerificationTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   notifications<T extends Prisma.User$notificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  watchlist<T extends Prisma.User$watchlistArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$watchlistArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WatchlistPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  autoBids<T extends Prisma.User$autoBidsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$autoBidsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AutoBidPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1875,6 +2143,54 @@ export type User$notificationsArgs<ExtArgs extends runtime.Types.Extensions.Inte
   take?: number
   skip?: number
   distinct?: Prisma.NotificationScalarFieldEnum | Prisma.NotificationScalarFieldEnum[]
+}
+
+/**
+ * User.watchlist
+ */
+export type User$watchlistArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Watchlist
+   */
+  select?: Prisma.WatchlistSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Watchlist
+   */
+  omit?: Prisma.WatchlistOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.WatchlistInclude<ExtArgs> | null
+  where?: Prisma.WatchlistWhereInput
+  orderBy?: Prisma.WatchlistOrderByWithRelationInput | Prisma.WatchlistOrderByWithRelationInput[]
+  cursor?: Prisma.WatchlistWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.WatchlistScalarFieldEnum | Prisma.WatchlistScalarFieldEnum[]
+}
+
+/**
+ * User.autoBids
+ */
+export type User$autoBidsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AutoBid
+   */
+  select?: Prisma.AutoBidSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the AutoBid
+   */
+  omit?: Prisma.AutoBidOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AutoBidInclude<ExtArgs> | null
+  where?: Prisma.AutoBidWhereInput
+  orderBy?: Prisma.AutoBidOrderByWithRelationInput | Prisma.AutoBidOrderByWithRelationInput[]
+  cursor?: Prisma.AutoBidWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AutoBidScalarFieldEnum | Prisma.AutoBidScalarFieldEnum[]
 }
 
 /**

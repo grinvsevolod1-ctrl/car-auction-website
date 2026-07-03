@@ -23,6 +23,16 @@ export * from './enums';
  */
 export type User = Prisma.UserModel
 /**
+ * Model Watchlist
+ * 
+ */
+export type Watchlist = Prisma.WatchlistModel
+/**
+ * Model AutoBid
+ * 
+ */
+export type AutoBid = Prisma.AutoBidModel
+/**
  * Model VerificationToken
  * 
  */

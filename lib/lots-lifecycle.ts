@@ -1,7 +1,9 @@
 import 'server-only'
 import { prisma } from './prisma'
-import { notify, wonEmail } from './notify'
+import { notify, wonEmail, endingSoonEmail } from './notify'
 import { sendMail } from './mail'
+import { ENDING_SOON_MINUTES } from './config'
+import { logger } from './logger'
 
 // Закрывает все лоты, у которых истёк срок торгов:
 // назначает победителя (если были ставки) и рассылает уведомления.
@@ -71,6 +73,75 @@ export async function settleLot(lotId: string): Promise<boolean> {
   return true
 }
 
+// Рассылает подписчикам избранного письмо «лот скоро завершится».
+// Каждый лот уведомляется однократно (флаг endingSoonNotified).
+// Возвращает число отправленных писем.
+export async function notifyEndingSoon(): Promise<number> {
+  const now = Date.now()
+  const threshold = new Date(now + ENDING_SOON_MINUTES * 60 * 1000)
+
+  const lots = await prisma.lot.findMany({
+    where: {
+      status: 'ACTIVE',
+      endingSoonNotified: false,
+      endsAt: { lte: threshold, gt: new Date(now) },
+    },
+    select: {
+      id: true,
+      title: true,
+      currentPrice: true,
+      endsAt: true,
+      watchers: {
+        select: { user: { select: { id: true, email: true } } },
+      },
+    },
+  })
+
+  let sent = 0
+  for (const lot of lots) {
+    const minutesLeft = Math.max(
+      1,
+      Math.round((lot.endsAt.getTime() - Date.now()) / 60000),
+    )
+
+    for (const w of lot.watchers) {
+      try {
+        await notify({
+          userId: w.user.id,
+          type: 'ended',
+          title: 'Лот из избранного скоро завершится',
+          body: `Торги по лоту «${lot.title}» завершатся примерно через ${minutesLeft} мин.`,
+          lotId: lot.id,
+        })
+        await sendMail({
+          to: w.user.email,
+          subject: 'Лот из избранного скоро завершится — IGNIS',
+          html: endingSoonEmail(
+            lot.title,
+            lot.id,
+            lot.currentPrice,
+            minutesLeft,
+          ),
+          text: `Лот «${lot.title}» завершится через ${minutesLeft} мин.`,
+        })
+        sent++
+      } catch (e) {
+        logger.error('endingSoon email failed', e, {
+          lotId: lot.id,
+          userId: w.user.id,
+        })
+      }
+    }
+
+    await prisma.lot.update({
+      where: { id: lot.id },
+      data: { endingSoonNotified: true },
+    })
+  }
+
+  return sent
+}
+
 // Ленивое закрытие: вызывается из публичных запросов, но не чаще раза в 15 секунд,
 // чтобы не нагружать БД на каждый запрос между прогонами cron.
 let lastRun = 0
@@ -81,6 +152,6 @@ export async function lazyCloseExpiredLots(): Promise<void> {
   try {
     await closeExpiredLots()
   } catch (e) {
-    console.error('[lifecycle] lazyClose error:', e)
+    logger.error('lifecycle lazyClose error', e)
   }
 }

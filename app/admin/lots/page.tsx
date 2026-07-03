@@ -3,7 +3,7 @@ import Image from 'next/image'
 import { getAdminLots } from '@/lib/admin-queries'
 import { formatBYN, formatDateTime, statusLabel } from '@/lib/format'
 import { LotRowActions } from '@/components/admin/lot-row-actions'
-import { PlusCircle } from 'lucide-react'
+import { PlusCircle, Download } from 'lucide-react'
 
 export const dynamic = 'force-dynamic'
 
@@ -28,13 +28,24 @@ export default async function AdminLotsPage() {
             Всего лотов: {lots.length}
           </p>
         </div>
-        <Link
-          href="/admin/lots/new"
-          className="inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-2.5 font-semibold text-primary-foreground transition-transform hover:scale-[1.02]"
-        >
-          <PlusCircle className="size-4" />
-          Добавить лот
-        </Link>
+        <div className="flex flex-wrap gap-2">
+          {lots.length > 0 && (
+            <a
+              href="/api/admin/lots/export"
+              className="inline-flex items-center gap-2 rounded-xl border border-border px-5 py-2.5 font-semibold transition-colors hover:bg-muted"
+            >
+              <Download className="size-4" />
+              Экспорт CSV
+            </a>
+          )}
+          <Link
+            href="/admin/lots/new"
+            className="inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-2.5 font-semibold text-primary-foreground transition-transform hover:scale-[1.02]"
+          >
+            <PlusCircle className="size-4" />
+            Добавить лот
+          </Link>
+        </div>
       </div>
 
       {lots.length === 0 ? (
