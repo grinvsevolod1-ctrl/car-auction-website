@@ -8,6 +8,7 @@ import { prisma } from '@/lib/prisma'
 import { assertSameOrigin } from '@/lib/security'
 import { notify, wonEmail } from '@/lib/notify'
 import { sendMail } from '@/lib/mail'
+import { captureWinner, releaseAllHolds } from '@/lib/balance'
 
 export type LotFormState = { error?: string }
 
@@ -31,6 +32,14 @@ const lotSchema = z.object({
   location: z.string().trim().optional(),
   condition: z.string().trim().optional(),
   description: z.string().trim().optional(),
+  originCountry: z.string().trim().optional(),
+  region: z.string().trim().optional(),
+  auctionSource: z.string().trim().optional(),
+  lotNumber: z.string().trim().optional(),
+  titleStatus: z.string().trim().optional(),
+  damageType: z.string().trim().optional(),
+  customsFeeBase: z.number().int().min(0).optional(),
+  currency: z.enum(['BYN', 'USD']).default('BYN'),
   images: z
     .array(
       z

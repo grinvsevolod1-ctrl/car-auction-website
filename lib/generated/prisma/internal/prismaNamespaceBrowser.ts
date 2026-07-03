@@ -52,10 +52,17 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   User: 'User',
+  EmailCode: 'EmailCode',
   Watchlist: 'Watchlist',
   AutoBid: 'AutoBid',
   VerificationToken: 'VerificationToken',
   Notification: 'Notification',
+  Transaction: 'Transaction',
+  DepositRequest: 'DepositRequest',
+  PaymentLink: 'PaymentLink',
+  CryptoWallet: 'CryptoWallet',
+  LotHold: 'LotHold',
+  SiteSetting: 'SiteSetting',
   Lot: 'Lot',
   Bid: 'Bid'
 } as const
@@ -84,11 +91,42 @@ export const UserScalarFieldEnum = {
   phone: 'phone',
   role: 'role',
   emailVerified: 'emailVerified',
+  balanceByn: 'balanceByn',
+  balanceUsd: 'balanceUsd',
+  heldByn: 'heldByn',
+  heldUsd: 'heldUsd',
+  firstName: 'firstName',
+  lastName: 'lastName',
+  middleName: 'middleName',
+  birthDate: 'birthDate',
+  passportNumber: 'passportNumber',
+  country: 'country',
+  city: 'city',
+  address: 'address',
+  occupation: 'occupation',
+  sourceOfFunds: 'sourceOfFunds',
+  ageConfirmed: 'ageConfirmed',
+  kycStatus: 'kycStatus',
+  kycSubmittedAt: 'kycSubmittedAt',
+  kycReviewedAt: 'kycReviewedAt',
+  kycRejectReason: 'kycRejectReason',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const EmailCodeScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  userId: 'userId',
+  attempts: 'attempts',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt'
+} as const
+
+export type EmailCodeScalarFieldEnum = (typeof EmailCodeScalarFieldEnum)[keyof typeof EmailCodeScalarFieldEnum]
 
 
 export const WatchlistScalarFieldEnum = {
@@ -140,6 +178,97 @@ export const NotificationScalarFieldEnum = {
 export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
 
 
+export const TransactionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  type: 'type',
+  currency: 'currency',
+  amount: 'amount',
+  balanceAfter: 'balanceAfter',
+  note: 'note',
+  lotId: 'lotId',
+  depositId: 'depositId',
+  createdAt: 'createdAt'
+} as const
+
+export type TransactionScalarFieldEnum = (typeof TransactionScalarFieldEnum)[keyof typeof TransactionScalarFieldEnum]
+
+
+export const DepositRequestScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  method: 'method',
+  currency: 'currency',
+  amount: 'amount',
+  status: 'status',
+  reference: 'reference',
+  paymentLinkId: 'paymentLinkId',
+  walletId: 'walletId',
+  cryptoAsset: 'cryptoAsset',
+  cryptoAmount: 'cryptoAmount',
+  rate: 'rate',
+  userNote: 'userNote',
+  adminNote: 'adminNote',
+  reviewedAt: 'reviewedAt',
+  reviewedBy: 'reviewedBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DepositRequestScalarFieldEnum = (typeof DepositRequestScalarFieldEnum)[keyof typeof DepositRequestScalarFieldEnum]
+
+
+export const PaymentLinkScalarFieldEnum = {
+  id: 'id',
+  label: 'label',
+  url: 'url',
+  active: 'active',
+  sortOrder: 'sortOrder',
+  timesUsed: 'timesUsed',
+  lastUsedAt: 'lastUsedAt',
+  createdAt: 'createdAt'
+} as const
+
+export type PaymentLinkScalarFieldEnum = (typeof PaymentLinkScalarFieldEnum)[keyof typeof PaymentLinkScalarFieldEnum]
+
+
+export const CryptoWalletScalarFieldEnum = {
+  id: 'id',
+  asset: 'asset',
+  network: 'network',
+  address: 'address',
+  active: 'active',
+  sortOrder: 'sortOrder',
+  note: 'note',
+  createdAt: 'createdAt'
+} as const
+
+export type CryptoWalletScalarFieldEnum = (typeof CryptoWalletScalarFieldEnum)[keyof typeof CryptoWalletScalarFieldEnum]
+
+
+export const LotHoldScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  lotId: 'lotId',
+  currency: 'currency',
+  amount: 'amount',
+  active: 'active',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type LotHoldScalarFieldEnum = (typeof LotHoldScalarFieldEnum)[keyof typeof LotHoldScalarFieldEnum]
+
+
+export const SiteSettingScalarFieldEnum = {
+  key: 'key',
+  value: 'value',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SiteSettingScalarFieldEnum = (typeof SiteSettingScalarFieldEnum)[keyof typeof SiteSettingScalarFieldEnum]
+
+
 export const LotScalarFieldEnum = {
   id: 'id',
   title: 'title',
@@ -159,6 +288,14 @@ export const LotScalarFieldEnum = {
   condition: 'condition',
   description: 'description',
   images: 'images',
+  originCountry: 'originCountry',
+  region: 'region',
+  auctionSource: 'auctionSource',
+  lotNumber: 'lotNumber',
+  titleStatus: 'titleStatus',
+  damageType: 'damageType',
+  customsFeeBase: 'customsFeeBase',
+  currency: 'currency',
   startPrice: 'startPrice',
   bidStep: 'bidStep',
   currentPrice: 'currentPrice',

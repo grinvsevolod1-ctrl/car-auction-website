@@ -9,10 +9,17 @@
  * 🟢 You can import this file directly.
  */
 export type * from './models/User'
+export type * from './models/EmailCode'
 export type * from './models/Watchlist'
 export type * from './models/AutoBid'
 export type * from './models/VerificationToken'
 export type * from './models/Notification'
+export type * from './models/Transaction'
+export type * from './models/DepositRequest'
+export type * from './models/PaymentLink'
+export type * from './models/CryptoWallet'
+export type * from './models/LotHold'
+export type * from './models/SiteSetting'
 export type * from './models/Lot'
 export type * from './models/Bid'
 export type * from './commonInputTypes'

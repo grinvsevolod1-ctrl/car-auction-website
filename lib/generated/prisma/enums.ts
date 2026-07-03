@@ -25,3 +25,50 @@ export const LotStatus = {
 } as const
 
 export type LotStatus = (typeof LotStatus)[keyof typeof LotStatus]
+
+
+export const Currency = {
+  BYN: 'BYN',
+  USD: 'USD'
+} as const
+
+export type Currency = (typeof Currency)[keyof typeof Currency]
+
+
+export const KycStatus = {
+  NONE: 'NONE',
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED'
+} as const
+
+export type KycStatus = (typeof KycStatus)[keyof typeof KycStatus]
+
+
+export const DepositMethod = {
+  ERIP: 'ERIP',
+  CRYPTO: 'CRYPTO'
+} as const
+
+export type DepositMethod = (typeof DepositMethod)[keyof typeof DepositMethod]
+
+
+export const DepositStatus = {
+  PENDING: 'PENDING',
+  CONFIRMED: 'CONFIRMED',
+  REJECTED: 'REJECTED'
+} as const
+
+export type DepositStatus = (typeof DepositStatus)[keyof typeof DepositStatus]
+
+
+export const TxType = {
+  DEPOSIT: 'DEPOSIT',
+  HOLD: 'HOLD',
+  RELEASE: 'RELEASE',
+  PURCHASE: 'PURCHASE',
+  REFUND: 'REFUND',
+  ADJUST: 'ADJUST'
+} as const
+
+export type TxType = (typeof TxType)[keyof typeof TxType]

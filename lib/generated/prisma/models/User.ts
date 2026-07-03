@@ -20,8 +20,24 @@ export type UserModel = runtime.Types.Result.DefaultSelection<Prisma.$UserPayloa
 
 export type AggregateUser = {
   _count: UserCountAggregateOutputType | null
+  _avg: UserAvgAggregateOutputType | null
+  _sum: UserSumAggregateOutputType | null
   _min: UserMinAggregateOutputType | null
   _max: UserMaxAggregateOutputType | null
+}
+
+export type UserAvgAggregateOutputType = {
+  balanceByn: number | null
+  balanceUsd: number | null
+  heldByn: number | null
+  heldUsd: number | null
+}
+
+export type UserSumAggregateOutputType = {
+  balanceByn: number | null
+  balanceUsd: number | null
+  heldByn: number | null
+  heldUsd: number | null
 }
 
 export type UserMinAggregateOutputType = {
@@ -32,6 +48,25 @@ export type UserMinAggregateOutputType = {
   phone: string | null
   role: $Enums.Role | null
   emailVerified: Date | null
+  balanceByn: number | null
+  balanceUsd: number | null
+  heldByn: number | null
+  heldUsd: number | null
+  firstName: string | null
+  lastName: string | null
+  middleName: string | null
+  birthDate: Date | null
+  passportNumber: string | null
+  country: string | null
+  city: string | null
+  address: string | null
+  occupation: string | null
+  sourceOfFunds: string | null
+  ageConfirmed: boolean | null
+  kycStatus: $Enums.KycStatus | null
+  kycSubmittedAt: Date | null
+  kycReviewedAt: Date | null
+  kycRejectReason: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -44,6 +79,25 @@ export type UserMaxAggregateOutputType = {
   phone: string | null
   role: $Enums.Role | null
   emailVerified: Date | null
+  balanceByn: number | null
+  balanceUsd: number | null
+  heldByn: number | null
+  heldUsd: number | null
+  firstName: string | null
+  lastName: string | null
+  middleName: string | null
+  birthDate: Date | null
+  passportNumber: string | null
+  country: string | null
+  city: string | null
+  address: string | null
+  occupation: string | null
+  sourceOfFunds: string | null
+  ageConfirmed: boolean | null
+  kycStatus: $Enums.KycStatus | null
+  kycSubmittedAt: Date | null
+  kycReviewedAt: Date | null
+  kycRejectReason: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -56,11 +110,44 @@ export type UserCountAggregateOutputType = {
   phone: number
   role: number
   emailVerified: number
+  balanceByn: number
+  balanceUsd: number
+  heldByn: number
+  heldUsd: number
+  firstName: number
+  lastName: number
+  middleName: number
+  birthDate: number
+  passportNumber: number
+  country: number
+  city: number
+  address: number
+  occupation: number
+  sourceOfFunds: number
+  ageConfirmed: number
+  kycStatus: number
+  kycSubmittedAt: number
+  kycReviewedAt: number
+  kycRejectReason: number
   createdAt: number
   updatedAt: number
   _all: number
 }
 
+
+export type UserAvgAggregateInputType = {
+  balanceByn?: true
+  balanceUsd?: true
+  heldByn?: true
+  heldUsd?: true
+}
+
+export type UserSumAggregateInputType = {
+  balanceByn?: true
+  balanceUsd?: true
+  heldByn?: true
+  heldUsd?: true
+}
 
 export type UserMinAggregateInputType = {
   id?: true
@@ -70,6 +157,25 @@ export type UserMinAggregateInputType = {
   phone?: true
   role?: true
   emailVerified?: true
+  balanceByn?: true
+  balanceUsd?: true
+  heldByn?: true
+  heldUsd?: true
+  firstName?: true
+  lastName?: true
+  middleName?: true
+  birthDate?: true
+  passportNumber?: true
+  country?: true
+  city?: true
+  address?: true
+  occupation?: true
+  sourceOfFunds?: true
+  ageConfirmed?: true
+  kycStatus?: true
+  kycSubmittedAt?: true
+  kycReviewedAt?: true
+  kycRejectReason?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -82,6 +188,25 @@ export type UserMaxAggregateInputType = {
   phone?: true
   role?: true
   emailVerified?: true
+  balanceByn?: true
+  balanceUsd?: true
+  heldByn?: true
+  heldUsd?: true
+  firstName?: true
+  lastName?: true
+  middleName?: true
+  birthDate?: true
+  passportNumber?: true
+  country?: true
+  city?: true
+  address?: true
+  occupation?: true
+  sourceOfFunds?: true
+  ageConfirmed?: true
+  kycStatus?: true
+  kycSubmittedAt?: true
+  kycReviewedAt?: true
+  kycRejectReason?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -94,6 +219,25 @@ export type UserCountAggregateInputType = {
   phone?: true
   role?: true
   emailVerified?: true
+  balanceByn?: true
+  balanceUsd?: true
+  heldByn?: true
+  heldUsd?: true
+  firstName?: true
+  lastName?: true
+  middleName?: true
+  birthDate?: true
+  passportNumber?: true
+  country?: true
+  city?: true
+  address?: true
+  occupation?: true
+  sourceOfFunds?: true
+  ageConfirmed?: true
+  kycStatus?: true
+  kycSubmittedAt?: true
+  kycReviewedAt?: true
+  kycRejectReason?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -137,6 +281,18 @@ export type UserAggregateArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: UserAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: UserSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: UserMinAggregateInputType
@@ -167,6 +323,8 @@ export type UserGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
   take?: number
   skip?: number
   _count?: UserCountAggregateInputType | true
+  _avg?: UserAvgAggregateInputType
+  _sum?: UserSumAggregateInputType
   _min?: UserMinAggregateInputType
   _max?: UserMaxAggregateInputType
 }
@@ -179,9 +337,30 @@ export type UserGroupByOutputType = {
   phone: string | null
   role: $Enums.Role
   emailVerified: Date | null
+  balanceByn: number
+  balanceUsd: number
+  heldByn: number
+  heldUsd: number
+  firstName: string | null
+  lastName: string | null
+  middleName: string | null
+  birthDate: Date | null
+  passportNumber: string | null
+  country: string | null
+  city: string | null
+  address: string | null
+  occupation: string | null
+  sourceOfFunds: string | null
+  ageConfirmed: boolean
+  kycStatus: $Enums.KycStatus
+  kycSubmittedAt: Date | null
+  kycReviewedAt: Date | null
+  kycRejectReason: string | null
   createdAt: Date
   updatedAt: Date
   _count: UserCountAggregateOutputType | null
+  _avg: UserAvgAggregateOutputType | null
+  _sum: UserSumAggregateOutputType | null
   _min: UserMinAggregateOutputType | null
   _max: UserMaxAggregateOutputType | null
 }
@@ -212,14 +391,37 @@ export type UserWhereInput = {
   phone?: Prisma.StringNullableFilter<"User"> | string | null
   role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
   emailVerified?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  balanceByn?: Prisma.IntFilter<"User"> | number
+  balanceUsd?: Prisma.IntFilter<"User"> | number
+  heldByn?: Prisma.IntFilter<"User"> | number
+  heldUsd?: Prisma.IntFilter<"User"> | number
+  firstName?: Prisma.StringNullableFilter<"User"> | string | null
+  lastName?: Prisma.StringNullableFilter<"User"> | string | null
+  middleName?: Prisma.StringNullableFilter<"User"> | string | null
+  birthDate?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  passportNumber?: Prisma.StringNullableFilter<"User"> | string | null
+  country?: Prisma.StringNullableFilter<"User"> | string | null
+  city?: Prisma.StringNullableFilter<"User"> | string | null
+  address?: Prisma.StringNullableFilter<"User"> | string | null
+  occupation?: Prisma.StringNullableFilter<"User"> | string | null
+  sourceOfFunds?: Prisma.StringNullableFilter<"User"> | string | null
+  ageConfirmed?: Prisma.BoolFilter<"User"> | boolean
+  kycStatus?: Prisma.EnumKycStatusFilter<"User"> | $Enums.KycStatus
+  kycSubmittedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  kycReviewedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  kycRejectReason?: Prisma.StringNullableFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   bids?: Prisma.BidListRelationFilter
   wonLots?: Prisma.LotListRelationFilter
   verificationTokens?: Prisma.VerificationTokenListRelationFilter
+  emailCodes?: Prisma.EmailCodeListRelationFilter
   notifications?: Prisma.NotificationListRelationFilter
   watchlist?: Prisma.WatchlistListRelationFilter
   autoBids?: Prisma.AutoBidListRelationFilter
+  transactions?: Prisma.TransactionListRelationFilter
+  deposits?: Prisma.DepositRequestListRelationFilter
+  holds?: Prisma.LotHoldListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -230,14 +432,37 @@ export type UserOrderByWithRelationInput = {
   phone?: Prisma.SortOrderInput | Prisma.SortOrder
   role?: Prisma.SortOrder
   emailVerified?: Prisma.SortOrderInput | Prisma.SortOrder
+  balanceByn?: Prisma.SortOrder
+  balanceUsd?: Prisma.SortOrder
+  heldByn?: Prisma.SortOrder
+  heldUsd?: Prisma.SortOrder
+  firstName?: Prisma.SortOrderInput | Prisma.SortOrder
+  lastName?: Prisma.SortOrderInput | Prisma.SortOrder
+  middleName?: Prisma.SortOrderInput | Prisma.SortOrder
+  birthDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  passportNumber?: Prisma.SortOrderInput | Prisma.SortOrder
+  country?: Prisma.SortOrderInput | Prisma.SortOrder
+  city?: Prisma.SortOrderInput | Prisma.SortOrder
+  address?: Prisma.SortOrderInput | Prisma.SortOrder
+  occupation?: Prisma.SortOrderInput | Prisma.SortOrder
+  sourceOfFunds?: Prisma.SortOrderInput | Prisma.SortOrder
+  ageConfirmed?: Prisma.SortOrder
+  kycStatus?: Prisma.SortOrder
+  kycSubmittedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  kycReviewedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  kycRejectReason?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   bids?: Prisma.BidOrderByRelationAggregateInput
   wonLots?: Prisma.LotOrderByRelationAggregateInput
   verificationTokens?: Prisma.VerificationTokenOrderByRelationAggregateInput
+  emailCodes?: Prisma.EmailCodeOrderByRelationAggregateInput
   notifications?: Prisma.NotificationOrderByRelationAggregateInput
   watchlist?: Prisma.WatchlistOrderByRelationAggregateInput
   autoBids?: Prisma.AutoBidOrderByRelationAggregateInput
+  transactions?: Prisma.TransactionOrderByRelationAggregateInput
+  deposits?: Prisma.DepositRequestOrderByRelationAggregateInput
+  holds?: Prisma.LotHoldOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -251,14 +476,37 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   phone?: Prisma.StringNullableFilter<"User"> | string | null
   role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
   emailVerified?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  balanceByn?: Prisma.IntFilter<"User"> | number
+  balanceUsd?: Prisma.IntFilter<"User"> | number
+  heldByn?: Prisma.IntFilter<"User"> | number
+  heldUsd?: Prisma.IntFilter<"User"> | number
+  firstName?: Prisma.StringNullableFilter<"User"> | string | null
+  lastName?: Prisma.StringNullableFilter<"User"> | string | null
+  middleName?: Prisma.StringNullableFilter<"User"> | string | null
+  birthDate?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  passportNumber?: Prisma.StringNullableFilter<"User"> | string | null
+  country?: Prisma.StringNullableFilter<"User"> | string | null
+  city?: Prisma.StringNullableFilter<"User"> | string | null
+  address?: Prisma.StringNullableFilter<"User"> | string | null
+  occupation?: Prisma.StringNullableFilter<"User"> | string | null
+  sourceOfFunds?: Prisma.StringNullableFilter<"User"> | string | null
+  ageConfirmed?: Prisma.BoolFilter<"User"> | boolean
+  kycStatus?: Prisma.EnumKycStatusFilter<"User"> | $Enums.KycStatus
+  kycSubmittedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  kycReviewedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  kycRejectReason?: Prisma.StringNullableFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   bids?: Prisma.BidListRelationFilter
   wonLots?: Prisma.LotListRelationFilter
   verificationTokens?: Prisma.VerificationTokenListRelationFilter
+  emailCodes?: Prisma.EmailCodeListRelationFilter
   notifications?: Prisma.NotificationListRelationFilter
   watchlist?: Prisma.WatchlistListRelationFilter
   autoBids?: Prisma.AutoBidListRelationFilter
+  transactions?: Prisma.TransactionListRelationFilter
+  deposits?: Prisma.DepositRequestListRelationFilter
+  holds?: Prisma.LotHoldListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -269,11 +517,32 @@ export type UserOrderByWithAggregationInput = {
   phone?: Prisma.SortOrderInput | Prisma.SortOrder
   role?: Prisma.SortOrder
   emailVerified?: Prisma.SortOrderInput | Prisma.SortOrder
+  balanceByn?: Prisma.SortOrder
+  balanceUsd?: Prisma.SortOrder
+  heldByn?: Prisma.SortOrder
+  heldUsd?: Prisma.SortOrder
+  firstName?: Prisma.SortOrderInput | Prisma.SortOrder
+  lastName?: Prisma.SortOrderInput | Prisma.SortOrder
+  middleName?: Prisma.SortOrderInput | Prisma.SortOrder
+  birthDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  passportNumber?: Prisma.SortOrderInput | Prisma.SortOrder
+  country?: Prisma.SortOrderInput | Prisma.SortOrder
+  city?: Prisma.SortOrderInput | Prisma.SortOrder
+  address?: Prisma.SortOrderInput | Prisma.SortOrder
+  occupation?: Prisma.SortOrderInput | Prisma.SortOrder
+  sourceOfFunds?: Prisma.SortOrderInput | Prisma.SortOrder
+  ageConfirmed?: Prisma.SortOrder
+  kycStatus?: Prisma.SortOrder
+  kycSubmittedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  kycReviewedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  kycRejectReason?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
+  _avg?: Prisma.UserAvgOrderByAggregateInput
   _max?: Prisma.UserMaxOrderByAggregateInput
   _min?: Prisma.UserMinOrderByAggregateInput
+  _sum?: Prisma.UserSumOrderByAggregateInput
 }
 
 export type UserScalarWhereWithAggregatesInput = {
@@ -287,6 +556,25 @@ export type UserScalarWhereWithAggregatesInput = {
   phone?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   role?: Prisma.EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
   emailVerified?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+  balanceByn?: Prisma.IntWithAggregatesFilter<"User"> | number
+  balanceUsd?: Prisma.IntWithAggregatesFilter<"User"> | number
+  heldByn?: Prisma.IntWithAggregatesFilter<"User"> | number
+  heldUsd?: Prisma.IntWithAggregatesFilter<"User"> | number
+  firstName?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  lastName?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  middleName?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  birthDate?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+  passportNumber?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  country?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  city?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  address?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  occupation?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  sourceOfFunds?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  ageConfirmed?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
+  kycStatus?: Prisma.EnumKycStatusWithAggregatesFilter<"User"> | $Enums.KycStatus
+  kycSubmittedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+  kycReviewedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+  kycRejectReason?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
 }
@@ -299,14 +587,37 @@ export type UserCreateInput = {
   phone?: string | null
   role?: $Enums.Role
   emailVerified?: Date | string | null
+  balanceByn?: number
+  balanceUsd?: number
+  heldByn?: number
+  heldUsd?: number
+  firstName?: string | null
+  lastName?: string | null
+  middleName?: string | null
+  birthDate?: Date | string | null
+  passportNumber?: string | null
+  country?: string | null
+  city?: string | null
+  address?: string | null
+  occupation?: string | null
+  sourceOfFunds?: string | null
+  ageConfirmed?: boolean
+  kycStatus?: $Enums.KycStatus
+  kycSubmittedAt?: Date | string | null
+  kycReviewedAt?: Date | string | null
+  kycRejectReason?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   bids?: Prisma.BidCreateNestedManyWithoutUserInput
   wonLots?: Prisma.LotCreateNestedManyWithoutWinnerInput
   verificationTokens?: Prisma.VerificationTokenCreateNestedManyWithoutUserInput
+  emailCodes?: Prisma.EmailCodeCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   watchlist?: Prisma.WatchlistCreateNestedManyWithoutUserInput
   autoBids?: Prisma.AutoBidCreateNestedManyWithoutUserInput
+  transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
+  deposits?: Prisma.DepositRequestCreateNestedManyWithoutUserInput
+  holds?: Prisma.LotHoldCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -317,14 +628,37 @@ export type UserUncheckedCreateInput = {
   phone?: string | null
   role?: $Enums.Role
   emailVerified?: Date | string | null
+  balanceByn?: number
+  balanceUsd?: number
+  heldByn?: number
+  heldUsd?: number
+  firstName?: string | null
+  lastName?: string | null
+  middleName?: string | null
+  birthDate?: Date | string | null
+  passportNumber?: string | null
+  country?: string | null
+  city?: string | null
+  address?: string | null
+  occupation?: string | null
+  sourceOfFunds?: string | null
+  ageConfirmed?: boolean
+  kycStatus?: $Enums.KycStatus
+  kycSubmittedAt?: Date | string | null
+  kycReviewedAt?: Date | string | null
+  kycRejectReason?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   bids?: Prisma.BidUncheckedCreateNestedManyWithoutUserInput
   wonLots?: Prisma.LotUncheckedCreateNestedManyWithoutWinnerInput
   verificationTokens?: Prisma.VerificationTokenUncheckedCreateNestedManyWithoutUserInput
+  emailCodes?: Prisma.EmailCodeUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   watchlist?: Prisma.WatchlistUncheckedCreateNestedManyWithoutUserInput
   autoBids?: Prisma.AutoBidUncheckedCreateNestedManyWithoutUserInput
+  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
+  deposits?: Prisma.DepositRequestUncheckedCreateNestedManyWithoutUserInput
+  holds?: Prisma.LotHoldUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -335,14 +669,37 @@ export type UserUpdateInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  balanceByn?: Prisma.IntFieldUpdateOperationsInput | number
+  balanceUsd?: Prisma.IntFieldUpdateOperationsInput | number
+  heldByn?: Prisma.IntFieldUpdateOperationsInput | number
+  heldUsd?: Prisma.IntFieldUpdateOperationsInput | number
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  middleName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passportNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  occupation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceOfFunds?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ageConfirmed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  kycStatus?: Prisma.EnumKycStatusFieldUpdateOperationsInput | $Enums.KycStatus
+  kycSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  kycReviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  kycRejectReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bids?: Prisma.BidUpdateManyWithoutUserNestedInput
   wonLots?: Prisma.LotUpdateManyWithoutWinnerNestedInput
   verificationTokens?: Prisma.VerificationTokenUpdateManyWithoutUserNestedInput
+  emailCodes?: Prisma.EmailCodeUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   watchlist?: Prisma.WatchlistUpdateManyWithoutUserNestedInput
   autoBids?: Prisma.AutoBidUpdateManyWithoutUserNestedInput
+  transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
+  deposits?: Prisma.DepositRequestUpdateManyWithoutUserNestedInput
+  holds?: Prisma.LotHoldUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -353,14 +710,37 @@ export type UserUncheckedUpdateInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  balanceByn?: Prisma.IntFieldUpdateOperationsInput | number
+  balanceUsd?: Prisma.IntFieldUpdateOperationsInput | number
+  heldByn?: Prisma.IntFieldUpdateOperationsInput | number
+  heldUsd?: Prisma.IntFieldUpdateOperationsInput | number
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  middleName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passportNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  occupation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceOfFunds?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ageConfirmed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  kycStatus?: Prisma.EnumKycStatusFieldUpdateOperationsInput | $Enums.KycStatus
+  kycSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  kycReviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  kycRejectReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bids?: Prisma.BidUncheckedUpdateManyWithoutUserNestedInput
   wonLots?: Prisma.LotUncheckedUpdateManyWithoutWinnerNestedInput
   verificationTokens?: Prisma.VerificationTokenUncheckedUpdateManyWithoutUserNestedInput
+  emailCodes?: Prisma.EmailCodeUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   watchlist?: Prisma.WatchlistUncheckedUpdateManyWithoutUserNestedInput
   autoBids?: Prisma.AutoBidUncheckedUpdateManyWithoutUserNestedInput
+  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
+  deposits?: Prisma.DepositRequestUncheckedUpdateManyWithoutUserNestedInput
+  holds?: Prisma.LotHoldUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -371,6 +751,25 @@ export type UserCreateManyInput = {
   phone?: string | null
   role?: $Enums.Role
   emailVerified?: Date | string | null
+  balanceByn?: number
+  balanceUsd?: number
+  heldByn?: number
+  heldUsd?: number
+  firstName?: string | null
+  lastName?: string | null
+  middleName?: string | null
+  birthDate?: Date | string | null
+  passportNumber?: string | null
+  country?: string | null
+  city?: string | null
+  address?: string | null
+  occupation?: string | null
+  sourceOfFunds?: string | null
+  ageConfirmed?: boolean
+  kycStatus?: $Enums.KycStatus
+  kycSubmittedAt?: Date | string | null
+  kycReviewedAt?: Date | string | null
+  kycRejectReason?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -383,6 +782,25 @@ export type UserUpdateManyMutationInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  balanceByn?: Prisma.IntFieldUpdateOperationsInput | number
+  balanceUsd?: Prisma.IntFieldUpdateOperationsInput | number
+  heldByn?: Prisma.IntFieldUpdateOperationsInput | number
+  heldUsd?: Prisma.IntFieldUpdateOperationsInput | number
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  middleName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passportNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  occupation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceOfFunds?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ageConfirmed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  kycStatus?: Prisma.EnumKycStatusFieldUpdateOperationsInput | $Enums.KycStatus
+  kycSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  kycReviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  kycRejectReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -395,6 +813,25 @@ export type UserUncheckedUpdateManyInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  balanceByn?: Prisma.IntFieldUpdateOperationsInput | number
+  balanceUsd?: Prisma.IntFieldUpdateOperationsInput | number
+  heldByn?: Prisma.IntFieldUpdateOperationsInput | number
+  heldUsd?: Prisma.IntFieldUpdateOperationsInput | number
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  middleName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passportNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  occupation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceOfFunds?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ageConfirmed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  kycStatus?: Prisma.EnumKycStatusFieldUpdateOperationsInput | $Enums.KycStatus
+  kycSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  kycReviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  kycRejectReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -407,8 +844,34 @@ export type UserCountOrderByAggregateInput = {
   phone?: Prisma.SortOrder
   role?: Prisma.SortOrder
   emailVerified?: Prisma.SortOrder
+  balanceByn?: Prisma.SortOrder
+  balanceUsd?: Prisma.SortOrder
+  heldByn?: Prisma.SortOrder
+  heldUsd?: Prisma.SortOrder
+  firstName?: Prisma.SortOrder
+  lastName?: Prisma.SortOrder
+  middleName?: Prisma.SortOrder
+  birthDate?: Prisma.SortOrder
+  passportNumber?: Prisma.SortOrder
+  country?: Prisma.SortOrder
+  city?: Prisma.SortOrder
+  address?: Prisma.SortOrder
+  occupation?: Prisma.SortOrder
+  sourceOfFunds?: Prisma.SortOrder
+  ageConfirmed?: Prisma.SortOrder
+  kycStatus?: Prisma.SortOrder
+  kycSubmittedAt?: Prisma.SortOrder
+  kycReviewedAt?: Prisma.SortOrder
+  kycRejectReason?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type UserAvgOrderByAggregateInput = {
+  balanceByn?: Prisma.SortOrder
+  balanceUsd?: Prisma.SortOrder
+  heldByn?: Prisma.SortOrder
+  heldUsd?: Prisma.SortOrder
 }
 
 export type UserMaxOrderByAggregateInput = {
@@ -419,6 +882,25 @@ export type UserMaxOrderByAggregateInput = {
   phone?: Prisma.SortOrder
   role?: Prisma.SortOrder
   emailVerified?: Prisma.SortOrder
+  balanceByn?: Prisma.SortOrder
+  balanceUsd?: Prisma.SortOrder
+  heldByn?: Prisma.SortOrder
+  heldUsd?: Prisma.SortOrder
+  firstName?: Prisma.SortOrder
+  lastName?: Prisma.SortOrder
+  middleName?: Prisma.SortOrder
+  birthDate?: Prisma.SortOrder
+  passportNumber?: Prisma.SortOrder
+  country?: Prisma.SortOrder
+  city?: Prisma.SortOrder
+  address?: Prisma.SortOrder
+  occupation?: Prisma.SortOrder
+  sourceOfFunds?: Prisma.SortOrder
+  ageConfirmed?: Prisma.SortOrder
+  kycStatus?: Prisma.SortOrder
+  kycSubmittedAt?: Prisma.SortOrder
+  kycReviewedAt?: Prisma.SortOrder
+  kycRejectReason?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -431,8 +913,34 @@ export type UserMinOrderByAggregateInput = {
   phone?: Prisma.SortOrder
   role?: Prisma.SortOrder
   emailVerified?: Prisma.SortOrder
+  balanceByn?: Prisma.SortOrder
+  balanceUsd?: Prisma.SortOrder
+  heldByn?: Prisma.SortOrder
+  heldUsd?: Prisma.SortOrder
+  firstName?: Prisma.SortOrder
+  lastName?: Prisma.SortOrder
+  middleName?: Prisma.SortOrder
+  birthDate?: Prisma.SortOrder
+  passportNumber?: Prisma.SortOrder
+  country?: Prisma.SortOrder
+  city?: Prisma.SortOrder
+  address?: Prisma.SortOrder
+  occupation?: Prisma.SortOrder
+  sourceOfFunds?: Prisma.SortOrder
+  ageConfirmed?: Prisma.SortOrder
+  kycStatus?: Prisma.SortOrder
+  kycSubmittedAt?: Prisma.SortOrder
+  kycReviewedAt?: Prisma.SortOrder
+  kycRejectReason?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type UserSumOrderByAggregateInput = {
+  balanceByn?: Prisma.SortOrder
+  balanceUsd?: Prisma.SortOrder
+  heldByn?: Prisma.SortOrder
+  heldUsd?: Prisma.SortOrder
 }
 
 export type UserScalarRelationFilter = {
@@ -461,8 +969,38 @@ export type NullableDateTimeFieldUpdateOperationsInput = {
   set?: Date | string | null
 }
 
+export type IntFieldUpdateOperationsInput = {
+  set?: number
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
+export type BoolFieldUpdateOperationsInput = {
+  set?: boolean
+}
+
+export type EnumKycStatusFieldUpdateOperationsInput = {
+  set?: $Enums.KycStatus
+}
+
 export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
+}
+
+export type UserCreateNestedOneWithoutEmailCodesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutEmailCodesInput, Prisma.UserUncheckedCreateWithoutEmailCodesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutEmailCodesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutEmailCodesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutEmailCodesInput, Prisma.UserUncheckedCreateWithoutEmailCodesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutEmailCodesInput
+  upsert?: Prisma.UserUpsertWithoutEmailCodesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutEmailCodesInput, Prisma.UserUpdateWithoutEmailCodesInput>, Prisma.UserUncheckedUpdateWithoutEmailCodesInput>
 }
 
 export type UserCreateNestedOneWithoutWatchlistInput = {
@@ -521,6 +1059,48 @@ export type UserUpdateOneRequiredWithoutNotificationsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutNotificationsInput, Prisma.UserUpdateWithoutNotificationsInput>, Prisma.UserUncheckedUpdateWithoutNotificationsInput>
 }
 
+export type UserCreateNestedOneWithoutTransactionsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutTransactionsInput, Prisma.UserUncheckedCreateWithoutTransactionsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutTransactionsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutTransactionsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutTransactionsInput, Prisma.UserUncheckedCreateWithoutTransactionsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutTransactionsInput
+  upsert?: Prisma.UserUpsertWithoutTransactionsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutTransactionsInput, Prisma.UserUpdateWithoutTransactionsInput>, Prisma.UserUncheckedUpdateWithoutTransactionsInput>
+}
+
+export type UserCreateNestedOneWithoutDepositsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutDepositsInput, Prisma.UserUncheckedCreateWithoutDepositsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutDepositsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutDepositsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutDepositsInput, Prisma.UserUncheckedCreateWithoutDepositsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutDepositsInput
+  upsert?: Prisma.UserUpsertWithoutDepositsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutDepositsInput, Prisma.UserUpdateWithoutDepositsInput>, Prisma.UserUncheckedUpdateWithoutDepositsInput>
+}
+
+export type UserCreateNestedOneWithoutHoldsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutHoldsInput, Prisma.UserUncheckedCreateWithoutHoldsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutHoldsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutHoldsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutHoldsInput, Prisma.UserUncheckedCreateWithoutHoldsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutHoldsInput
+  upsert?: Prisma.UserUpsertWithoutHoldsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutHoldsInput, Prisma.UserUpdateWithoutHoldsInput>, Prisma.UserUncheckedUpdateWithoutHoldsInput>
+}
+
 export type UserCreateNestedOneWithoutWonLotsInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutWonLotsInput, Prisma.UserUncheckedCreateWithoutWonLotsInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutWonLotsInput
@@ -551,6 +1131,182 @@ export type UserUpdateOneRequiredWithoutBidsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutBidsInput, Prisma.UserUpdateWithoutBidsInput>, Prisma.UserUncheckedUpdateWithoutBidsInput>
 }
 
+export type UserCreateWithoutEmailCodesInput = {
+  id?: string
+  email: string
+  passwordHash: string
+  name: string
+  phone?: string | null
+  role?: $Enums.Role
+  emailVerified?: Date | string | null
+  balanceByn?: number
+  balanceUsd?: number
+  heldByn?: number
+  heldUsd?: number
+  firstName?: string | null
+  lastName?: string | null
+  middleName?: string | null
+  birthDate?: Date | string | null
+  passportNumber?: string | null
+  country?: string | null
+  city?: string | null
+  address?: string | null
+  occupation?: string | null
+  sourceOfFunds?: string | null
+  ageConfirmed?: boolean
+  kycStatus?: $Enums.KycStatus
+  kycSubmittedAt?: Date | string | null
+  kycReviewedAt?: Date | string | null
+  kycRejectReason?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  bids?: Prisma.BidCreateNestedManyWithoutUserInput
+  wonLots?: Prisma.LotCreateNestedManyWithoutWinnerInput
+  verificationTokens?: Prisma.VerificationTokenCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  watchlist?: Prisma.WatchlistCreateNestedManyWithoutUserInput
+  autoBids?: Prisma.AutoBidCreateNestedManyWithoutUserInput
+  transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
+  deposits?: Prisma.DepositRequestCreateNestedManyWithoutUserInput
+  holds?: Prisma.LotHoldCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutEmailCodesInput = {
+  id?: string
+  email: string
+  passwordHash: string
+  name: string
+  phone?: string | null
+  role?: $Enums.Role
+  emailVerified?: Date | string | null
+  balanceByn?: number
+  balanceUsd?: number
+  heldByn?: number
+  heldUsd?: number
+  firstName?: string | null
+  lastName?: string | null
+  middleName?: string | null
+  birthDate?: Date | string | null
+  passportNumber?: string | null
+  country?: string | null
+  city?: string | null
+  address?: string | null
+  occupation?: string | null
+  sourceOfFunds?: string | null
+  ageConfirmed?: boolean
+  kycStatus?: $Enums.KycStatus
+  kycSubmittedAt?: Date | string | null
+  kycReviewedAt?: Date | string | null
+  kycRejectReason?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  bids?: Prisma.BidUncheckedCreateNestedManyWithoutUserInput
+  wonLots?: Prisma.LotUncheckedCreateNestedManyWithoutWinnerInput
+  verificationTokens?: Prisma.VerificationTokenUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  watchlist?: Prisma.WatchlistUncheckedCreateNestedManyWithoutUserInput
+  autoBids?: Prisma.AutoBidUncheckedCreateNestedManyWithoutUserInput
+  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
+  deposits?: Prisma.DepositRequestUncheckedCreateNestedManyWithoutUserInput
+  holds?: Prisma.LotHoldUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutEmailCodesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutEmailCodesInput, Prisma.UserUncheckedCreateWithoutEmailCodesInput>
+}
+
+export type UserUpsertWithoutEmailCodesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutEmailCodesInput, Prisma.UserUncheckedUpdateWithoutEmailCodesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutEmailCodesInput, Prisma.UserUncheckedCreateWithoutEmailCodesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutEmailCodesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutEmailCodesInput, Prisma.UserUncheckedUpdateWithoutEmailCodesInput>
+}
+
+export type UserUpdateWithoutEmailCodesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  balanceByn?: Prisma.IntFieldUpdateOperationsInput | number
+  balanceUsd?: Prisma.IntFieldUpdateOperationsInput | number
+  heldByn?: Prisma.IntFieldUpdateOperationsInput | number
+  heldUsd?: Prisma.IntFieldUpdateOperationsInput | number
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  middleName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passportNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  occupation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceOfFunds?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ageConfirmed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  kycStatus?: Prisma.EnumKycStatusFieldUpdateOperationsInput | $Enums.KycStatus
+  kycSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  kycReviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  kycRejectReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  bids?: Prisma.BidUpdateManyWithoutUserNestedInput
+  wonLots?: Prisma.LotUpdateManyWithoutWinnerNestedInput
+  verificationTokens?: Prisma.VerificationTokenUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  watchlist?: Prisma.WatchlistUpdateManyWithoutUserNestedInput
+  autoBids?: Prisma.AutoBidUpdateManyWithoutUserNestedInput
+  transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
+  deposits?: Prisma.DepositRequestUpdateManyWithoutUserNestedInput
+  holds?: Prisma.LotHoldUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutEmailCodesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  balanceByn?: Prisma.IntFieldUpdateOperationsInput | number
+  balanceUsd?: Prisma.IntFieldUpdateOperationsInput | number
+  heldByn?: Prisma.IntFieldUpdateOperationsInput | number
+  heldUsd?: Prisma.IntFieldUpdateOperationsInput | number
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  middleName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passportNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  occupation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceOfFunds?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ageConfirmed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  kycStatus?: Prisma.EnumKycStatusFieldUpdateOperationsInput | $Enums.KycStatus
+  kycSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  kycReviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  kycRejectReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  bids?: Prisma.BidUncheckedUpdateManyWithoutUserNestedInput
+  wonLots?: Prisma.LotUncheckedUpdateManyWithoutWinnerNestedInput
+  verificationTokens?: Prisma.VerificationTokenUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  watchlist?: Prisma.WatchlistUncheckedUpdateManyWithoutUserNestedInput
+  autoBids?: Prisma.AutoBidUncheckedUpdateManyWithoutUserNestedInput
+  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
+  deposits?: Prisma.DepositRequestUncheckedUpdateManyWithoutUserNestedInput
+  holds?: Prisma.LotHoldUncheckedUpdateManyWithoutUserNestedInput
+}
+
 export type UserCreateWithoutWatchlistInput = {
   id?: string
   email: string
@@ -559,13 +1315,36 @@ export type UserCreateWithoutWatchlistInput = {
   phone?: string | null
   role?: $Enums.Role
   emailVerified?: Date | string | null
+  balanceByn?: number
+  balanceUsd?: number
+  heldByn?: number
+  heldUsd?: number
+  firstName?: string | null
+  lastName?: string | null
+  middleName?: string | null
+  birthDate?: Date | string | null
+  passportNumber?: string | null
+  country?: string | null
+  city?: string | null
+  address?: string | null
+  occupation?: string | null
+  sourceOfFunds?: string | null
+  ageConfirmed?: boolean
+  kycStatus?: $Enums.KycStatus
+  kycSubmittedAt?: Date | string | null
+  kycReviewedAt?: Date | string | null
+  kycRejectReason?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   bids?: Prisma.BidCreateNestedManyWithoutUserInput
   wonLots?: Prisma.LotCreateNestedManyWithoutWinnerInput
   verificationTokens?: Prisma.VerificationTokenCreateNestedManyWithoutUserInput
+  emailCodes?: Prisma.EmailCodeCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   autoBids?: Prisma.AutoBidCreateNestedManyWithoutUserInput
+  transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
+  deposits?: Prisma.DepositRequestCreateNestedManyWithoutUserInput
+  holds?: Prisma.LotHoldCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutWatchlistInput = {
@@ -576,13 +1355,36 @@ export type UserUncheckedCreateWithoutWatchlistInput = {
   phone?: string | null
   role?: $Enums.Role
   emailVerified?: Date | string | null
+  balanceByn?: number
+  balanceUsd?: number
+  heldByn?: number
+  heldUsd?: number
+  firstName?: string | null
+  lastName?: string | null
+  middleName?: string | null
+  birthDate?: Date | string | null
+  passportNumber?: string | null
+  country?: string | null
+  city?: string | null
+  address?: string | null
+  occupation?: string | null
+  sourceOfFunds?: string | null
+  ageConfirmed?: boolean
+  kycStatus?: $Enums.KycStatus
+  kycSubmittedAt?: Date | string | null
+  kycReviewedAt?: Date | string | null
+  kycRejectReason?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   bids?: Prisma.BidUncheckedCreateNestedManyWithoutUserInput
   wonLots?: Prisma.LotUncheckedCreateNestedManyWithoutWinnerInput
   verificationTokens?: Prisma.VerificationTokenUncheckedCreateNestedManyWithoutUserInput
+  emailCodes?: Prisma.EmailCodeUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   autoBids?: Prisma.AutoBidUncheckedCreateNestedManyWithoutUserInput
+  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
+  deposits?: Prisma.DepositRequestUncheckedCreateNestedManyWithoutUserInput
+  holds?: Prisma.LotHoldUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutWatchlistInput = {
@@ -609,13 +1411,36 @@ export type UserUpdateWithoutWatchlistInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  balanceByn?: Prisma.IntFieldUpdateOperationsInput | number
+  balanceUsd?: Prisma.IntFieldUpdateOperationsInput | number
+  heldByn?: Prisma.IntFieldUpdateOperationsInput | number
+  heldUsd?: Prisma.IntFieldUpdateOperationsInput | number
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  middleName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passportNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  occupation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceOfFunds?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ageConfirmed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  kycStatus?: Prisma.EnumKycStatusFieldUpdateOperationsInput | $Enums.KycStatus
+  kycSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  kycReviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  kycRejectReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bids?: Prisma.BidUpdateManyWithoutUserNestedInput
   wonLots?: Prisma.LotUpdateManyWithoutWinnerNestedInput
   verificationTokens?: Prisma.VerificationTokenUpdateManyWithoutUserNestedInput
+  emailCodes?: Prisma.EmailCodeUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   autoBids?: Prisma.AutoBidUpdateManyWithoutUserNestedInput
+  transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
+  deposits?: Prisma.DepositRequestUpdateManyWithoutUserNestedInput
+  holds?: Prisma.LotHoldUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutWatchlistInput = {
@@ -626,13 +1451,36 @@ export type UserUncheckedUpdateWithoutWatchlistInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  balanceByn?: Prisma.IntFieldUpdateOperationsInput | number
+  balanceUsd?: Prisma.IntFieldUpdateOperationsInput | number
+  heldByn?: Prisma.IntFieldUpdateOperationsInput | number
+  heldUsd?: Prisma.IntFieldUpdateOperationsInput | number
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  middleName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passportNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  occupation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceOfFunds?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ageConfirmed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  kycStatus?: Prisma.EnumKycStatusFieldUpdateOperationsInput | $Enums.KycStatus
+  kycSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  kycReviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  kycRejectReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bids?: Prisma.BidUncheckedUpdateManyWithoutUserNestedInput
   wonLots?: Prisma.LotUncheckedUpdateManyWithoutWinnerNestedInput
   verificationTokens?: Prisma.VerificationTokenUncheckedUpdateManyWithoutUserNestedInput
+  emailCodes?: Prisma.EmailCodeUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   autoBids?: Prisma.AutoBidUncheckedUpdateManyWithoutUserNestedInput
+  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
+  deposits?: Prisma.DepositRequestUncheckedUpdateManyWithoutUserNestedInput
+  holds?: Prisma.LotHoldUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutAutoBidsInput = {
@@ -643,13 +1491,36 @@ export type UserCreateWithoutAutoBidsInput = {
   phone?: string | null
   role?: $Enums.Role
   emailVerified?: Date | string | null
+  balanceByn?: number
+  balanceUsd?: number
+  heldByn?: number
+  heldUsd?: number
+  firstName?: string | null
+  lastName?: string | null
+  middleName?: string | null
+  birthDate?: Date | string | null
+  passportNumber?: string | null
+  country?: string | null
+  city?: string | null
+  address?: string | null
+  occupation?: string | null
+  sourceOfFunds?: string | null
+  ageConfirmed?: boolean
+  kycStatus?: $Enums.KycStatus
+  kycSubmittedAt?: Date | string | null
+  kycReviewedAt?: Date | string | null
+  kycRejectReason?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   bids?: Prisma.BidCreateNestedManyWithoutUserInput
   wonLots?: Prisma.LotCreateNestedManyWithoutWinnerInput
   verificationTokens?: Prisma.VerificationTokenCreateNestedManyWithoutUserInput
+  emailCodes?: Prisma.EmailCodeCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   watchlist?: Prisma.WatchlistCreateNestedManyWithoutUserInput
+  transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
+  deposits?: Prisma.DepositRequestCreateNestedManyWithoutUserInput
+  holds?: Prisma.LotHoldCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAutoBidsInput = {
@@ -660,13 +1531,36 @@ export type UserUncheckedCreateWithoutAutoBidsInput = {
   phone?: string | null
   role?: $Enums.Role
   emailVerified?: Date | string | null
+  balanceByn?: number
+  balanceUsd?: number
+  heldByn?: number
+  heldUsd?: number
+  firstName?: string | null
+  lastName?: string | null
+  middleName?: string | null
+  birthDate?: Date | string | null
+  passportNumber?: string | null
+  country?: string | null
+  city?: string | null
+  address?: string | null
+  occupation?: string | null
+  sourceOfFunds?: string | null
+  ageConfirmed?: boolean
+  kycStatus?: $Enums.KycStatus
+  kycSubmittedAt?: Date | string | null
+  kycReviewedAt?: Date | string | null
+  kycRejectReason?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   bids?: Prisma.BidUncheckedCreateNestedManyWithoutUserInput
   wonLots?: Prisma.LotUncheckedCreateNestedManyWithoutWinnerInput
   verificationTokens?: Prisma.VerificationTokenUncheckedCreateNestedManyWithoutUserInput
+  emailCodes?: Prisma.EmailCodeUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   watchlist?: Prisma.WatchlistUncheckedCreateNestedManyWithoutUserInput
+  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
+  deposits?: Prisma.DepositRequestUncheckedCreateNestedManyWithoutUserInput
+  holds?: Prisma.LotHoldUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAutoBidsInput = {
@@ -693,13 +1587,36 @@ export type UserUpdateWithoutAutoBidsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  balanceByn?: Prisma.IntFieldUpdateOperationsInput | number
+  balanceUsd?: Prisma.IntFieldUpdateOperationsInput | number
+  heldByn?: Prisma.IntFieldUpdateOperationsInput | number
+  heldUsd?: Prisma.IntFieldUpdateOperationsInput | number
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  middleName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passportNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  occupation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceOfFunds?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ageConfirmed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  kycStatus?: Prisma.EnumKycStatusFieldUpdateOperationsInput | $Enums.KycStatus
+  kycSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  kycReviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  kycRejectReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bids?: Prisma.BidUpdateManyWithoutUserNestedInput
   wonLots?: Prisma.LotUpdateManyWithoutWinnerNestedInput
   verificationTokens?: Prisma.VerificationTokenUpdateManyWithoutUserNestedInput
+  emailCodes?: Prisma.EmailCodeUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   watchlist?: Prisma.WatchlistUpdateManyWithoutUserNestedInput
+  transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
+  deposits?: Prisma.DepositRequestUpdateManyWithoutUserNestedInput
+  holds?: Prisma.LotHoldUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAutoBidsInput = {
@@ -710,13 +1627,36 @@ export type UserUncheckedUpdateWithoutAutoBidsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  balanceByn?: Prisma.IntFieldUpdateOperationsInput | number
+  balanceUsd?: Prisma.IntFieldUpdateOperationsInput | number
+  heldByn?: Prisma.IntFieldUpdateOperationsInput | number
+  heldUsd?: Prisma.IntFieldUpdateOperationsInput | number
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  middleName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passportNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  occupation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceOfFunds?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ageConfirmed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  kycStatus?: Prisma.EnumKycStatusFieldUpdateOperationsInput | $Enums.KycStatus
+  kycSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  kycReviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  kycRejectReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bids?: Prisma.BidUncheckedUpdateManyWithoutUserNestedInput
   wonLots?: Prisma.LotUncheckedUpdateManyWithoutWinnerNestedInput
   verificationTokens?: Prisma.VerificationTokenUncheckedUpdateManyWithoutUserNestedInput
+  emailCodes?: Prisma.EmailCodeUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   watchlist?: Prisma.WatchlistUncheckedUpdateManyWithoutUserNestedInput
+  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
+  deposits?: Prisma.DepositRequestUncheckedUpdateManyWithoutUserNestedInput
+  holds?: Prisma.LotHoldUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutVerificationTokensInput = {
@@ -727,13 +1667,36 @@ export type UserCreateWithoutVerificationTokensInput = {
   phone?: string | null
   role?: $Enums.Role
   emailVerified?: Date | string | null
+  balanceByn?: number
+  balanceUsd?: number
+  heldByn?: number
+  heldUsd?: number
+  firstName?: string | null
+  lastName?: string | null
+  middleName?: string | null
+  birthDate?: Date | string | null
+  passportNumber?: string | null
+  country?: string | null
+  city?: string | null
+  address?: string | null
+  occupation?: string | null
+  sourceOfFunds?: string | null
+  ageConfirmed?: boolean
+  kycStatus?: $Enums.KycStatus
+  kycSubmittedAt?: Date | string | null
+  kycReviewedAt?: Date | string | null
+  kycRejectReason?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   bids?: Prisma.BidCreateNestedManyWithoutUserInput
   wonLots?: Prisma.LotCreateNestedManyWithoutWinnerInput
+  emailCodes?: Prisma.EmailCodeCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   watchlist?: Prisma.WatchlistCreateNestedManyWithoutUserInput
   autoBids?: Prisma.AutoBidCreateNestedManyWithoutUserInput
+  transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
+  deposits?: Prisma.DepositRequestCreateNestedManyWithoutUserInput
+  holds?: Prisma.LotHoldCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutVerificationTokensInput = {
@@ -744,13 +1707,36 @@ export type UserUncheckedCreateWithoutVerificationTokensInput = {
   phone?: string | null
   role?: $Enums.Role
   emailVerified?: Date | string | null
+  balanceByn?: number
+  balanceUsd?: number
+  heldByn?: number
+  heldUsd?: number
+  firstName?: string | null
+  lastName?: string | null
+  middleName?: string | null
+  birthDate?: Date | string | null
+  passportNumber?: string | null
+  country?: string | null
+  city?: string | null
+  address?: string | null
+  occupation?: string | null
+  sourceOfFunds?: string | null
+  ageConfirmed?: boolean
+  kycStatus?: $Enums.KycStatus
+  kycSubmittedAt?: Date | string | null
+  kycReviewedAt?: Date | string | null
+  kycRejectReason?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   bids?: Prisma.BidUncheckedCreateNestedManyWithoutUserInput
   wonLots?: Prisma.LotUncheckedCreateNestedManyWithoutWinnerInput
+  emailCodes?: Prisma.EmailCodeUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   watchlist?: Prisma.WatchlistUncheckedCreateNestedManyWithoutUserInput
   autoBids?: Prisma.AutoBidUncheckedCreateNestedManyWithoutUserInput
+  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
+  deposits?: Prisma.DepositRequestUncheckedCreateNestedManyWithoutUserInput
+  holds?: Prisma.LotHoldUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutVerificationTokensInput = {
@@ -777,13 +1763,36 @@ export type UserUpdateWithoutVerificationTokensInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  balanceByn?: Prisma.IntFieldUpdateOperationsInput | number
+  balanceUsd?: Prisma.IntFieldUpdateOperationsInput | number
+  heldByn?: Prisma.IntFieldUpdateOperationsInput | number
+  heldUsd?: Prisma.IntFieldUpdateOperationsInput | number
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  middleName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passportNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  occupation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceOfFunds?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ageConfirmed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  kycStatus?: Prisma.EnumKycStatusFieldUpdateOperationsInput | $Enums.KycStatus
+  kycSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  kycReviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  kycRejectReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bids?: Prisma.BidUpdateManyWithoutUserNestedInput
   wonLots?: Prisma.LotUpdateManyWithoutWinnerNestedInput
+  emailCodes?: Prisma.EmailCodeUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   watchlist?: Prisma.WatchlistUpdateManyWithoutUserNestedInput
   autoBids?: Prisma.AutoBidUpdateManyWithoutUserNestedInput
+  transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
+  deposits?: Prisma.DepositRequestUpdateManyWithoutUserNestedInput
+  holds?: Prisma.LotHoldUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutVerificationTokensInput = {
@@ -794,13 +1803,36 @@ export type UserUncheckedUpdateWithoutVerificationTokensInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  balanceByn?: Prisma.IntFieldUpdateOperationsInput | number
+  balanceUsd?: Prisma.IntFieldUpdateOperationsInput | number
+  heldByn?: Prisma.IntFieldUpdateOperationsInput | number
+  heldUsd?: Prisma.IntFieldUpdateOperationsInput | number
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  middleName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passportNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  occupation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceOfFunds?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ageConfirmed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  kycStatus?: Prisma.EnumKycStatusFieldUpdateOperationsInput | $Enums.KycStatus
+  kycSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  kycReviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  kycRejectReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bids?: Prisma.BidUncheckedUpdateManyWithoutUserNestedInput
   wonLots?: Prisma.LotUncheckedUpdateManyWithoutWinnerNestedInput
+  emailCodes?: Prisma.EmailCodeUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   watchlist?: Prisma.WatchlistUncheckedUpdateManyWithoutUserNestedInput
   autoBids?: Prisma.AutoBidUncheckedUpdateManyWithoutUserNestedInput
+  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
+  deposits?: Prisma.DepositRequestUncheckedUpdateManyWithoutUserNestedInput
+  holds?: Prisma.LotHoldUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutNotificationsInput = {
@@ -811,13 +1843,36 @@ export type UserCreateWithoutNotificationsInput = {
   phone?: string | null
   role?: $Enums.Role
   emailVerified?: Date | string | null
+  balanceByn?: number
+  balanceUsd?: number
+  heldByn?: number
+  heldUsd?: number
+  firstName?: string | null
+  lastName?: string | null
+  middleName?: string | null
+  birthDate?: Date | string | null
+  passportNumber?: string | null
+  country?: string | null
+  city?: string | null
+  address?: string | null
+  occupation?: string | null
+  sourceOfFunds?: string | null
+  ageConfirmed?: boolean
+  kycStatus?: $Enums.KycStatus
+  kycSubmittedAt?: Date | string | null
+  kycReviewedAt?: Date | string | null
+  kycRejectReason?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   bids?: Prisma.BidCreateNestedManyWithoutUserInput
   wonLots?: Prisma.LotCreateNestedManyWithoutWinnerInput
   verificationTokens?: Prisma.VerificationTokenCreateNestedManyWithoutUserInput
+  emailCodes?: Prisma.EmailCodeCreateNestedManyWithoutUserInput
   watchlist?: Prisma.WatchlistCreateNestedManyWithoutUserInput
   autoBids?: Prisma.AutoBidCreateNestedManyWithoutUserInput
+  transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
+  deposits?: Prisma.DepositRequestCreateNestedManyWithoutUserInput
+  holds?: Prisma.LotHoldCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutNotificationsInput = {
@@ -828,13 +1883,36 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   phone?: string | null
   role?: $Enums.Role
   emailVerified?: Date | string | null
+  balanceByn?: number
+  balanceUsd?: number
+  heldByn?: number
+  heldUsd?: number
+  firstName?: string | null
+  lastName?: string | null
+  middleName?: string | null
+  birthDate?: Date | string | null
+  passportNumber?: string | null
+  country?: string | null
+  city?: string | null
+  address?: string | null
+  occupation?: string | null
+  sourceOfFunds?: string | null
+  ageConfirmed?: boolean
+  kycStatus?: $Enums.KycStatus
+  kycSubmittedAt?: Date | string | null
+  kycReviewedAt?: Date | string | null
+  kycRejectReason?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   bids?: Prisma.BidUncheckedCreateNestedManyWithoutUserInput
   wonLots?: Prisma.LotUncheckedCreateNestedManyWithoutWinnerInput
   verificationTokens?: Prisma.VerificationTokenUncheckedCreateNestedManyWithoutUserInput
+  emailCodes?: Prisma.EmailCodeUncheckedCreateNestedManyWithoutUserInput
   watchlist?: Prisma.WatchlistUncheckedCreateNestedManyWithoutUserInput
   autoBids?: Prisma.AutoBidUncheckedCreateNestedManyWithoutUserInput
+  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
+  deposits?: Prisma.DepositRequestUncheckedCreateNestedManyWithoutUserInput
+  holds?: Prisma.LotHoldUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutNotificationsInput = {
@@ -861,13 +1939,36 @@ export type UserUpdateWithoutNotificationsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  balanceByn?: Prisma.IntFieldUpdateOperationsInput | number
+  balanceUsd?: Prisma.IntFieldUpdateOperationsInput | number
+  heldByn?: Prisma.IntFieldUpdateOperationsInput | number
+  heldUsd?: Prisma.IntFieldUpdateOperationsInput | number
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  middleName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passportNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  occupation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceOfFunds?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ageConfirmed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  kycStatus?: Prisma.EnumKycStatusFieldUpdateOperationsInput | $Enums.KycStatus
+  kycSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  kycReviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  kycRejectReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bids?: Prisma.BidUpdateManyWithoutUserNestedInput
   wonLots?: Prisma.LotUpdateManyWithoutWinnerNestedInput
   verificationTokens?: Prisma.VerificationTokenUpdateManyWithoutUserNestedInput
+  emailCodes?: Prisma.EmailCodeUpdateManyWithoutUserNestedInput
   watchlist?: Prisma.WatchlistUpdateManyWithoutUserNestedInput
   autoBids?: Prisma.AutoBidUpdateManyWithoutUserNestedInput
+  transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
+  deposits?: Prisma.DepositRequestUpdateManyWithoutUserNestedInput
+  holds?: Prisma.LotHoldUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutNotificationsInput = {
@@ -878,13 +1979,564 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  balanceByn?: Prisma.IntFieldUpdateOperationsInput | number
+  balanceUsd?: Prisma.IntFieldUpdateOperationsInput | number
+  heldByn?: Prisma.IntFieldUpdateOperationsInput | number
+  heldUsd?: Prisma.IntFieldUpdateOperationsInput | number
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  middleName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passportNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  occupation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceOfFunds?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ageConfirmed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  kycStatus?: Prisma.EnumKycStatusFieldUpdateOperationsInput | $Enums.KycStatus
+  kycSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  kycReviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  kycRejectReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bids?: Prisma.BidUncheckedUpdateManyWithoutUserNestedInput
   wonLots?: Prisma.LotUncheckedUpdateManyWithoutWinnerNestedInput
   verificationTokens?: Prisma.VerificationTokenUncheckedUpdateManyWithoutUserNestedInput
+  emailCodes?: Prisma.EmailCodeUncheckedUpdateManyWithoutUserNestedInput
   watchlist?: Prisma.WatchlistUncheckedUpdateManyWithoutUserNestedInput
   autoBids?: Prisma.AutoBidUncheckedUpdateManyWithoutUserNestedInput
+  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
+  deposits?: Prisma.DepositRequestUncheckedUpdateManyWithoutUserNestedInput
+  holds?: Prisma.LotHoldUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutTransactionsInput = {
+  id?: string
+  email: string
+  passwordHash: string
+  name: string
+  phone?: string | null
+  role?: $Enums.Role
+  emailVerified?: Date | string | null
+  balanceByn?: number
+  balanceUsd?: number
+  heldByn?: number
+  heldUsd?: number
+  firstName?: string | null
+  lastName?: string | null
+  middleName?: string | null
+  birthDate?: Date | string | null
+  passportNumber?: string | null
+  country?: string | null
+  city?: string | null
+  address?: string | null
+  occupation?: string | null
+  sourceOfFunds?: string | null
+  ageConfirmed?: boolean
+  kycStatus?: $Enums.KycStatus
+  kycSubmittedAt?: Date | string | null
+  kycReviewedAt?: Date | string | null
+  kycRejectReason?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  bids?: Prisma.BidCreateNestedManyWithoutUserInput
+  wonLots?: Prisma.LotCreateNestedManyWithoutWinnerInput
+  verificationTokens?: Prisma.VerificationTokenCreateNestedManyWithoutUserInput
+  emailCodes?: Prisma.EmailCodeCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  watchlist?: Prisma.WatchlistCreateNestedManyWithoutUserInput
+  autoBids?: Prisma.AutoBidCreateNestedManyWithoutUserInput
+  deposits?: Prisma.DepositRequestCreateNestedManyWithoutUserInput
+  holds?: Prisma.LotHoldCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutTransactionsInput = {
+  id?: string
+  email: string
+  passwordHash: string
+  name: string
+  phone?: string | null
+  role?: $Enums.Role
+  emailVerified?: Date | string | null
+  balanceByn?: number
+  balanceUsd?: number
+  heldByn?: number
+  heldUsd?: number
+  firstName?: string | null
+  lastName?: string | null
+  middleName?: string | null
+  birthDate?: Date | string | null
+  passportNumber?: string | null
+  country?: string | null
+  city?: string | null
+  address?: string | null
+  occupation?: string | null
+  sourceOfFunds?: string | null
+  ageConfirmed?: boolean
+  kycStatus?: $Enums.KycStatus
+  kycSubmittedAt?: Date | string | null
+  kycReviewedAt?: Date | string | null
+  kycRejectReason?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  bids?: Prisma.BidUncheckedCreateNestedManyWithoutUserInput
+  wonLots?: Prisma.LotUncheckedCreateNestedManyWithoutWinnerInput
+  verificationTokens?: Prisma.VerificationTokenUncheckedCreateNestedManyWithoutUserInput
+  emailCodes?: Prisma.EmailCodeUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  watchlist?: Prisma.WatchlistUncheckedCreateNestedManyWithoutUserInput
+  autoBids?: Prisma.AutoBidUncheckedCreateNestedManyWithoutUserInput
+  deposits?: Prisma.DepositRequestUncheckedCreateNestedManyWithoutUserInput
+  holds?: Prisma.LotHoldUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutTransactionsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutTransactionsInput, Prisma.UserUncheckedCreateWithoutTransactionsInput>
+}
+
+export type UserUpsertWithoutTransactionsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutTransactionsInput, Prisma.UserUncheckedUpdateWithoutTransactionsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutTransactionsInput, Prisma.UserUncheckedCreateWithoutTransactionsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutTransactionsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutTransactionsInput, Prisma.UserUncheckedUpdateWithoutTransactionsInput>
+}
+
+export type UserUpdateWithoutTransactionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  balanceByn?: Prisma.IntFieldUpdateOperationsInput | number
+  balanceUsd?: Prisma.IntFieldUpdateOperationsInput | number
+  heldByn?: Prisma.IntFieldUpdateOperationsInput | number
+  heldUsd?: Prisma.IntFieldUpdateOperationsInput | number
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  middleName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passportNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  occupation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceOfFunds?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ageConfirmed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  kycStatus?: Prisma.EnumKycStatusFieldUpdateOperationsInput | $Enums.KycStatus
+  kycSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  kycReviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  kycRejectReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  bids?: Prisma.BidUpdateManyWithoutUserNestedInput
+  wonLots?: Prisma.LotUpdateManyWithoutWinnerNestedInput
+  verificationTokens?: Prisma.VerificationTokenUpdateManyWithoutUserNestedInput
+  emailCodes?: Prisma.EmailCodeUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  watchlist?: Prisma.WatchlistUpdateManyWithoutUserNestedInput
+  autoBids?: Prisma.AutoBidUpdateManyWithoutUserNestedInput
+  deposits?: Prisma.DepositRequestUpdateManyWithoutUserNestedInput
+  holds?: Prisma.LotHoldUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutTransactionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  balanceByn?: Prisma.IntFieldUpdateOperationsInput | number
+  balanceUsd?: Prisma.IntFieldUpdateOperationsInput | number
+  heldByn?: Prisma.IntFieldUpdateOperationsInput | number
+  heldUsd?: Prisma.IntFieldUpdateOperationsInput | number
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  middleName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passportNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  occupation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceOfFunds?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ageConfirmed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  kycStatus?: Prisma.EnumKycStatusFieldUpdateOperationsInput | $Enums.KycStatus
+  kycSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  kycReviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  kycRejectReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  bids?: Prisma.BidUncheckedUpdateManyWithoutUserNestedInput
+  wonLots?: Prisma.LotUncheckedUpdateManyWithoutWinnerNestedInput
+  verificationTokens?: Prisma.VerificationTokenUncheckedUpdateManyWithoutUserNestedInput
+  emailCodes?: Prisma.EmailCodeUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  watchlist?: Prisma.WatchlistUncheckedUpdateManyWithoutUserNestedInput
+  autoBids?: Prisma.AutoBidUncheckedUpdateManyWithoutUserNestedInput
+  deposits?: Prisma.DepositRequestUncheckedUpdateManyWithoutUserNestedInput
+  holds?: Prisma.LotHoldUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutDepositsInput = {
+  id?: string
+  email: string
+  passwordHash: string
+  name: string
+  phone?: string | null
+  role?: $Enums.Role
+  emailVerified?: Date | string | null
+  balanceByn?: number
+  balanceUsd?: number
+  heldByn?: number
+  heldUsd?: number
+  firstName?: string | null
+  lastName?: string | null
+  middleName?: string | null
+  birthDate?: Date | string | null
+  passportNumber?: string | null
+  country?: string | null
+  city?: string | null
+  address?: string | null
+  occupation?: string | null
+  sourceOfFunds?: string | null
+  ageConfirmed?: boolean
+  kycStatus?: $Enums.KycStatus
+  kycSubmittedAt?: Date | string | null
+  kycReviewedAt?: Date | string | null
+  kycRejectReason?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  bids?: Prisma.BidCreateNestedManyWithoutUserInput
+  wonLots?: Prisma.LotCreateNestedManyWithoutWinnerInput
+  verificationTokens?: Prisma.VerificationTokenCreateNestedManyWithoutUserInput
+  emailCodes?: Prisma.EmailCodeCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  watchlist?: Prisma.WatchlistCreateNestedManyWithoutUserInput
+  autoBids?: Prisma.AutoBidCreateNestedManyWithoutUserInput
+  transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
+  holds?: Prisma.LotHoldCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutDepositsInput = {
+  id?: string
+  email: string
+  passwordHash: string
+  name: string
+  phone?: string | null
+  role?: $Enums.Role
+  emailVerified?: Date | string | null
+  balanceByn?: number
+  balanceUsd?: number
+  heldByn?: number
+  heldUsd?: number
+  firstName?: string | null
+  lastName?: string | null
+  middleName?: string | null
+  birthDate?: Date | string | null
+  passportNumber?: string | null
+  country?: string | null
+  city?: string | null
+  address?: string | null
+  occupation?: string | null
+  sourceOfFunds?: string | null
+  ageConfirmed?: boolean
+  kycStatus?: $Enums.KycStatus
+  kycSubmittedAt?: Date | string | null
+  kycReviewedAt?: Date | string | null
+  kycRejectReason?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  bids?: Prisma.BidUncheckedCreateNestedManyWithoutUserInput
+  wonLots?: Prisma.LotUncheckedCreateNestedManyWithoutWinnerInput
+  verificationTokens?: Prisma.VerificationTokenUncheckedCreateNestedManyWithoutUserInput
+  emailCodes?: Prisma.EmailCodeUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  watchlist?: Prisma.WatchlistUncheckedCreateNestedManyWithoutUserInput
+  autoBids?: Prisma.AutoBidUncheckedCreateNestedManyWithoutUserInput
+  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
+  holds?: Prisma.LotHoldUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutDepositsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutDepositsInput, Prisma.UserUncheckedCreateWithoutDepositsInput>
+}
+
+export type UserUpsertWithoutDepositsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutDepositsInput, Prisma.UserUncheckedUpdateWithoutDepositsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutDepositsInput, Prisma.UserUncheckedCreateWithoutDepositsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutDepositsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutDepositsInput, Prisma.UserUncheckedUpdateWithoutDepositsInput>
+}
+
+export type UserUpdateWithoutDepositsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  balanceByn?: Prisma.IntFieldUpdateOperationsInput | number
+  balanceUsd?: Prisma.IntFieldUpdateOperationsInput | number
+  heldByn?: Prisma.IntFieldUpdateOperationsInput | number
+  heldUsd?: Prisma.IntFieldUpdateOperationsInput | number
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  middleName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passportNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  occupation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceOfFunds?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ageConfirmed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  kycStatus?: Prisma.EnumKycStatusFieldUpdateOperationsInput | $Enums.KycStatus
+  kycSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  kycReviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  kycRejectReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  bids?: Prisma.BidUpdateManyWithoutUserNestedInput
+  wonLots?: Prisma.LotUpdateManyWithoutWinnerNestedInput
+  verificationTokens?: Prisma.VerificationTokenUpdateManyWithoutUserNestedInput
+  emailCodes?: Prisma.EmailCodeUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  watchlist?: Prisma.WatchlistUpdateManyWithoutUserNestedInput
+  autoBids?: Prisma.AutoBidUpdateManyWithoutUserNestedInput
+  transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
+  holds?: Prisma.LotHoldUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutDepositsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  balanceByn?: Prisma.IntFieldUpdateOperationsInput | number
+  balanceUsd?: Prisma.IntFieldUpdateOperationsInput | number
+  heldByn?: Prisma.IntFieldUpdateOperationsInput | number
+  heldUsd?: Prisma.IntFieldUpdateOperationsInput | number
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  middleName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passportNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  occupation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceOfFunds?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ageConfirmed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  kycStatus?: Prisma.EnumKycStatusFieldUpdateOperationsInput | $Enums.KycStatus
+  kycSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  kycReviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  kycRejectReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  bids?: Prisma.BidUncheckedUpdateManyWithoutUserNestedInput
+  wonLots?: Prisma.LotUncheckedUpdateManyWithoutWinnerNestedInput
+  verificationTokens?: Prisma.VerificationTokenUncheckedUpdateManyWithoutUserNestedInput
+  emailCodes?: Prisma.EmailCodeUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  watchlist?: Prisma.WatchlistUncheckedUpdateManyWithoutUserNestedInput
+  autoBids?: Prisma.AutoBidUncheckedUpdateManyWithoutUserNestedInput
+  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
+  holds?: Prisma.LotHoldUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutHoldsInput = {
+  id?: string
+  email: string
+  passwordHash: string
+  name: string
+  phone?: string | null
+  role?: $Enums.Role
+  emailVerified?: Date | string | null
+  balanceByn?: number
+  balanceUsd?: number
+  heldByn?: number
+  heldUsd?: number
+  firstName?: string | null
+  lastName?: string | null
+  middleName?: string | null
+  birthDate?: Date | string | null
+  passportNumber?: string | null
+  country?: string | null
+  city?: string | null
+  address?: string | null
+  occupation?: string | null
+  sourceOfFunds?: string | null
+  ageConfirmed?: boolean
+  kycStatus?: $Enums.KycStatus
+  kycSubmittedAt?: Date | string | null
+  kycReviewedAt?: Date | string | null
+  kycRejectReason?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  bids?: Prisma.BidCreateNestedManyWithoutUserInput
+  wonLots?: Prisma.LotCreateNestedManyWithoutWinnerInput
+  verificationTokens?: Prisma.VerificationTokenCreateNestedManyWithoutUserInput
+  emailCodes?: Prisma.EmailCodeCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  watchlist?: Prisma.WatchlistCreateNestedManyWithoutUserInput
+  autoBids?: Prisma.AutoBidCreateNestedManyWithoutUserInput
+  transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
+  deposits?: Prisma.DepositRequestCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutHoldsInput = {
+  id?: string
+  email: string
+  passwordHash: string
+  name: string
+  phone?: string | null
+  role?: $Enums.Role
+  emailVerified?: Date | string | null
+  balanceByn?: number
+  balanceUsd?: number
+  heldByn?: number
+  heldUsd?: number
+  firstName?: string | null
+  lastName?: string | null
+  middleName?: string | null
+  birthDate?: Date | string | null
+  passportNumber?: string | null
+  country?: string | null
+  city?: string | null
+  address?: string | null
+  occupation?: string | null
+  sourceOfFunds?: string | null
+  ageConfirmed?: boolean
+  kycStatus?: $Enums.KycStatus
+  kycSubmittedAt?: Date | string | null
+  kycReviewedAt?: Date | string | null
+  kycRejectReason?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  bids?: Prisma.BidUncheckedCreateNestedManyWithoutUserInput
+  wonLots?: Prisma.LotUncheckedCreateNestedManyWithoutWinnerInput
+  verificationTokens?: Prisma.VerificationTokenUncheckedCreateNestedManyWithoutUserInput
+  emailCodes?: Prisma.EmailCodeUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  watchlist?: Prisma.WatchlistUncheckedCreateNestedManyWithoutUserInput
+  autoBids?: Prisma.AutoBidUncheckedCreateNestedManyWithoutUserInput
+  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
+  deposits?: Prisma.DepositRequestUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutHoldsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutHoldsInput, Prisma.UserUncheckedCreateWithoutHoldsInput>
+}
+
+export type UserUpsertWithoutHoldsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutHoldsInput, Prisma.UserUncheckedUpdateWithoutHoldsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutHoldsInput, Prisma.UserUncheckedCreateWithoutHoldsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutHoldsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutHoldsInput, Prisma.UserUncheckedUpdateWithoutHoldsInput>
+}
+
+export type UserUpdateWithoutHoldsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  balanceByn?: Prisma.IntFieldUpdateOperationsInput | number
+  balanceUsd?: Prisma.IntFieldUpdateOperationsInput | number
+  heldByn?: Prisma.IntFieldUpdateOperationsInput | number
+  heldUsd?: Prisma.IntFieldUpdateOperationsInput | number
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  middleName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passportNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  occupation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceOfFunds?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ageConfirmed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  kycStatus?: Prisma.EnumKycStatusFieldUpdateOperationsInput | $Enums.KycStatus
+  kycSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  kycReviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  kycRejectReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  bids?: Prisma.BidUpdateManyWithoutUserNestedInput
+  wonLots?: Prisma.LotUpdateManyWithoutWinnerNestedInput
+  verificationTokens?: Prisma.VerificationTokenUpdateManyWithoutUserNestedInput
+  emailCodes?: Prisma.EmailCodeUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  watchlist?: Prisma.WatchlistUpdateManyWithoutUserNestedInput
+  autoBids?: Prisma.AutoBidUpdateManyWithoutUserNestedInput
+  transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
+  deposits?: Prisma.DepositRequestUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutHoldsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  balanceByn?: Prisma.IntFieldUpdateOperationsInput | number
+  balanceUsd?: Prisma.IntFieldUpdateOperationsInput | number
+  heldByn?: Prisma.IntFieldUpdateOperationsInput | number
+  heldUsd?: Prisma.IntFieldUpdateOperationsInput | number
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  middleName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passportNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  occupation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceOfFunds?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ageConfirmed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  kycStatus?: Prisma.EnumKycStatusFieldUpdateOperationsInput | $Enums.KycStatus
+  kycSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  kycReviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  kycRejectReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  bids?: Prisma.BidUncheckedUpdateManyWithoutUserNestedInput
+  wonLots?: Prisma.LotUncheckedUpdateManyWithoutWinnerNestedInput
+  verificationTokens?: Prisma.VerificationTokenUncheckedUpdateManyWithoutUserNestedInput
+  emailCodes?: Prisma.EmailCodeUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  watchlist?: Prisma.WatchlistUncheckedUpdateManyWithoutUserNestedInput
+  autoBids?: Prisma.AutoBidUncheckedUpdateManyWithoutUserNestedInput
+  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
+  deposits?: Prisma.DepositRequestUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutWonLotsInput = {
@@ -895,13 +2547,36 @@ export type UserCreateWithoutWonLotsInput = {
   phone?: string | null
   role?: $Enums.Role
   emailVerified?: Date | string | null
+  balanceByn?: number
+  balanceUsd?: number
+  heldByn?: number
+  heldUsd?: number
+  firstName?: string | null
+  lastName?: string | null
+  middleName?: string | null
+  birthDate?: Date | string | null
+  passportNumber?: string | null
+  country?: string | null
+  city?: string | null
+  address?: string | null
+  occupation?: string | null
+  sourceOfFunds?: string | null
+  ageConfirmed?: boolean
+  kycStatus?: $Enums.KycStatus
+  kycSubmittedAt?: Date | string | null
+  kycReviewedAt?: Date | string | null
+  kycRejectReason?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   bids?: Prisma.BidCreateNestedManyWithoutUserInput
   verificationTokens?: Prisma.VerificationTokenCreateNestedManyWithoutUserInput
+  emailCodes?: Prisma.EmailCodeCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   watchlist?: Prisma.WatchlistCreateNestedManyWithoutUserInput
   autoBids?: Prisma.AutoBidCreateNestedManyWithoutUserInput
+  transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
+  deposits?: Prisma.DepositRequestCreateNestedManyWithoutUserInput
+  holds?: Prisma.LotHoldCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutWonLotsInput = {
@@ -912,13 +2587,36 @@ export type UserUncheckedCreateWithoutWonLotsInput = {
   phone?: string | null
   role?: $Enums.Role
   emailVerified?: Date | string | null
+  balanceByn?: number
+  balanceUsd?: number
+  heldByn?: number
+  heldUsd?: number
+  firstName?: string | null
+  lastName?: string | null
+  middleName?: string | null
+  birthDate?: Date | string | null
+  passportNumber?: string | null
+  country?: string | null
+  city?: string | null
+  address?: string | null
+  occupation?: string | null
+  sourceOfFunds?: string | null
+  ageConfirmed?: boolean
+  kycStatus?: $Enums.KycStatus
+  kycSubmittedAt?: Date | string | null
+  kycReviewedAt?: Date | string | null
+  kycRejectReason?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   bids?: Prisma.BidUncheckedCreateNestedManyWithoutUserInput
   verificationTokens?: Prisma.VerificationTokenUncheckedCreateNestedManyWithoutUserInput
+  emailCodes?: Prisma.EmailCodeUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   watchlist?: Prisma.WatchlistUncheckedCreateNestedManyWithoutUserInput
   autoBids?: Prisma.AutoBidUncheckedCreateNestedManyWithoutUserInput
+  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
+  deposits?: Prisma.DepositRequestUncheckedCreateNestedManyWithoutUserInput
+  holds?: Prisma.LotHoldUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutWonLotsInput = {
@@ -945,13 +2643,36 @@ export type UserUpdateWithoutWonLotsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  balanceByn?: Prisma.IntFieldUpdateOperationsInput | number
+  balanceUsd?: Prisma.IntFieldUpdateOperationsInput | number
+  heldByn?: Prisma.IntFieldUpdateOperationsInput | number
+  heldUsd?: Prisma.IntFieldUpdateOperationsInput | number
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  middleName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passportNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  occupation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceOfFunds?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ageConfirmed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  kycStatus?: Prisma.EnumKycStatusFieldUpdateOperationsInput | $Enums.KycStatus
+  kycSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  kycReviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  kycRejectReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bids?: Prisma.BidUpdateManyWithoutUserNestedInput
   verificationTokens?: Prisma.VerificationTokenUpdateManyWithoutUserNestedInput
+  emailCodes?: Prisma.EmailCodeUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   watchlist?: Prisma.WatchlistUpdateManyWithoutUserNestedInput
   autoBids?: Prisma.AutoBidUpdateManyWithoutUserNestedInput
+  transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
+  deposits?: Prisma.DepositRequestUpdateManyWithoutUserNestedInput
+  holds?: Prisma.LotHoldUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutWonLotsInput = {
@@ -962,13 +2683,36 @@ export type UserUncheckedUpdateWithoutWonLotsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  balanceByn?: Prisma.IntFieldUpdateOperationsInput | number
+  balanceUsd?: Prisma.IntFieldUpdateOperationsInput | number
+  heldByn?: Prisma.IntFieldUpdateOperationsInput | number
+  heldUsd?: Prisma.IntFieldUpdateOperationsInput | number
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  middleName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passportNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  occupation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceOfFunds?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ageConfirmed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  kycStatus?: Prisma.EnumKycStatusFieldUpdateOperationsInput | $Enums.KycStatus
+  kycSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  kycReviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  kycRejectReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bids?: Prisma.BidUncheckedUpdateManyWithoutUserNestedInput
   verificationTokens?: Prisma.VerificationTokenUncheckedUpdateManyWithoutUserNestedInput
+  emailCodes?: Prisma.EmailCodeUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   watchlist?: Prisma.WatchlistUncheckedUpdateManyWithoutUserNestedInput
   autoBids?: Prisma.AutoBidUncheckedUpdateManyWithoutUserNestedInput
+  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
+  deposits?: Prisma.DepositRequestUncheckedUpdateManyWithoutUserNestedInput
+  holds?: Prisma.LotHoldUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutBidsInput = {
@@ -979,13 +2723,36 @@ export type UserCreateWithoutBidsInput = {
   phone?: string | null
   role?: $Enums.Role
   emailVerified?: Date | string | null
+  balanceByn?: number
+  balanceUsd?: number
+  heldByn?: number
+  heldUsd?: number
+  firstName?: string | null
+  lastName?: string | null
+  middleName?: string | null
+  birthDate?: Date | string | null
+  passportNumber?: string | null
+  country?: string | null
+  city?: string | null
+  address?: string | null
+  occupation?: string | null
+  sourceOfFunds?: string | null
+  ageConfirmed?: boolean
+  kycStatus?: $Enums.KycStatus
+  kycSubmittedAt?: Date | string | null
+  kycReviewedAt?: Date | string | null
+  kycRejectReason?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   wonLots?: Prisma.LotCreateNestedManyWithoutWinnerInput
   verificationTokens?: Prisma.VerificationTokenCreateNestedManyWithoutUserInput
+  emailCodes?: Prisma.EmailCodeCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   watchlist?: Prisma.WatchlistCreateNestedManyWithoutUserInput
   autoBids?: Prisma.AutoBidCreateNestedManyWithoutUserInput
+  transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
+  deposits?: Prisma.DepositRequestCreateNestedManyWithoutUserInput
+  holds?: Prisma.LotHoldCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutBidsInput = {
@@ -996,13 +2763,36 @@ export type UserUncheckedCreateWithoutBidsInput = {
   phone?: string | null
   role?: $Enums.Role
   emailVerified?: Date | string | null
+  balanceByn?: number
+  balanceUsd?: number
+  heldByn?: number
+  heldUsd?: number
+  firstName?: string | null
+  lastName?: string | null
+  middleName?: string | null
+  birthDate?: Date | string | null
+  passportNumber?: string | null
+  country?: string | null
+  city?: string | null
+  address?: string | null
+  occupation?: string | null
+  sourceOfFunds?: string | null
+  ageConfirmed?: boolean
+  kycStatus?: $Enums.KycStatus
+  kycSubmittedAt?: Date | string | null
+  kycReviewedAt?: Date | string | null
+  kycRejectReason?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   wonLots?: Prisma.LotUncheckedCreateNestedManyWithoutWinnerInput
   verificationTokens?: Prisma.VerificationTokenUncheckedCreateNestedManyWithoutUserInput
+  emailCodes?: Prisma.EmailCodeUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   watchlist?: Prisma.WatchlistUncheckedCreateNestedManyWithoutUserInput
   autoBids?: Prisma.AutoBidUncheckedCreateNestedManyWithoutUserInput
+  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
+  deposits?: Prisma.DepositRequestUncheckedCreateNestedManyWithoutUserInput
+  holds?: Prisma.LotHoldUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutBidsInput = {
@@ -1029,13 +2819,36 @@ export type UserUpdateWithoutBidsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  balanceByn?: Prisma.IntFieldUpdateOperationsInput | number
+  balanceUsd?: Prisma.IntFieldUpdateOperationsInput | number
+  heldByn?: Prisma.IntFieldUpdateOperationsInput | number
+  heldUsd?: Prisma.IntFieldUpdateOperationsInput | number
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  middleName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passportNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  occupation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceOfFunds?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ageConfirmed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  kycStatus?: Prisma.EnumKycStatusFieldUpdateOperationsInput | $Enums.KycStatus
+  kycSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  kycReviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  kycRejectReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   wonLots?: Prisma.LotUpdateManyWithoutWinnerNestedInput
   verificationTokens?: Prisma.VerificationTokenUpdateManyWithoutUserNestedInput
+  emailCodes?: Prisma.EmailCodeUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   watchlist?: Prisma.WatchlistUpdateManyWithoutUserNestedInput
   autoBids?: Prisma.AutoBidUpdateManyWithoutUserNestedInput
+  transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
+  deposits?: Prisma.DepositRequestUpdateManyWithoutUserNestedInput
+  holds?: Prisma.LotHoldUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutBidsInput = {
@@ -1046,13 +2859,36 @@ export type UserUncheckedUpdateWithoutBidsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  balanceByn?: Prisma.IntFieldUpdateOperationsInput | number
+  balanceUsd?: Prisma.IntFieldUpdateOperationsInput | number
+  heldByn?: Prisma.IntFieldUpdateOperationsInput | number
+  heldUsd?: Prisma.IntFieldUpdateOperationsInput | number
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  middleName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passportNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  occupation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceOfFunds?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ageConfirmed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  kycStatus?: Prisma.EnumKycStatusFieldUpdateOperationsInput | $Enums.KycStatus
+  kycSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  kycReviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  kycRejectReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   wonLots?: Prisma.LotUncheckedUpdateManyWithoutWinnerNestedInput
   verificationTokens?: Prisma.VerificationTokenUncheckedUpdateManyWithoutUserNestedInput
+  emailCodes?: Prisma.EmailCodeUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   watchlist?: Prisma.WatchlistUncheckedUpdateManyWithoutUserNestedInput
   autoBids?: Prisma.AutoBidUncheckedUpdateManyWithoutUserNestedInput
+  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
+  deposits?: Prisma.DepositRequestUncheckedUpdateManyWithoutUserNestedInput
+  holds?: Prisma.LotHoldUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -1064,18 +2900,26 @@ export type UserCountOutputType = {
   bids: number
   wonLots: number
   verificationTokens: number
+  emailCodes: number
   notifications: number
   watchlist: number
   autoBids: number
+  transactions: number
+  deposits: number
+  holds: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   bids?: boolean | UserCountOutputTypeCountBidsArgs
   wonLots?: boolean | UserCountOutputTypeCountWonLotsArgs
   verificationTokens?: boolean | UserCountOutputTypeCountVerificationTokensArgs
+  emailCodes?: boolean | UserCountOutputTypeCountEmailCodesArgs
   notifications?: boolean | UserCountOutputTypeCountNotificationsArgs
   watchlist?: boolean | UserCountOutputTypeCountWatchlistArgs
   autoBids?: boolean | UserCountOutputTypeCountAutoBidsArgs
+  transactions?: boolean | UserCountOutputTypeCountTransactionsArgs
+  deposits?: boolean | UserCountOutputTypeCountDepositsArgs
+  holds?: boolean | UserCountOutputTypeCountHoldsArgs
 }
 
 /**
@@ -1112,6 +2956,13 @@ export type UserCountOutputTypeCountVerificationTokensArgs<ExtArgs extends runti
 /**
  * UserCountOutputType without action
  */
+export type UserCountOutputTypeCountEmailCodesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.EmailCodeWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
 export type UserCountOutputTypeCountNotificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.NotificationWhereInput
 }
@@ -1130,6 +2981,27 @@ export type UserCountOutputTypeCountAutoBidsArgs<ExtArgs extends runtime.Types.E
   where?: Prisma.AutoBidWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountTransactionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TransactionWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountDepositsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DepositRequestWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountHoldsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.LotHoldWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1139,14 +3011,37 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   phone?: boolean
   role?: boolean
   emailVerified?: boolean
+  balanceByn?: boolean
+  balanceUsd?: boolean
+  heldByn?: boolean
+  heldUsd?: boolean
+  firstName?: boolean
+  lastName?: boolean
+  middleName?: boolean
+  birthDate?: boolean
+  passportNumber?: boolean
+  country?: boolean
+  city?: boolean
+  address?: boolean
+  occupation?: boolean
+  sourceOfFunds?: boolean
+  ageConfirmed?: boolean
+  kycStatus?: boolean
+  kycSubmittedAt?: boolean
+  kycReviewedAt?: boolean
+  kycRejectReason?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   bids?: boolean | Prisma.User$bidsArgs<ExtArgs>
   wonLots?: boolean | Prisma.User$wonLotsArgs<ExtArgs>
   verificationTokens?: boolean | Prisma.User$verificationTokensArgs<ExtArgs>
+  emailCodes?: boolean | Prisma.User$emailCodesArgs<ExtArgs>
   notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
   watchlist?: boolean | Prisma.User$watchlistArgs<ExtArgs>
   autoBids?: boolean | Prisma.User$autoBidsArgs<ExtArgs>
+  transactions?: boolean | Prisma.User$transactionsArgs<ExtArgs>
+  deposits?: boolean | Prisma.User$depositsArgs<ExtArgs>
+  holds?: boolean | Prisma.User$holdsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -1158,6 +3053,25 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   phone?: boolean
   role?: boolean
   emailVerified?: boolean
+  balanceByn?: boolean
+  balanceUsd?: boolean
+  heldByn?: boolean
+  heldUsd?: boolean
+  firstName?: boolean
+  lastName?: boolean
+  middleName?: boolean
+  birthDate?: boolean
+  passportNumber?: boolean
+  country?: boolean
+  city?: boolean
+  address?: boolean
+  occupation?: boolean
+  sourceOfFunds?: boolean
+  ageConfirmed?: boolean
+  kycStatus?: boolean
+  kycSubmittedAt?: boolean
+  kycReviewedAt?: boolean
+  kycRejectReason?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["user"]>
@@ -1170,6 +3084,25 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   phone?: boolean
   role?: boolean
   emailVerified?: boolean
+  balanceByn?: boolean
+  balanceUsd?: boolean
+  heldByn?: boolean
+  heldUsd?: boolean
+  firstName?: boolean
+  lastName?: boolean
+  middleName?: boolean
+  birthDate?: boolean
+  passportNumber?: boolean
+  country?: boolean
+  city?: boolean
+  address?: boolean
+  occupation?: boolean
+  sourceOfFunds?: boolean
+  ageConfirmed?: boolean
+  kycStatus?: boolean
+  kycSubmittedAt?: boolean
+  kycReviewedAt?: boolean
+  kycRejectReason?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["user"]>
@@ -1182,18 +3115,41 @@ export type UserSelectScalar = {
   phone?: boolean
   role?: boolean
   emailVerified?: boolean
+  balanceByn?: boolean
+  balanceUsd?: boolean
+  heldByn?: boolean
+  heldUsd?: boolean
+  firstName?: boolean
+  lastName?: boolean
+  middleName?: boolean
+  birthDate?: boolean
+  passportNumber?: boolean
+  country?: boolean
+  city?: boolean
+  address?: boolean
+  occupation?: boolean
+  sourceOfFunds?: boolean
+  ageConfirmed?: boolean
+  kycStatus?: boolean
+  kycSubmittedAt?: boolean
+  kycReviewedAt?: boolean
+  kycRejectReason?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "passwordHash" | "name" | "phone" | "role" | "emailVerified" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "passwordHash" | "name" | "phone" | "role" | "emailVerified" | "balanceByn" | "balanceUsd" | "heldByn" | "heldUsd" | "firstName" | "lastName" | "middleName" | "birthDate" | "passportNumber" | "country" | "city" | "address" | "occupation" | "sourceOfFunds" | "ageConfirmed" | "kycStatus" | "kycSubmittedAt" | "kycReviewedAt" | "kycRejectReason" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   bids?: boolean | Prisma.User$bidsArgs<ExtArgs>
   wonLots?: boolean | Prisma.User$wonLotsArgs<ExtArgs>
   verificationTokens?: boolean | Prisma.User$verificationTokensArgs<ExtArgs>
+  emailCodes?: boolean | Prisma.User$emailCodesArgs<ExtArgs>
   notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
   watchlist?: boolean | Prisma.User$watchlistArgs<ExtArgs>
   autoBids?: boolean | Prisma.User$autoBidsArgs<ExtArgs>
+  transactions?: boolean | Prisma.User$transactionsArgs<ExtArgs>
+  deposits?: boolean | Prisma.User$depositsArgs<ExtArgs>
+  holds?: boolean | Prisma.User$holdsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -1205,9 +3161,13 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     bids: Prisma.$BidPayload<ExtArgs>[]
     wonLots: Prisma.$LotPayload<ExtArgs>[]
     verificationTokens: Prisma.$VerificationTokenPayload<ExtArgs>[]
+    emailCodes: Prisma.$EmailCodePayload<ExtArgs>[]
     notifications: Prisma.$NotificationPayload<ExtArgs>[]
     watchlist: Prisma.$WatchlistPayload<ExtArgs>[]
     autoBids: Prisma.$AutoBidPayload<ExtArgs>[]
+    transactions: Prisma.$TransactionPayload<ExtArgs>[]
+    deposits: Prisma.$DepositRequestPayload<ExtArgs>[]
+    holds: Prisma.$LotHoldPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1217,6 +3177,25 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     phone: string | null
     role: $Enums.Role
     emailVerified: Date | null
+    balanceByn: number
+    balanceUsd: number
+    heldByn: number
+    heldUsd: number
+    firstName: string | null
+    lastName: string | null
+    middleName: string | null
+    birthDate: Date | null
+    passportNumber: string | null
+    country: string | null
+    city: string | null
+    address: string | null
+    occupation: string | null
+    sourceOfFunds: string | null
+    ageConfirmed: boolean
+    kycStatus: $Enums.KycStatus
+    kycSubmittedAt: Date | null
+    kycReviewedAt: Date | null
+    kycRejectReason: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["user"]>
@@ -1616,9 +3595,13 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   bids<T extends Prisma.User$bidsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$bidsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BidPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   wonLots<T extends Prisma.User$wonLotsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$wonLotsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LotPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   verificationTokens<T extends Prisma.User$verificationTokensArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$verificationTokensArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$VerificationTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  emailCodes<T extends Prisma.User$emailCodesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$emailCodesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EmailCodePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   notifications<T extends Prisma.User$notificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   watchlist<T extends Prisma.User$watchlistArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$watchlistArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WatchlistPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   autoBids<T extends Prisma.User$autoBidsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$autoBidsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AutoBidPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  transactions<T extends Prisma.User$transactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$transactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  deposits<T extends Prisma.User$depositsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$depositsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DepositRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  holds<T extends Prisma.User$holdsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$holdsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LotHoldPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1655,6 +3638,25 @@ export interface UserFieldRefs {
   readonly phone: Prisma.FieldRef<"User", 'String'>
   readonly role: Prisma.FieldRef<"User", 'Role'>
   readonly emailVerified: Prisma.FieldRef<"User", 'DateTime'>
+  readonly balanceByn: Prisma.FieldRef<"User", 'Int'>
+  readonly balanceUsd: Prisma.FieldRef<"User", 'Int'>
+  readonly heldByn: Prisma.FieldRef<"User", 'Int'>
+  readonly heldUsd: Prisma.FieldRef<"User", 'Int'>
+  readonly firstName: Prisma.FieldRef<"User", 'String'>
+  readonly lastName: Prisma.FieldRef<"User", 'String'>
+  readonly middleName: Prisma.FieldRef<"User", 'String'>
+  readonly birthDate: Prisma.FieldRef<"User", 'DateTime'>
+  readonly passportNumber: Prisma.FieldRef<"User", 'String'>
+  readonly country: Prisma.FieldRef<"User", 'String'>
+  readonly city: Prisma.FieldRef<"User", 'String'>
+  readonly address: Prisma.FieldRef<"User", 'String'>
+  readonly occupation: Prisma.FieldRef<"User", 'String'>
+  readonly sourceOfFunds: Prisma.FieldRef<"User", 'String'>
+  readonly ageConfirmed: Prisma.FieldRef<"User", 'Boolean'>
+  readonly kycStatus: Prisma.FieldRef<"User", 'KycStatus'>
+  readonly kycSubmittedAt: Prisma.FieldRef<"User", 'DateTime'>
+  readonly kycReviewedAt: Prisma.FieldRef<"User", 'DateTime'>
+  readonly kycRejectReason: Prisma.FieldRef<"User", 'String'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
 }
@@ -2122,6 +4124,30 @@ export type User$verificationTokensArgs<ExtArgs extends runtime.Types.Extensions
 }
 
 /**
+ * User.emailCodes
+ */
+export type User$emailCodesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the EmailCode
+   */
+  select?: Prisma.EmailCodeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the EmailCode
+   */
+  omit?: Prisma.EmailCodeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EmailCodeInclude<ExtArgs> | null
+  where?: Prisma.EmailCodeWhereInput
+  orderBy?: Prisma.EmailCodeOrderByWithRelationInput | Prisma.EmailCodeOrderByWithRelationInput[]
+  cursor?: Prisma.EmailCodeWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.EmailCodeScalarFieldEnum | Prisma.EmailCodeScalarFieldEnum[]
+}
+
+/**
  * User.notifications
  */
 export type User$notificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2191,6 +4217,78 @@ export type User$autoBidsArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   take?: number
   skip?: number
   distinct?: Prisma.AutoBidScalarFieldEnum | Prisma.AutoBidScalarFieldEnum[]
+}
+
+/**
+ * User.transactions
+ */
+export type User$transactionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Transaction
+   */
+  select?: Prisma.TransactionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Transaction
+   */
+  omit?: Prisma.TransactionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TransactionInclude<ExtArgs> | null
+  where?: Prisma.TransactionWhereInput
+  orderBy?: Prisma.TransactionOrderByWithRelationInput | Prisma.TransactionOrderByWithRelationInput[]
+  cursor?: Prisma.TransactionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TransactionScalarFieldEnum | Prisma.TransactionScalarFieldEnum[]
+}
+
+/**
+ * User.deposits
+ */
+export type User$depositsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DepositRequest
+   */
+  select?: Prisma.DepositRequestSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the DepositRequest
+   */
+  omit?: Prisma.DepositRequestOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DepositRequestInclude<ExtArgs> | null
+  where?: Prisma.DepositRequestWhereInput
+  orderBy?: Prisma.DepositRequestOrderByWithRelationInput | Prisma.DepositRequestOrderByWithRelationInput[]
+  cursor?: Prisma.DepositRequestWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DepositRequestScalarFieldEnum | Prisma.DepositRequestScalarFieldEnum[]
+}
+
+/**
+ * User.holds
+ */
+export type User$holdsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the LotHold
+   */
+  select?: Prisma.LotHoldSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the LotHold
+   */
+  omit?: Prisma.LotHoldOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.LotHoldInclude<ExtArgs> | null
+  where?: Prisma.LotHoldWhereInput
+  orderBy?: Prisma.LotHoldOrderByWithRelationInput | Prisma.LotHoldOrderByWithRelationInput[]
+  cursor?: Prisma.LotHoldWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.LotHoldScalarFieldEnum | Prisma.LotHoldScalarFieldEnum[]
 }
 
 /**

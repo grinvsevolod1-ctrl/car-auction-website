@@ -7,7 +7,12 @@ import { guard } from '@/lib/security'
 import { notify, outbidEmail } from '@/lib/notify'
 import { sendMail } from '@/lib/mail'
 import { resolveAutoBids } from '@/lib/autobid'
-import { logger } from '@/lib/logger'
+import {
+  availableOf,
+  reconcileHolds,
+  captureWinner,
+} from '@/lib/balance'
+import { formatMoney } from '@/lib/money'
 import {
   ANTISNIPE_EXTEND_SEC,
   ANTISNIPE_WINDOW_SEC,
@@ -29,17 +34,29 @@ export async function placeBidAction(
     return { error: 'Войдите в аккаунт, чтобы участвовать в торгах' }
   }
 
-  // Требование подтверждённого email для участия.
-  if (REQUIRE_EMAIL_VERIFICATION) {
-    const user = await prisma.user.findUnique({
-      where: { id: session.userId },
-      select: { emailVerified: true },
-    })
-    if (!user?.emailVerified) {
-      return {
-        error:
-          'Подтвердите email, чтобы делать ставки. Ссылка отправлена вам на почту.',
-      }
+  // Проверки допуска: email, KYC (18+), — до обращения к балансу.
+  const user = await prisma.user.findUnique({
+    where: { id: session.userId },
+    select: {
+      emailVerified: true,
+      kycStatus: true,
+      balanceByn: true,
+      balanceUsd: true,
+      heldByn: true,
+      heldUsd: true,
+    },
+  })
+  if (!user) return { error: 'Пользователь не найден' }
+
+  if (REQUIRE_EMAIL_VERIFICATION && !user.emailVerified) {
+    return {
+      error: 'Подтвердите email, чтобы делать ставки.',
+    }
+  }
+  if (user.kycStatus !== 'APPROVED') {
+    return {
+      error:
+        'Чтобы участвовать в торгах, пройдите верификацию личности (18+) в личном кабинете.',
     }
   }
 
@@ -49,8 +66,9 @@ export async function placeBidAction(
     return { error: 'Некорректная ставка' }
   }
 
-  let outbid: { userId: string; email: string; title: string; price: number } | null =
-    null
+  let outbid:
+    | { userId: string; email: string; title: string; price: number }
+    | null = null
 
   try {
     await prisma.$transaction(async (tx) => {
@@ -61,14 +79,25 @@ export async function placeBidAction(
         throw new Error('Торги по этому лоту завершены')
       }
 
+      const currency = lot.currency
       const minBid = lot.currentPrice + lot.bidStep
       if (amount < minBid) {
+        throw new Error(`Минимальная ставка — ${formatMoney(minBid, currency)}`)
+      }
+
+      // Проверка обеспечения: доступно + уже замороженное на этом лоте.
+      const ownHold = await tx.lotHold.findUnique({
+        where: { userId_lotId: { userId: session.userId, lotId } },
+        select: { amount: true, active: true },
+      })
+      const held = ownHold?.active ? ownHold.amount : 0
+      const canCommit = availableOf(user, currency) + held
+      if (amount > canCommit) {
         throw new Error(
-          `Минимальная ставка — ${minBid.toLocaleString('ru-RU')} Br`,
+          `Недостаточно средств. Доступно ${formatMoney(canCommit, currency)}. Пополните баланс.`,
         )
       }
 
-      // Предыдущий лидер (для уведомления о перебитой ставке).
       const prevTop = await tx.bid.findFirst({
         where: { lotId },
         orderBy: { amount: 'desc' },
@@ -81,7 +110,6 @@ export async function placeBidAction(
 
       const soldNow = lot.buyNowPrice != null && amount >= lot.buyNowPrice
 
-      // Антиснайпинг: продлеваем торги, если ставка в конце окна.
       const msLeft = lot.endsAt.getTime() - Date.now()
       let newEndsAt = lot.endsAt
       if (!soldNow && msLeft <= ANTISNIPE_WINDOW_SEC * 1000) {
@@ -97,14 +125,13 @@ export async function placeBidAction(
         },
       })
 
-      // Уведомление предыдущему лидеру (если это другой человек).
       if (prevTop && prevTop.userId !== session.userId) {
         await notify({
           tx,
           userId: prevTop.userId,
           type: 'outbid',
           title: 'Вашу ставку перебили',
-          body: `По лоту «${lot.title}» новая цена ${amount.toLocaleString('ru-RU')} Br.`,
+          body: `По лоту «${lot.title}» новая цена ${formatMoney(amount, currency)}.`,
           lotId,
         })
         outbid = {
@@ -115,29 +142,32 @@ export async function placeBidAction(
         }
       }
 
-      // Ставящий вручную отменяет собственную автоставку (он и так лидирует).
+      // Отменяем собственную автоставку — пользователь и так лидирует.
       await tx.autoBid.updateMany({
         where: { lotId, userId: session.userId },
         data: { active: false },
       })
 
-      // Автоответ чужих автоставок (proxy bidding).
-      if (!soldNow) {
+      if (soldNow) {
+        // Мгновенная покупка: списываем средства победителя, освобождаем остальных.
+        await captureWinner(tx, lotId, session.userId, amount, currency)
+      } else {
         await resolveAutoBids(tx, lotId)
+        // Приводим заморозки к финальному состоянию: держим средства лидера.
+        await reconcileHolds(tx, lotId, currency)
       }
     })
   } catch (e) {
     return { error: e instanceof Error ? e.message : 'Не удалось сделать ставку' }
   }
 
-  // Письмо о перебитой ставке — после коммита транзакции.
   if (outbid) {
     const o = outbid as { email: string; title: string; price: number }
     await sendMail({
       to: o.email,
       subject: 'Вашу ставку перебили — IGNIS',
       html: outbidEmail(o.title, lotId, o.price),
-      text: `По лоту «${o.title}» новая цена ${o.price} Br.`,
+      text: `По лоту «${o.title}» новая цена ${o.price}.`,
     })
   }
 

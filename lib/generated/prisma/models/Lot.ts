@@ -31,6 +31,7 @@ export type LotAvgAggregateOutputType = {
   mileage: number | null
   engineVol: number | null
   power: number | null
+  customsFeeBase: number | null
   startPrice: number | null
   bidStep: number | null
   currentPrice: number | null
@@ -42,6 +43,7 @@ export type LotSumAggregateOutputType = {
   mileage: number | null
   engineVol: number | null
   power: number | null
+  customsFeeBase: number | null
   startPrice: number | null
   bidStep: number | null
   currentPrice: number | null
@@ -66,6 +68,14 @@ export type LotMinAggregateOutputType = {
   location: string | null
   condition: string | null
   description: string | null
+  originCountry: string | null
+  region: string | null
+  auctionSource: string | null
+  lotNumber: string | null
+  titleStatus: string | null
+  damageType: string | null
+  customsFeeBase: number | null
+  currency: $Enums.Currency | null
   startPrice: number | null
   bidStep: number | null
   currentPrice: number | null
@@ -97,6 +107,14 @@ export type LotMaxAggregateOutputType = {
   location: string | null
   condition: string | null
   description: string | null
+  originCountry: string | null
+  region: string | null
+  auctionSource: string | null
+  lotNumber: string | null
+  titleStatus: string | null
+  damageType: string | null
+  customsFeeBase: number | null
+  currency: $Enums.Currency | null
   startPrice: number | null
   bidStep: number | null
   currentPrice: number | null
@@ -129,6 +147,14 @@ export type LotCountAggregateOutputType = {
   condition: number
   description: number
   images: number
+  originCountry: number
+  region: number
+  auctionSource: number
+  lotNumber: number
+  titleStatus: number
+  damageType: number
+  customsFeeBase: number
+  currency: number
   startPrice: number
   bidStep: number
   currentPrice: number
@@ -149,6 +175,7 @@ export type LotAvgAggregateInputType = {
   mileage?: true
   engineVol?: true
   power?: true
+  customsFeeBase?: true
   startPrice?: true
   bidStep?: true
   currentPrice?: true
@@ -160,6 +187,7 @@ export type LotSumAggregateInputType = {
   mileage?: true
   engineVol?: true
   power?: true
+  customsFeeBase?: true
   startPrice?: true
   bidStep?: true
   currentPrice?: true
@@ -184,6 +212,14 @@ export type LotMinAggregateInputType = {
   location?: true
   condition?: true
   description?: true
+  originCountry?: true
+  region?: true
+  auctionSource?: true
+  lotNumber?: true
+  titleStatus?: true
+  damageType?: true
+  customsFeeBase?: true
+  currency?: true
   startPrice?: true
   bidStep?: true
   currentPrice?: true
@@ -215,6 +251,14 @@ export type LotMaxAggregateInputType = {
   location?: true
   condition?: true
   description?: true
+  originCountry?: true
+  region?: true
+  auctionSource?: true
+  lotNumber?: true
+  titleStatus?: true
+  damageType?: true
+  customsFeeBase?: true
+  currency?: true
   startPrice?: true
   bidStep?: true
   currentPrice?: true
@@ -247,6 +291,14 @@ export type LotCountAggregateInputType = {
   condition?: true
   description?: true
   images?: true
+  originCountry?: true
+  region?: true
+  auctionSource?: true
+  lotNumber?: true
+  titleStatus?: true
+  damageType?: true
+  customsFeeBase?: true
+  currency?: true
   startPrice?: true
   bidStep?: true
   currentPrice?: true
@@ -366,6 +418,14 @@ export type LotGroupByOutputType = {
   condition: string | null
   description: string | null
   images: string[]
+  originCountry: string | null
+  region: string | null
+  auctionSource: string | null
+  lotNumber: string | null
+  titleStatus: string | null
+  damageType: string | null
+  customsFeeBase: number | null
+  currency: $Enums.Currency
   startPrice: number
   bidStep: number
   currentPrice: number
@@ -421,6 +481,14 @@ export type LotWhereInput = {
   condition?: Prisma.StringNullableFilter<"Lot"> | string | null
   description?: Prisma.StringNullableFilter<"Lot"> | string | null
   images?: Prisma.StringNullableListFilter<"Lot">
+  originCountry?: Prisma.StringNullableFilter<"Lot"> | string | null
+  region?: Prisma.StringNullableFilter<"Lot"> | string | null
+  auctionSource?: Prisma.StringNullableFilter<"Lot"> | string | null
+  lotNumber?: Prisma.StringNullableFilter<"Lot"> | string | null
+  titleStatus?: Prisma.StringNullableFilter<"Lot"> | string | null
+  damageType?: Prisma.StringNullableFilter<"Lot"> | string | null
+  customsFeeBase?: Prisma.IntNullableFilter<"Lot"> | number | null
+  currency?: Prisma.EnumCurrencyFilter<"Lot"> | $Enums.Currency
   startPrice?: Prisma.IntFilter<"Lot"> | number
   bidStep?: Prisma.IntFilter<"Lot"> | number
   currentPrice?: Prisma.IntFilter<"Lot"> | number
@@ -436,6 +504,7 @@ export type LotWhereInput = {
   bids?: Prisma.BidListRelationFilter
   watchers?: Prisma.WatchlistListRelationFilter
   autoBids?: Prisma.AutoBidListRelationFilter
+  holds?: Prisma.LotHoldListRelationFilter
 }
 
 export type LotOrderByWithRelationInput = {
@@ -457,6 +526,14 @@ export type LotOrderByWithRelationInput = {
   condition?: Prisma.SortOrderInput | Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   images?: Prisma.SortOrder
+  originCountry?: Prisma.SortOrderInput | Prisma.SortOrder
+  region?: Prisma.SortOrderInput | Prisma.SortOrder
+  auctionSource?: Prisma.SortOrderInput | Prisma.SortOrder
+  lotNumber?: Prisma.SortOrderInput | Prisma.SortOrder
+  titleStatus?: Prisma.SortOrderInput | Prisma.SortOrder
+  damageType?: Prisma.SortOrderInput | Prisma.SortOrder
+  customsFeeBase?: Prisma.SortOrderInput | Prisma.SortOrder
+  currency?: Prisma.SortOrder
   startPrice?: Prisma.SortOrder
   bidStep?: Prisma.SortOrder
   currentPrice?: Prisma.SortOrder
@@ -472,6 +549,7 @@ export type LotOrderByWithRelationInput = {
   bids?: Prisma.BidOrderByRelationAggregateInput
   watchers?: Prisma.WatchlistOrderByRelationAggregateInput
   autoBids?: Prisma.AutoBidOrderByRelationAggregateInput
+  holds?: Prisma.LotHoldOrderByRelationAggregateInput
 }
 
 export type LotWhereUniqueInput = Prisma.AtLeast<{
@@ -496,6 +574,14 @@ export type LotWhereUniqueInput = Prisma.AtLeast<{
   condition?: Prisma.StringNullableFilter<"Lot"> | string | null
   description?: Prisma.StringNullableFilter<"Lot"> | string | null
   images?: Prisma.StringNullableListFilter<"Lot">
+  originCountry?: Prisma.StringNullableFilter<"Lot"> | string | null
+  region?: Prisma.StringNullableFilter<"Lot"> | string | null
+  auctionSource?: Prisma.StringNullableFilter<"Lot"> | string | null
+  lotNumber?: Prisma.StringNullableFilter<"Lot"> | string | null
+  titleStatus?: Prisma.StringNullableFilter<"Lot"> | string | null
+  damageType?: Prisma.StringNullableFilter<"Lot"> | string | null
+  customsFeeBase?: Prisma.IntNullableFilter<"Lot"> | number | null
+  currency?: Prisma.EnumCurrencyFilter<"Lot"> | $Enums.Currency
   startPrice?: Prisma.IntFilter<"Lot"> | number
   bidStep?: Prisma.IntFilter<"Lot"> | number
   currentPrice?: Prisma.IntFilter<"Lot"> | number
@@ -511,6 +597,7 @@ export type LotWhereUniqueInput = Prisma.AtLeast<{
   bids?: Prisma.BidListRelationFilter
   watchers?: Prisma.WatchlistListRelationFilter
   autoBids?: Prisma.AutoBidListRelationFilter
+  holds?: Prisma.LotHoldListRelationFilter
 }, "id">
 
 export type LotOrderByWithAggregationInput = {
@@ -532,6 +619,14 @@ export type LotOrderByWithAggregationInput = {
   condition?: Prisma.SortOrderInput | Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   images?: Prisma.SortOrder
+  originCountry?: Prisma.SortOrderInput | Prisma.SortOrder
+  region?: Prisma.SortOrderInput | Prisma.SortOrder
+  auctionSource?: Prisma.SortOrderInput | Prisma.SortOrder
+  lotNumber?: Prisma.SortOrderInput | Prisma.SortOrder
+  titleStatus?: Prisma.SortOrderInput | Prisma.SortOrder
+  damageType?: Prisma.SortOrderInput | Prisma.SortOrder
+  customsFeeBase?: Prisma.SortOrderInput | Prisma.SortOrder
+  currency?: Prisma.SortOrder
   startPrice?: Prisma.SortOrder
   bidStep?: Prisma.SortOrder
   currentPrice?: Prisma.SortOrder
@@ -572,6 +667,14 @@ export type LotScalarWhereWithAggregatesInput = {
   condition?: Prisma.StringNullableWithAggregatesFilter<"Lot"> | string | null
   description?: Prisma.StringNullableWithAggregatesFilter<"Lot"> | string | null
   images?: Prisma.StringNullableListFilter<"Lot">
+  originCountry?: Prisma.StringNullableWithAggregatesFilter<"Lot"> | string | null
+  region?: Prisma.StringNullableWithAggregatesFilter<"Lot"> | string | null
+  auctionSource?: Prisma.StringNullableWithAggregatesFilter<"Lot"> | string | null
+  lotNumber?: Prisma.StringNullableWithAggregatesFilter<"Lot"> | string | null
+  titleStatus?: Prisma.StringNullableWithAggregatesFilter<"Lot"> | string | null
+  damageType?: Prisma.StringNullableWithAggregatesFilter<"Lot"> | string | null
+  customsFeeBase?: Prisma.IntNullableWithAggregatesFilter<"Lot"> | number | null
+  currency?: Prisma.EnumCurrencyWithAggregatesFilter<"Lot"> | $Enums.Currency
   startPrice?: Prisma.IntWithAggregatesFilter<"Lot"> | number
   bidStep?: Prisma.IntWithAggregatesFilter<"Lot"> | number
   currentPrice?: Prisma.IntWithAggregatesFilter<"Lot"> | number
@@ -604,6 +707,14 @@ export type LotCreateInput = {
   condition?: string | null
   description?: string | null
   images?: Prisma.LotCreateimagesInput | string[]
+  originCountry?: string | null
+  region?: string | null
+  auctionSource?: string | null
+  lotNumber?: string | null
+  titleStatus?: string | null
+  damageType?: string | null
+  customsFeeBase?: number | null
+  currency?: $Enums.Currency
   startPrice: number
   bidStep?: number
   currentPrice: number
@@ -618,6 +729,7 @@ export type LotCreateInput = {
   bids?: Prisma.BidCreateNestedManyWithoutLotInput
   watchers?: Prisma.WatchlistCreateNestedManyWithoutLotInput
   autoBids?: Prisma.AutoBidCreateNestedManyWithoutLotInput
+  holds?: Prisma.LotHoldCreateNestedManyWithoutLotInput
 }
 
 export type LotUncheckedCreateInput = {
@@ -639,6 +751,14 @@ export type LotUncheckedCreateInput = {
   condition?: string | null
   description?: string | null
   images?: Prisma.LotCreateimagesInput | string[]
+  originCountry?: string | null
+  region?: string | null
+  auctionSource?: string | null
+  lotNumber?: string | null
+  titleStatus?: string | null
+  damageType?: string | null
+  customsFeeBase?: number | null
+  currency?: $Enums.Currency
   startPrice: number
   bidStep?: number
   currentPrice: number
@@ -653,6 +773,7 @@ export type LotUncheckedCreateInput = {
   bids?: Prisma.BidUncheckedCreateNestedManyWithoutLotInput
   watchers?: Prisma.WatchlistUncheckedCreateNestedManyWithoutLotInput
   autoBids?: Prisma.AutoBidUncheckedCreateNestedManyWithoutLotInput
+  holds?: Prisma.LotHoldUncheckedCreateNestedManyWithoutLotInput
 }
 
 export type LotUpdateInput = {
@@ -674,6 +795,14 @@ export type LotUpdateInput = {
   condition?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   images?: Prisma.LotUpdateimagesInput | string[]
+  originCountry?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  region?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auctionSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lotNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  titleStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  damageType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customsFeeBase?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  currency?: Prisma.EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
   startPrice?: Prisma.IntFieldUpdateOperationsInput | number
   bidStep?: Prisma.IntFieldUpdateOperationsInput | number
   currentPrice?: Prisma.IntFieldUpdateOperationsInput | number
@@ -688,6 +817,7 @@ export type LotUpdateInput = {
   bids?: Prisma.BidUpdateManyWithoutLotNestedInput
   watchers?: Prisma.WatchlistUpdateManyWithoutLotNestedInput
   autoBids?: Prisma.AutoBidUpdateManyWithoutLotNestedInput
+  holds?: Prisma.LotHoldUpdateManyWithoutLotNestedInput
 }
 
 export type LotUncheckedUpdateInput = {
@@ -709,6 +839,14 @@ export type LotUncheckedUpdateInput = {
   condition?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   images?: Prisma.LotUpdateimagesInput | string[]
+  originCountry?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  region?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auctionSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lotNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  titleStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  damageType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customsFeeBase?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  currency?: Prisma.EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
   startPrice?: Prisma.IntFieldUpdateOperationsInput | number
   bidStep?: Prisma.IntFieldUpdateOperationsInput | number
   currentPrice?: Prisma.IntFieldUpdateOperationsInput | number
@@ -723,6 +861,7 @@ export type LotUncheckedUpdateInput = {
   bids?: Prisma.BidUncheckedUpdateManyWithoutLotNestedInput
   watchers?: Prisma.WatchlistUncheckedUpdateManyWithoutLotNestedInput
   autoBids?: Prisma.AutoBidUncheckedUpdateManyWithoutLotNestedInput
+  holds?: Prisma.LotHoldUncheckedUpdateManyWithoutLotNestedInput
 }
 
 export type LotCreateManyInput = {
@@ -744,6 +883,14 @@ export type LotCreateManyInput = {
   condition?: string | null
   description?: string | null
   images?: Prisma.LotCreateimagesInput | string[]
+  originCountry?: string | null
+  region?: string | null
+  auctionSource?: string | null
+  lotNumber?: string | null
+  titleStatus?: string | null
+  damageType?: string | null
+  customsFeeBase?: number | null
+  currency?: $Enums.Currency
   startPrice: number
   bidStep?: number
   currentPrice: number
@@ -776,6 +923,14 @@ export type LotUpdateManyMutationInput = {
   condition?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   images?: Prisma.LotUpdateimagesInput | string[]
+  originCountry?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  region?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auctionSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lotNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  titleStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  damageType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customsFeeBase?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  currency?: Prisma.EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
   startPrice?: Prisma.IntFieldUpdateOperationsInput | number
   bidStep?: Prisma.IntFieldUpdateOperationsInput | number
   currentPrice?: Prisma.IntFieldUpdateOperationsInput | number
@@ -807,6 +962,14 @@ export type LotUncheckedUpdateManyInput = {
   condition?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   images?: Prisma.LotUpdateimagesInput | string[]
+  originCountry?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  region?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auctionSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lotNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  titleStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  damageType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customsFeeBase?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  currency?: Prisma.EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
   startPrice?: Prisma.IntFieldUpdateOperationsInput | number
   bidStep?: Prisma.IntFieldUpdateOperationsInput | number
   currentPrice?: Prisma.IntFieldUpdateOperationsInput | number
@@ -862,6 +1025,14 @@ export type LotCountOrderByAggregateInput = {
   condition?: Prisma.SortOrder
   description?: Prisma.SortOrder
   images?: Prisma.SortOrder
+  originCountry?: Prisma.SortOrder
+  region?: Prisma.SortOrder
+  auctionSource?: Prisma.SortOrder
+  lotNumber?: Prisma.SortOrder
+  titleStatus?: Prisma.SortOrder
+  damageType?: Prisma.SortOrder
+  customsFeeBase?: Prisma.SortOrder
+  currency?: Prisma.SortOrder
   startPrice?: Prisma.SortOrder
   bidStep?: Prisma.SortOrder
   currentPrice?: Prisma.SortOrder
@@ -880,6 +1051,7 @@ export type LotAvgOrderByAggregateInput = {
   mileage?: Prisma.SortOrder
   engineVol?: Prisma.SortOrder
   power?: Prisma.SortOrder
+  customsFeeBase?: Prisma.SortOrder
   startPrice?: Prisma.SortOrder
   bidStep?: Prisma.SortOrder
   currentPrice?: Prisma.SortOrder
@@ -904,6 +1076,14 @@ export type LotMaxOrderByAggregateInput = {
   location?: Prisma.SortOrder
   condition?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  originCountry?: Prisma.SortOrder
+  region?: Prisma.SortOrder
+  auctionSource?: Prisma.SortOrder
+  lotNumber?: Prisma.SortOrder
+  titleStatus?: Prisma.SortOrder
+  damageType?: Prisma.SortOrder
+  customsFeeBase?: Prisma.SortOrder
+  currency?: Prisma.SortOrder
   startPrice?: Prisma.SortOrder
   bidStep?: Prisma.SortOrder
   currentPrice?: Prisma.SortOrder
@@ -935,6 +1115,14 @@ export type LotMinOrderByAggregateInput = {
   location?: Prisma.SortOrder
   condition?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  originCountry?: Prisma.SortOrder
+  region?: Prisma.SortOrder
+  auctionSource?: Prisma.SortOrder
+  lotNumber?: Prisma.SortOrder
+  titleStatus?: Prisma.SortOrder
+  damageType?: Prisma.SortOrder
+  customsFeeBase?: Prisma.SortOrder
+  currency?: Prisma.SortOrder
   startPrice?: Prisma.SortOrder
   bidStep?: Prisma.SortOrder
   currentPrice?: Prisma.SortOrder
@@ -953,6 +1141,7 @@ export type LotSumOrderByAggregateInput = {
   mileage?: Prisma.SortOrder
   engineVol?: Prisma.SortOrder
   power?: Prisma.SortOrder
+  customsFeeBase?: Prisma.SortOrder
   startPrice?: Prisma.SortOrder
   bidStep?: Prisma.SortOrder
   currentPrice?: Prisma.SortOrder
@@ -1029,6 +1218,20 @@ export type LotUpdateOneRequiredWithoutAutoBidsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.LotUpdateToOneWithWhereWithoutAutoBidsInput, Prisma.LotUpdateWithoutAutoBidsInput>, Prisma.LotUncheckedUpdateWithoutAutoBidsInput>
 }
 
+export type LotCreateNestedOneWithoutHoldsInput = {
+  create?: Prisma.XOR<Prisma.LotCreateWithoutHoldsInput, Prisma.LotUncheckedCreateWithoutHoldsInput>
+  connectOrCreate?: Prisma.LotCreateOrConnectWithoutHoldsInput
+  connect?: Prisma.LotWhereUniqueInput
+}
+
+export type LotUpdateOneRequiredWithoutHoldsNestedInput = {
+  create?: Prisma.XOR<Prisma.LotCreateWithoutHoldsInput, Prisma.LotUncheckedCreateWithoutHoldsInput>
+  connectOrCreate?: Prisma.LotCreateOrConnectWithoutHoldsInput
+  upsert?: Prisma.LotUpsertWithoutHoldsInput
+  connect?: Prisma.LotWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.LotUpdateToOneWithWhereWithoutHoldsInput, Prisma.LotUpdateWithoutHoldsInput>, Prisma.LotUncheckedUpdateWithoutHoldsInput>
+}
+
 export type LotCreateimagesInput = {
   set: string[]
 }
@@ -1091,6 +1294,14 @@ export type LotCreateWithoutWinnerInput = {
   condition?: string | null
   description?: string | null
   images?: Prisma.LotCreateimagesInput | string[]
+  originCountry?: string | null
+  region?: string | null
+  auctionSource?: string | null
+  lotNumber?: string | null
+  titleStatus?: string | null
+  damageType?: string | null
+  customsFeeBase?: number | null
+  currency?: $Enums.Currency
   startPrice: number
   bidStep?: number
   currentPrice: number
@@ -1104,6 +1315,7 @@ export type LotCreateWithoutWinnerInput = {
   bids?: Prisma.BidCreateNestedManyWithoutLotInput
   watchers?: Prisma.WatchlistCreateNestedManyWithoutLotInput
   autoBids?: Prisma.AutoBidCreateNestedManyWithoutLotInput
+  holds?: Prisma.LotHoldCreateNestedManyWithoutLotInput
 }
 
 export type LotUncheckedCreateWithoutWinnerInput = {
@@ -1125,6 +1337,14 @@ export type LotUncheckedCreateWithoutWinnerInput = {
   condition?: string | null
   description?: string | null
   images?: Prisma.LotCreateimagesInput | string[]
+  originCountry?: string | null
+  region?: string | null
+  auctionSource?: string | null
+  lotNumber?: string | null
+  titleStatus?: string | null
+  damageType?: string | null
+  customsFeeBase?: number | null
+  currency?: $Enums.Currency
   startPrice: number
   bidStep?: number
   currentPrice: number
@@ -1138,6 +1358,7 @@ export type LotUncheckedCreateWithoutWinnerInput = {
   bids?: Prisma.BidUncheckedCreateNestedManyWithoutLotInput
   watchers?: Prisma.WatchlistUncheckedCreateNestedManyWithoutLotInput
   autoBids?: Prisma.AutoBidUncheckedCreateNestedManyWithoutLotInput
+  holds?: Prisma.LotHoldUncheckedCreateNestedManyWithoutLotInput
 }
 
 export type LotCreateOrConnectWithoutWinnerInput = {
@@ -1188,6 +1409,14 @@ export type LotScalarWhereInput = {
   condition?: Prisma.StringNullableFilter<"Lot"> | string | null
   description?: Prisma.StringNullableFilter<"Lot"> | string | null
   images?: Prisma.StringNullableListFilter<"Lot">
+  originCountry?: Prisma.StringNullableFilter<"Lot"> | string | null
+  region?: Prisma.StringNullableFilter<"Lot"> | string | null
+  auctionSource?: Prisma.StringNullableFilter<"Lot"> | string | null
+  lotNumber?: Prisma.StringNullableFilter<"Lot"> | string | null
+  titleStatus?: Prisma.StringNullableFilter<"Lot"> | string | null
+  damageType?: Prisma.StringNullableFilter<"Lot"> | string | null
+  customsFeeBase?: Prisma.IntNullableFilter<"Lot"> | number | null
+  currency?: Prisma.EnumCurrencyFilter<"Lot"> | $Enums.Currency
   startPrice?: Prisma.IntFilter<"Lot"> | number
   bidStep?: Prisma.IntFilter<"Lot"> | number
   currentPrice?: Prisma.IntFilter<"Lot"> | number
@@ -1220,6 +1449,14 @@ export type LotCreateWithoutWatchersInput = {
   condition?: string | null
   description?: string | null
   images?: Prisma.LotCreateimagesInput | string[]
+  originCountry?: string | null
+  region?: string | null
+  auctionSource?: string | null
+  lotNumber?: string | null
+  titleStatus?: string | null
+  damageType?: string | null
+  customsFeeBase?: number | null
+  currency?: $Enums.Currency
   startPrice: number
   bidStep?: number
   currentPrice: number
@@ -1233,6 +1470,7 @@ export type LotCreateWithoutWatchersInput = {
   winner?: Prisma.UserCreateNestedOneWithoutWonLotsInput
   bids?: Prisma.BidCreateNestedManyWithoutLotInput
   autoBids?: Prisma.AutoBidCreateNestedManyWithoutLotInput
+  holds?: Prisma.LotHoldCreateNestedManyWithoutLotInput
 }
 
 export type LotUncheckedCreateWithoutWatchersInput = {
@@ -1254,6 +1492,14 @@ export type LotUncheckedCreateWithoutWatchersInput = {
   condition?: string | null
   description?: string | null
   images?: Prisma.LotCreateimagesInput | string[]
+  originCountry?: string | null
+  region?: string | null
+  auctionSource?: string | null
+  lotNumber?: string | null
+  titleStatus?: string | null
+  damageType?: string | null
+  customsFeeBase?: number | null
+  currency?: $Enums.Currency
   startPrice: number
   bidStep?: number
   currentPrice: number
@@ -1267,6 +1513,7 @@ export type LotUncheckedCreateWithoutWatchersInput = {
   updatedAt?: Date | string
   bids?: Prisma.BidUncheckedCreateNestedManyWithoutLotInput
   autoBids?: Prisma.AutoBidUncheckedCreateNestedManyWithoutLotInput
+  holds?: Prisma.LotHoldUncheckedCreateNestedManyWithoutLotInput
 }
 
 export type LotCreateOrConnectWithoutWatchersInput = {
@@ -1304,6 +1551,14 @@ export type LotUpdateWithoutWatchersInput = {
   condition?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   images?: Prisma.LotUpdateimagesInput | string[]
+  originCountry?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  region?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auctionSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lotNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  titleStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  damageType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customsFeeBase?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  currency?: Prisma.EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
   startPrice?: Prisma.IntFieldUpdateOperationsInput | number
   bidStep?: Prisma.IntFieldUpdateOperationsInput | number
   currentPrice?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1317,6 +1572,7 @@ export type LotUpdateWithoutWatchersInput = {
   winner?: Prisma.UserUpdateOneWithoutWonLotsNestedInput
   bids?: Prisma.BidUpdateManyWithoutLotNestedInput
   autoBids?: Prisma.AutoBidUpdateManyWithoutLotNestedInput
+  holds?: Prisma.LotHoldUpdateManyWithoutLotNestedInput
 }
 
 export type LotUncheckedUpdateWithoutWatchersInput = {
@@ -1338,6 +1594,14 @@ export type LotUncheckedUpdateWithoutWatchersInput = {
   condition?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   images?: Prisma.LotUpdateimagesInput | string[]
+  originCountry?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  region?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auctionSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lotNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  titleStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  damageType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customsFeeBase?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  currency?: Prisma.EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
   startPrice?: Prisma.IntFieldUpdateOperationsInput | number
   bidStep?: Prisma.IntFieldUpdateOperationsInput | number
   currentPrice?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1351,6 +1615,7 @@ export type LotUncheckedUpdateWithoutWatchersInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bids?: Prisma.BidUncheckedUpdateManyWithoutLotNestedInput
   autoBids?: Prisma.AutoBidUncheckedUpdateManyWithoutLotNestedInput
+  holds?: Prisma.LotHoldUncheckedUpdateManyWithoutLotNestedInput
 }
 
 export type LotCreateWithoutAutoBidsInput = {
@@ -1372,6 +1637,14 @@ export type LotCreateWithoutAutoBidsInput = {
   condition?: string | null
   description?: string | null
   images?: Prisma.LotCreateimagesInput | string[]
+  originCountry?: string | null
+  region?: string | null
+  auctionSource?: string | null
+  lotNumber?: string | null
+  titleStatus?: string | null
+  damageType?: string | null
+  customsFeeBase?: number | null
+  currency?: $Enums.Currency
   startPrice: number
   bidStep?: number
   currentPrice: number
@@ -1385,6 +1658,7 @@ export type LotCreateWithoutAutoBidsInput = {
   winner?: Prisma.UserCreateNestedOneWithoutWonLotsInput
   bids?: Prisma.BidCreateNestedManyWithoutLotInput
   watchers?: Prisma.WatchlistCreateNestedManyWithoutLotInput
+  holds?: Prisma.LotHoldCreateNestedManyWithoutLotInput
 }
 
 export type LotUncheckedCreateWithoutAutoBidsInput = {
@@ -1406,6 +1680,14 @@ export type LotUncheckedCreateWithoutAutoBidsInput = {
   condition?: string | null
   description?: string | null
   images?: Prisma.LotCreateimagesInput | string[]
+  originCountry?: string | null
+  region?: string | null
+  auctionSource?: string | null
+  lotNumber?: string | null
+  titleStatus?: string | null
+  damageType?: string | null
+  customsFeeBase?: number | null
+  currency?: $Enums.Currency
   startPrice: number
   bidStep?: number
   currentPrice: number
@@ -1419,6 +1701,7 @@ export type LotUncheckedCreateWithoutAutoBidsInput = {
   updatedAt?: Date | string
   bids?: Prisma.BidUncheckedCreateNestedManyWithoutLotInput
   watchers?: Prisma.WatchlistUncheckedCreateNestedManyWithoutLotInput
+  holds?: Prisma.LotHoldUncheckedCreateNestedManyWithoutLotInput
 }
 
 export type LotCreateOrConnectWithoutAutoBidsInput = {
@@ -1456,6 +1739,14 @@ export type LotUpdateWithoutAutoBidsInput = {
   condition?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   images?: Prisma.LotUpdateimagesInput | string[]
+  originCountry?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  region?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auctionSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lotNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  titleStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  damageType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customsFeeBase?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  currency?: Prisma.EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
   startPrice?: Prisma.IntFieldUpdateOperationsInput | number
   bidStep?: Prisma.IntFieldUpdateOperationsInput | number
   currentPrice?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1469,6 +1760,7 @@ export type LotUpdateWithoutAutoBidsInput = {
   winner?: Prisma.UserUpdateOneWithoutWonLotsNestedInput
   bids?: Prisma.BidUpdateManyWithoutLotNestedInput
   watchers?: Prisma.WatchlistUpdateManyWithoutLotNestedInput
+  holds?: Prisma.LotHoldUpdateManyWithoutLotNestedInput
 }
 
 export type LotUncheckedUpdateWithoutAutoBidsInput = {
@@ -1490,6 +1782,14 @@ export type LotUncheckedUpdateWithoutAutoBidsInput = {
   condition?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   images?: Prisma.LotUpdateimagesInput | string[]
+  originCountry?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  region?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auctionSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lotNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  titleStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  damageType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customsFeeBase?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  currency?: Prisma.EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
   startPrice?: Prisma.IntFieldUpdateOperationsInput | number
   bidStep?: Prisma.IntFieldUpdateOperationsInput | number
   currentPrice?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1503,6 +1803,195 @@ export type LotUncheckedUpdateWithoutAutoBidsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bids?: Prisma.BidUncheckedUpdateManyWithoutLotNestedInput
   watchers?: Prisma.WatchlistUncheckedUpdateManyWithoutLotNestedInput
+  holds?: Prisma.LotHoldUncheckedUpdateManyWithoutLotNestedInput
+}
+
+export type LotCreateWithoutHoldsInput = {
+  id?: string
+  title: string
+  make: string
+  model: string
+  year: number
+  mileage: number
+  engineVol?: number | null
+  power?: number | null
+  transmission?: string | null
+  bodyType?: string | null
+  fuelType?: string | null
+  drive?: string | null
+  color?: string | null
+  vin?: string | null
+  location?: string | null
+  condition?: string | null
+  description?: string | null
+  images?: Prisma.LotCreateimagesInput | string[]
+  originCountry?: string | null
+  region?: string | null
+  auctionSource?: string | null
+  lotNumber?: string | null
+  titleStatus?: string | null
+  damageType?: string | null
+  customsFeeBase?: number | null
+  currency?: $Enums.Currency
+  startPrice: number
+  bidStep?: number
+  currentPrice: number
+  buyNowPrice?: number | null
+  status?: $Enums.LotStatus
+  startsAt?: Date | string
+  endsAt: Date | string
+  endingSoonNotified?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  winner?: Prisma.UserCreateNestedOneWithoutWonLotsInput
+  bids?: Prisma.BidCreateNestedManyWithoutLotInput
+  watchers?: Prisma.WatchlistCreateNestedManyWithoutLotInput
+  autoBids?: Prisma.AutoBidCreateNestedManyWithoutLotInput
+}
+
+export type LotUncheckedCreateWithoutHoldsInput = {
+  id?: string
+  title: string
+  make: string
+  model: string
+  year: number
+  mileage: number
+  engineVol?: number | null
+  power?: number | null
+  transmission?: string | null
+  bodyType?: string | null
+  fuelType?: string | null
+  drive?: string | null
+  color?: string | null
+  vin?: string | null
+  location?: string | null
+  condition?: string | null
+  description?: string | null
+  images?: Prisma.LotCreateimagesInput | string[]
+  originCountry?: string | null
+  region?: string | null
+  auctionSource?: string | null
+  lotNumber?: string | null
+  titleStatus?: string | null
+  damageType?: string | null
+  customsFeeBase?: number | null
+  currency?: $Enums.Currency
+  startPrice: number
+  bidStep?: number
+  currentPrice: number
+  buyNowPrice?: number | null
+  status?: $Enums.LotStatus
+  startsAt?: Date | string
+  endsAt: Date | string
+  winnerId?: string | null
+  endingSoonNotified?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  bids?: Prisma.BidUncheckedCreateNestedManyWithoutLotInput
+  watchers?: Prisma.WatchlistUncheckedCreateNestedManyWithoutLotInput
+  autoBids?: Prisma.AutoBidUncheckedCreateNestedManyWithoutLotInput
+}
+
+export type LotCreateOrConnectWithoutHoldsInput = {
+  where: Prisma.LotWhereUniqueInput
+  create: Prisma.XOR<Prisma.LotCreateWithoutHoldsInput, Prisma.LotUncheckedCreateWithoutHoldsInput>
+}
+
+export type LotUpsertWithoutHoldsInput = {
+  update: Prisma.XOR<Prisma.LotUpdateWithoutHoldsInput, Prisma.LotUncheckedUpdateWithoutHoldsInput>
+  create: Prisma.XOR<Prisma.LotCreateWithoutHoldsInput, Prisma.LotUncheckedCreateWithoutHoldsInput>
+  where?: Prisma.LotWhereInput
+}
+
+export type LotUpdateToOneWithWhereWithoutHoldsInput = {
+  where?: Prisma.LotWhereInput
+  data: Prisma.XOR<Prisma.LotUpdateWithoutHoldsInput, Prisma.LotUncheckedUpdateWithoutHoldsInput>
+}
+
+export type LotUpdateWithoutHoldsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  make?: Prisma.StringFieldUpdateOperationsInput | string
+  model?: Prisma.StringFieldUpdateOperationsInput | string
+  year?: Prisma.IntFieldUpdateOperationsInput | number
+  mileage?: Prisma.IntFieldUpdateOperationsInput | number
+  engineVol?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  power?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  transmission?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bodyType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fuelType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  drive?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  condition?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  images?: Prisma.LotUpdateimagesInput | string[]
+  originCountry?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  region?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auctionSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lotNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  titleStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  damageType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customsFeeBase?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  currency?: Prisma.EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
+  startPrice?: Prisma.IntFieldUpdateOperationsInput | number
+  bidStep?: Prisma.IntFieldUpdateOperationsInput | number
+  currentPrice?: Prisma.IntFieldUpdateOperationsInput | number
+  buyNowPrice?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  status?: Prisma.EnumLotStatusFieldUpdateOperationsInput | $Enums.LotStatus
+  startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endingSoonNotified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  winner?: Prisma.UserUpdateOneWithoutWonLotsNestedInput
+  bids?: Prisma.BidUpdateManyWithoutLotNestedInput
+  watchers?: Prisma.WatchlistUpdateManyWithoutLotNestedInput
+  autoBids?: Prisma.AutoBidUpdateManyWithoutLotNestedInput
+}
+
+export type LotUncheckedUpdateWithoutHoldsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  make?: Prisma.StringFieldUpdateOperationsInput | string
+  model?: Prisma.StringFieldUpdateOperationsInput | string
+  year?: Prisma.IntFieldUpdateOperationsInput | number
+  mileage?: Prisma.IntFieldUpdateOperationsInput | number
+  engineVol?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  power?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  transmission?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bodyType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fuelType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  drive?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  condition?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  images?: Prisma.LotUpdateimagesInput | string[]
+  originCountry?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  region?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auctionSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lotNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  titleStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  damageType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customsFeeBase?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  currency?: Prisma.EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
+  startPrice?: Prisma.IntFieldUpdateOperationsInput | number
+  bidStep?: Prisma.IntFieldUpdateOperationsInput | number
+  currentPrice?: Prisma.IntFieldUpdateOperationsInput | number
+  buyNowPrice?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  status?: Prisma.EnumLotStatusFieldUpdateOperationsInput | $Enums.LotStatus
+  startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  winnerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endingSoonNotified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  bids?: Prisma.BidUncheckedUpdateManyWithoutLotNestedInput
+  watchers?: Prisma.WatchlistUncheckedUpdateManyWithoutLotNestedInput
+  autoBids?: Prisma.AutoBidUncheckedUpdateManyWithoutLotNestedInput
 }
 
 export type LotCreateWithoutBidsInput = {
@@ -1524,6 +2013,14 @@ export type LotCreateWithoutBidsInput = {
   condition?: string | null
   description?: string | null
   images?: Prisma.LotCreateimagesInput | string[]
+  originCountry?: string | null
+  region?: string | null
+  auctionSource?: string | null
+  lotNumber?: string | null
+  titleStatus?: string | null
+  damageType?: string | null
+  customsFeeBase?: number | null
+  currency?: $Enums.Currency
   startPrice: number
   bidStep?: number
   currentPrice: number
@@ -1537,6 +2034,7 @@ export type LotCreateWithoutBidsInput = {
   winner?: Prisma.UserCreateNestedOneWithoutWonLotsInput
   watchers?: Prisma.WatchlistCreateNestedManyWithoutLotInput
   autoBids?: Prisma.AutoBidCreateNestedManyWithoutLotInput
+  holds?: Prisma.LotHoldCreateNestedManyWithoutLotInput
 }
 
 export type LotUncheckedCreateWithoutBidsInput = {
@@ -1558,6 +2056,14 @@ export type LotUncheckedCreateWithoutBidsInput = {
   condition?: string | null
   description?: string | null
   images?: Prisma.LotCreateimagesInput | string[]
+  originCountry?: string | null
+  region?: string | null
+  auctionSource?: string | null
+  lotNumber?: string | null
+  titleStatus?: string | null
+  damageType?: string | null
+  customsFeeBase?: number | null
+  currency?: $Enums.Currency
   startPrice: number
   bidStep?: number
   currentPrice: number
@@ -1571,6 +2077,7 @@ export type LotUncheckedCreateWithoutBidsInput = {
   updatedAt?: Date | string
   watchers?: Prisma.WatchlistUncheckedCreateNestedManyWithoutLotInput
   autoBids?: Prisma.AutoBidUncheckedCreateNestedManyWithoutLotInput
+  holds?: Prisma.LotHoldUncheckedCreateNestedManyWithoutLotInput
 }
 
 export type LotCreateOrConnectWithoutBidsInput = {
@@ -1608,6 +2115,14 @@ export type LotUpdateWithoutBidsInput = {
   condition?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   images?: Prisma.LotUpdateimagesInput | string[]
+  originCountry?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  region?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auctionSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lotNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  titleStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  damageType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customsFeeBase?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  currency?: Prisma.EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
   startPrice?: Prisma.IntFieldUpdateOperationsInput | number
   bidStep?: Prisma.IntFieldUpdateOperationsInput | number
   currentPrice?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1621,6 +2136,7 @@ export type LotUpdateWithoutBidsInput = {
   winner?: Prisma.UserUpdateOneWithoutWonLotsNestedInput
   watchers?: Prisma.WatchlistUpdateManyWithoutLotNestedInput
   autoBids?: Prisma.AutoBidUpdateManyWithoutLotNestedInput
+  holds?: Prisma.LotHoldUpdateManyWithoutLotNestedInput
 }
 
 export type LotUncheckedUpdateWithoutBidsInput = {
@@ -1642,6 +2158,14 @@ export type LotUncheckedUpdateWithoutBidsInput = {
   condition?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   images?: Prisma.LotUpdateimagesInput | string[]
+  originCountry?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  region?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auctionSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lotNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  titleStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  damageType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customsFeeBase?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  currency?: Prisma.EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
   startPrice?: Prisma.IntFieldUpdateOperationsInput | number
   bidStep?: Prisma.IntFieldUpdateOperationsInput | number
   currentPrice?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1655,6 +2179,7 @@ export type LotUncheckedUpdateWithoutBidsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   watchers?: Prisma.WatchlistUncheckedUpdateManyWithoutLotNestedInput
   autoBids?: Prisma.AutoBidUncheckedUpdateManyWithoutLotNestedInput
+  holds?: Prisma.LotHoldUncheckedUpdateManyWithoutLotNestedInput
 }
 
 export type LotCreateManyWinnerInput = {
@@ -1676,6 +2201,14 @@ export type LotCreateManyWinnerInput = {
   condition?: string | null
   description?: string | null
   images?: Prisma.LotCreateimagesInput | string[]
+  originCountry?: string | null
+  region?: string | null
+  auctionSource?: string | null
+  lotNumber?: string | null
+  titleStatus?: string | null
+  damageType?: string | null
+  customsFeeBase?: number | null
+  currency?: $Enums.Currency
   startPrice: number
   bidStep?: number
   currentPrice: number
@@ -1707,6 +2240,14 @@ export type LotUpdateWithoutWinnerInput = {
   condition?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   images?: Prisma.LotUpdateimagesInput | string[]
+  originCountry?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  region?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auctionSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lotNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  titleStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  damageType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customsFeeBase?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  currency?: Prisma.EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
   startPrice?: Prisma.IntFieldUpdateOperationsInput | number
   bidStep?: Prisma.IntFieldUpdateOperationsInput | number
   currentPrice?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1720,6 +2261,7 @@ export type LotUpdateWithoutWinnerInput = {
   bids?: Prisma.BidUpdateManyWithoutLotNestedInput
   watchers?: Prisma.WatchlistUpdateManyWithoutLotNestedInput
   autoBids?: Prisma.AutoBidUpdateManyWithoutLotNestedInput
+  holds?: Prisma.LotHoldUpdateManyWithoutLotNestedInput
 }
 
 export type LotUncheckedUpdateWithoutWinnerInput = {
@@ -1741,6 +2283,14 @@ export type LotUncheckedUpdateWithoutWinnerInput = {
   condition?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   images?: Prisma.LotUpdateimagesInput | string[]
+  originCountry?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  region?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auctionSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lotNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  titleStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  damageType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customsFeeBase?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  currency?: Prisma.EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
   startPrice?: Prisma.IntFieldUpdateOperationsInput | number
   bidStep?: Prisma.IntFieldUpdateOperationsInput | number
   currentPrice?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1754,6 +2304,7 @@ export type LotUncheckedUpdateWithoutWinnerInput = {
   bids?: Prisma.BidUncheckedUpdateManyWithoutLotNestedInput
   watchers?: Prisma.WatchlistUncheckedUpdateManyWithoutLotNestedInput
   autoBids?: Prisma.AutoBidUncheckedUpdateManyWithoutLotNestedInput
+  holds?: Prisma.LotHoldUncheckedUpdateManyWithoutLotNestedInput
 }
 
 export type LotUncheckedUpdateManyWithoutWinnerInput = {
@@ -1775,6 +2326,14 @@ export type LotUncheckedUpdateManyWithoutWinnerInput = {
   condition?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   images?: Prisma.LotUpdateimagesInput | string[]
+  originCountry?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  region?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auctionSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lotNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  titleStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  damageType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customsFeeBase?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  currency?: Prisma.EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
   startPrice?: Prisma.IntFieldUpdateOperationsInput | number
   bidStep?: Prisma.IntFieldUpdateOperationsInput | number
   currentPrice?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1796,12 +2355,14 @@ export type LotCountOutputType = {
   bids: number
   watchers: number
   autoBids: number
+  holds: number
 }
 
 export type LotCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   bids?: boolean | LotCountOutputTypeCountBidsArgs
   watchers?: boolean | LotCountOutputTypeCountWatchersArgs
   autoBids?: boolean | LotCountOutputTypeCountAutoBidsArgs
+  holds?: boolean | LotCountOutputTypeCountHoldsArgs
 }
 
 /**
@@ -1835,6 +2396,13 @@ export type LotCountOutputTypeCountAutoBidsArgs<ExtArgs extends runtime.Types.Ex
   where?: Prisma.AutoBidWhereInput
 }
 
+/**
+ * LotCountOutputType without action
+ */
+export type LotCountOutputTypeCountHoldsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.LotHoldWhereInput
+}
+
 
 export type LotSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1855,6 +2423,14 @@ export type LotSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = ru
   condition?: boolean
   description?: boolean
   images?: boolean
+  originCountry?: boolean
+  region?: boolean
+  auctionSource?: boolean
+  lotNumber?: boolean
+  titleStatus?: boolean
+  damageType?: boolean
+  customsFeeBase?: boolean
+  currency?: boolean
   startPrice?: boolean
   bidStep?: boolean
   currentPrice?: boolean
@@ -1870,6 +2446,7 @@ export type LotSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = ru
   bids?: boolean | Prisma.Lot$bidsArgs<ExtArgs>
   watchers?: boolean | Prisma.Lot$watchersArgs<ExtArgs>
   autoBids?: boolean | Prisma.Lot$autoBidsArgs<ExtArgs>
+  holds?: boolean | Prisma.Lot$holdsArgs<ExtArgs>
   _count?: boolean | Prisma.LotCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["lot"]>
 
@@ -1892,6 +2469,14 @@ export type LotSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extension
   condition?: boolean
   description?: boolean
   images?: boolean
+  originCountry?: boolean
+  region?: boolean
+  auctionSource?: boolean
+  lotNumber?: boolean
+  titleStatus?: boolean
+  damageType?: boolean
+  customsFeeBase?: boolean
+  currency?: boolean
   startPrice?: boolean
   bidStep?: boolean
   currentPrice?: boolean
@@ -1925,6 +2510,14 @@ export type LotSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extension
   condition?: boolean
   description?: boolean
   images?: boolean
+  originCountry?: boolean
+  region?: boolean
+  auctionSource?: boolean
+  lotNumber?: boolean
+  titleStatus?: boolean
+  damageType?: boolean
+  customsFeeBase?: boolean
+  currency?: boolean
   startPrice?: boolean
   bidStep?: boolean
   currentPrice?: boolean
@@ -1958,6 +2551,14 @@ export type LotSelectScalar = {
   condition?: boolean
   description?: boolean
   images?: boolean
+  originCountry?: boolean
+  region?: boolean
+  auctionSource?: boolean
+  lotNumber?: boolean
+  titleStatus?: boolean
+  damageType?: boolean
+  customsFeeBase?: boolean
+  currency?: boolean
   startPrice?: boolean
   bidStep?: boolean
   currentPrice?: boolean
@@ -1971,12 +2572,13 @@ export type LotSelectScalar = {
   updatedAt?: boolean
 }
 
-export type LotOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "make" | "model" | "year" | "mileage" | "engineVol" | "power" | "transmission" | "bodyType" | "fuelType" | "drive" | "color" | "vin" | "location" | "condition" | "description" | "images" | "startPrice" | "bidStep" | "currentPrice" | "buyNowPrice" | "status" | "startsAt" | "endsAt" | "winnerId" | "endingSoonNotified" | "createdAt" | "updatedAt", ExtArgs["result"]["lot"]>
+export type LotOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "make" | "model" | "year" | "mileage" | "engineVol" | "power" | "transmission" | "bodyType" | "fuelType" | "drive" | "color" | "vin" | "location" | "condition" | "description" | "images" | "originCountry" | "region" | "auctionSource" | "lotNumber" | "titleStatus" | "damageType" | "customsFeeBase" | "currency" | "startPrice" | "bidStep" | "currentPrice" | "buyNowPrice" | "status" | "startsAt" | "endsAt" | "winnerId" | "endingSoonNotified" | "createdAt" | "updatedAt", ExtArgs["result"]["lot"]>
 export type LotInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   winner?: boolean | Prisma.Lot$winnerArgs<ExtArgs>
   bids?: boolean | Prisma.Lot$bidsArgs<ExtArgs>
   watchers?: boolean | Prisma.Lot$watchersArgs<ExtArgs>
   autoBids?: boolean | Prisma.Lot$autoBidsArgs<ExtArgs>
+  holds?: boolean | Prisma.Lot$holdsArgs<ExtArgs>
   _count?: boolean | Prisma.LotCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type LotIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1993,6 +2595,7 @@ export type $LotPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
     bids: Prisma.$BidPayload<ExtArgs>[]
     watchers: Prisma.$WatchlistPayload<ExtArgs>[]
     autoBids: Prisma.$AutoBidPayload<ExtArgs>[]
+    holds: Prisma.$LotHoldPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2013,6 +2616,14 @@ export type $LotPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
     condition: string | null
     description: string | null
     images: string[]
+    originCountry: string | null
+    region: string | null
+    auctionSource: string | null
+    lotNumber: string | null
+    titleStatus: string | null
+    damageType: string | null
+    customsFeeBase: number | null
+    currency: $Enums.Currency
     startPrice: number
     bidStep: number
     currentPrice: number
@@ -2422,6 +3033,7 @@ export interface Prisma__LotClient<T, Null = never, ExtArgs extends runtime.Type
   bids<T extends Prisma.Lot$bidsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Lot$bidsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BidPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   watchers<T extends Prisma.Lot$watchersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Lot$watchersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WatchlistPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   autoBids<T extends Prisma.Lot$autoBidsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Lot$autoBidsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AutoBidPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  holds<T extends Prisma.Lot$holdsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Lot$holdsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LotHoldPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2469,6 +3081,14 @@ export interface LotFieldRefs {
   readonly condition: Prisma.FieldRef<"Lot", 'String'>
   readonly description: Prisma.FieldRef<"Lot", 'String'>
   readonly images: Prisma.FieldRef<"Lot", 'String[]'>
+  readonly originCountry: Prisma.FieldRef<"Lot", 'String'>
+  readonly region: Prisma.FieldRef<"Lot", 'String'>
+  readonly auctionSource: Prisma.FieldRef<"Lot", 'String'>
+  readonly lotNumber: Prisma.FieldRef<"Lot", 'String'>
+  readonly titleStatus: Prisma.FieldRef<"Lot", 'String'>
+  readonly damageType: Prisma.FieldRef<"Lot", 'String'>
+  readonly customsFeeBase: Prisma.FieldRef<"Lot", 'Int'>
+  readonly currency: Prisma.FieldRef<"Lot", 'Currency'>
   readonly startPrice: Prisma.FieldRef<"Lot", 'Int'>
   readonly bidStep: Prisma.FieldRef<"Lot", 'Int'>
   readonly currentPrice: Prisma.FieldRef<"Lot", 'Int'>
@@ -2969,6 +3589,30 @@ export type Lot$autoBidsArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
   take?: number
   skip?: number
   distinct?: Prisma.AutoBidScalarFieldEnum | Prisma.AutoBidScalarFieldEnum[]
+}
+
+/**
+ * Lot.holds
+ */
+export type Lot$holdsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the LotHold
+   */
+  select?: Prisma.LotHoldSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the LotHold
+   */
+  omit?: Prisma.LotHoldOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.LotHoldInclude<ExtArgs> | null
+  where?: Prisma.LotHoldWhereInput
+  orderBy?: Prisma.LotHoldOrderByWithRelationInput | Prisma.LotHoldOrderByWithRelationInput[]
+  cursor?: Prisma.LotHoldWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.LotHoldScalarFieldEnum | Prisma.LotHoldScalarFieldEnum[]
 }
 
 /**

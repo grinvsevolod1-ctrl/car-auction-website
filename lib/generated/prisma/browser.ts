@@ -23,6 +23,11 @@ export * from './enums';
  */
 export type User = Prisma.UserModel
 /**
+ * Model EmailCode
+ * 
+ */
+export type EmailCode = Prisma.EmailCodeModel
+/**
  * Model Watchlist
  * 
  */
@@ -42,6 +47,36 @@ export type VerificationToken = Prisma.VerificationTokenModel
  * 
  */
 export type Notification = Prisma.NotificationModel
+/**
+ * Model Transaction
+ * 
+ */
+export type Transaction = Prisma.TransactionModel
+/**
+ * Model DepositRequest
+ * 
+ */
+export type DepositRequest = Prisma.DepositRequestModel
+/**
+ * Model PaymentLink
+ * 
+ */
+export type PaymentLink = Prisma.PaymentLinkModel
+/**
+ * Model CryptoWallet
+ * 
+ */
+export type CryptoWallet = Prisma.CryptoWalletModel
+/**
+ * Model LotHold
+ * 
+ */
+export type LotHold = Prisma.LotHoldModel
+/**
+ * Model SiteSetting
+ * 
+ */
+export type SiteSetting = Prisma.SiteSettingModel
 /**
  * Model Lot
  * 

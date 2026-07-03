@@ -2,6 +2,7 @@ import 'server-only'
 import { prisma } from './prisma'
 import { notify, wonEmail, endingSoonEmail } from './notify'
 import { sendMail } from './mail'
+import { captureWinner, releaseAllHolds } from './balance'
 import { ENDING_SOON_MINUTES } from './config'
 import { logger } from './logger'
 
@@ -42,12 +43,14 @@ export async function settleLot(lotId: string): Promise<boolean> {
         where: { id: lotId },
         data: { status: 'SOLD', winnerId: topBid.userId, currentPrice: topBid.amount },
       })
+      // Списываем средства победителя из заморозки, освобождаем проигравших.
+      await captureWinner(tx, lotId, topBid.userId, topBid.amount, lot.currency)
       await notify({
         tx,
         userId: topBid.userId,
         type: 'won',
         title: 'Вы выиграли лот',
-        body: `Лот «${lot.title}» продан вам за ${topBid.amount.toLocaleString('ru-RU')} Br.`,
+        body: `Лот «${lot.title}» продан вам за ${topBid.amount.toLocaleString('ru-RU')}.`,
         lotId,
       })
       return {
@@ -58,6 +61,8 @@ export async function settleLot(lotId: string): Promise<boolean> {
     }
 
     await tx.lot.update({ where: { id: lotId }, data: { status: 'ENDED' } })
+    // Торги без ставок/победителя — освобождаем все заморозки.
+    await releaseAllHolds(tx, lotId)
     return null
   })
 

@@ -21,25 +21,105 @@ enum LotStatus {
   SOLD // продано победителю
 }
 
+// Валюта торгов и баланса. BYN — белорусский рубль, USD — криптобаланс (в USDT/USD).
+enum Currency {
+  BYN
+  USD
+}
+
+// Статус верификации личности (KYC).
+enum KycStatus {
+  NONE // анкета не заполнена
+  PENDING // на проверке у администратора
+  APPROVED // подтверждён
+  REJECTED // отклонён
+}
+
+// Способ пополнения баланса.
+enum DepositMethod {
+  ERIP
+  CRYPTO
+}
+
+// Статус заявки на пополнение.
+enum DepositStatus {
+  PENDING // ожидает подтверждения (проверяется вручную/через ТГ-бота)
+  CONFIRMED // зачислено на баланс
+  REJECTED // отклонено
+}
+
+// Тип движения по балансу (леджер).
+enum TxType {
+  DEPOSIT // пополнение
+  HOLD // заморозка средств под ставку
+  RELEASE // разморозка (ставку перебили/лот снят)
+  PURCHASE // списание при покупке лота
+  REFUND // возврат
+  ADJUST // ручная корректировка администратором
+}
+
 model User {
-  id            String    @id @default(cuid())
-  email         String    @unique
-  passwordHash  String
-  name          String
-  phone         String?
-  role          Role      @default(USER)
+  id           String @id @default(cuid())
+  email        String @unique
+  passwordHash String
+  name         String
+  phone        String?
+  role         Role    @default(USER)
+
   emailVerified DateTime? // null => email не подтверждён
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+
+  // --- Баланс и эскроу (целые единицы: BYN в Br, USD в USDT) ---
+  balanceByn Int @default(0)
+  balanceUsd Int @default(0)
+  heldByn    Int @default(0) // заморожено под активные ставки
+  heldUsd    Int @default(0)
+
+  // --- KYC / анкета участника ---
+  firstName      String?
+  lastName       String?
+  middleName     String?
+  birthDate      DateTime?
+  passportNumber String?
+  country        String?
+  city           String?
+  address        String?
+  occupation     String? // род деятельности
+  sourceOfFunds  String? // источник средств (анкета)
+  ageConfirmed   Boolean   @default(false) // подтверждение 18+
+  kycStatus      KycStatus @default(NONE)
+  kycSubmittedAt DateTime?
+  kycReviewedAt  DateTime?
+  kycRejectReason String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   bids               Bid[]
   wonLots            Lot[]               @relation("LotWinner")
   verificationTokens VerificationToken[]
+  emailCodes         EmailCode[]
   notifications      Notification[]
   watchlist          Watchlist[]
   autoBids           AutoBid[]
+  transactions       Transaction[]
+  deposits           DepositRequest[]
+  holds              LotHold[]
 
   @@index([email])
+  @@index([kycStatus])
+}
+
+// 6-значный код подтверждения email при регистрации.
+model EmailCode {
+  id        String   @id @default(cuid())
+  code      String
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  attempts  Int      @default(0)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([userId])
 }
 
 model Watchlist {
@@ -85,7 +165,7 @@ model VerificationToken {
 
 model Notification {
   id        String   @id @default(cuid())
-  type      String // outbid | won | ended | welcome
+  type      String // outbid | won | ended | welcome | deposit | kyc
   title     String
   body      String
   lotId     String?
@@ -98,41 +178,162 @@ model Notification {
   @@index([userId, read])
 }
 
-model Lot {
-  id          String  @id @default(cuid())
-  title       String
-  make        String // марка
-  model       String // модель
-  year        Int
-  mileage     Int // пробег, км
-  engineVol   Float? // объём двигателя, л
-  power       Int? // мощность, л.с.
-  transmission String? // КПП
-  bodyType    String? // тип кузова
-  fuelType    String? // тип топлива
-  drive       String? // привод
-  color       String?
-  vin         String?
-  location    String? // город/регион
-  condition   String? // состояние
-  description String? @db.Text
-  images      String[] // список URL изображений
+// Движение по балансу (двойная запись — леджер операций).
+model Transaction {
+  id           String   @id @default(cuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type         TxType
+  currency     Currency
+  amount       Int // может быть отрицательным (списание)
+  balanceAfter Int // доступный баланс после операции
+  note         String?
+  lotId        String?
+  depositId    String?
+  createdAt    DateTime @default(now())
 
+  @@index([userId])
+  @@index([userId, createdAt])
+}
+
+// Заявка на пополнение баланса (ЕРИП или крипта). Проверяется вручную.
+model DepositRequest {
+  id       String        @id @default(cuid())
+  userId   String
+  user     User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  method   DepositMethod
+  currency Currency // какой баланс пополняем
+  amount   Int // сумма зачисления в валюте баланса
+  status   DepositStatus @default(PENDING)
+  // Уникальный код заявки — по нему оператор сверяет платёж в ТГ-боте.
+  reference String       @unique
+
+  // ЕРИП: какая ссылка выдана (round-robin).
+  paymentLinkId String?
+  paymentLink   PaymentLink? @relation(fields: [paymentLinkId], references: [id])
+
+  // Крипта: кошелёк, монета, сумма к переводу и курс.
+  walletId    String?
+  wallet      CryptoWallet? @relation(fields: [walletId], references: [id])
+  cryptoAsset String? // BTC, ETH, USDT_TRC20 ...
+  cryptoAmount String? // строка для сохранения точности (например 0.0123)
+  rate        String? // курс на момент заявки
+
+  userNote  String? // хэш транзакции / комментарий от пользователя
+  adminNote String?
+  reviewedAt DateTime?
+  reviewedBy String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([status])
+}
+
+// Платёжные ссылки ЕРИП. Выдаются по кругу (round-robin) по sortOrder.
+model PaymentLink {
+  id        String   @id @default(cuid())
+  label     String
+  url       String
+  active    Boolean  @default(true)
+  sortOrder Int      @default(0)
+  timesUsed Int      @default(0)
+  lastUsedAt DateTime?
+  createdAt DateTime @default(now())
+
+  deposits DepositRequest[]
+
+  @@index([active, sortOrder])
+}
+
+// Криптокошельки для приёма пополнений.
+model CryptoWallet {
+  id        String   @id @default(cuid())
+  asset     String // BTC, ETH, USDT ...
+  network   String // Bitcoin, ERC20, TRC20, BEP20 ...
+  address   String
+  active    Boolean  @default(true)
+  sortOrder Int      @default(0)
+  note      String?
+  createdAt DateTime @default(now())
+
+  deposits DepositRequest[]
+
+  @@index([active, sortOrder])
+}
+
+// Заморозка средств под активную ставку пользователя на лоте (эскроу).
+model LotHold {
+  id       String   @id @default(cuid())
+  userId   String
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lotId    String
+  lot      Lot      @relation(fields: [lotId], references: [id], onDelete: Cascade)
+  currency Currency
+  amount   Int
+  active   Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, lotId])
+  @@index([lotId, active])
+}
+
+// Настройки портала (ключ-значение): курсы, ставки растаможки, проценты и т.п.
+model SiteSetting {
+  key       String   @id
+  value     String
+  updatedAt DateTime @updatedAt
+}
+
+model Lot {
+  id           String  @id @default(cuid())
+  title        String
+  make         String // марка
+  model        String // модель
+  year         Int
+  mileage      Int // пробег, км
+  engineVol    Float? // объём двигателя, л
+  power        Int? // мощность, л.с.
+  transmission String? // КПП
+  bodyType     String? // тип кузова
+  fuelType     String? // тип топлива
+  drive        String? // привод
+  color        String?
+  vin          String?
+  location     String? // город/регион (где находится авто)
+  condition    String? // состояние
+  description  String? @db.Text
+  images       String[] // список URL изображений
+
+  // --- Импорт / происхождение ---
+  originCountry String? // страна-источник: US, DE, JP, KR, PL ...
+  region        String? // Европа | Америка | Азия
+  auctionSource String? // Copart, IAAI, Manheim, ЕС-аукцион ...
+  lotNumber     String? // номер лота на исходном аукционе
+  titleStatus   String? // clean | salvage | rebuilt
+  damageType    String? // тип повреждений
+  customsFeeBase Int?    @default(0) // базовая оценка растаможки+сборов (в валюте лота)
+
+  // --- Валюта и цены (целые единицы в валюте лота) ---
+  currency     Currency @default(BYN)
   startPrice   Int // стартовая цена
-  bidStep      Int  @default(100) // шаг ставки
+  bidStep      Int      @default(100) // шаг ставки
   currentPrice Int // текущая цена (= стартовой, растёт со ставками)
   buyNowPrice  Int? // цена «купить сразу»
 
-  status  LotStatus @default(DRAFT)
+  status   LotStatus @default(DRAFT)
   startsAt DateTime  @default(now())
   endsAt   DateTime
 
   winnerId String?
   winner   User?   @relation("LotWinner", fields: [winnerId], references: [id])
 
-  bids      Bid[]
-  watchers  Watchlist[]
-  autoBids  AutoBid[]
+  bids     Bid[]
+  watchers Watchlist[]
+  autoBids AutoBid[]
+  holds    LotHold[]
 
   // Флаг для email-дайджеста «скоро завершается» — чтобы не слать повторно.
   endingSoonNotified Boolean @default(false)
@@ -142,6 +343,9 @@ model Lot {
 
   @@index([status])
   @@index([endsAt])
+  @@index([make])
+  @@index([currency])
+  @@index([originCountry])
 }
 
 model Bid {

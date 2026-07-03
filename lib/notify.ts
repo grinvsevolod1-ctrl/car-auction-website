@@ -6,7 +6,7 @@ import type { Prisma } from './generated/prisma/client'
 
 type NotifyArgs = {
   userId: string
-  type: 'outbid' | 'won' | 'ended' | 'welcome'
+  type: 'outbid' | 'won' | 'ended' | 'welcome' | 'deposit' | 'kyc' | 'balance'
   title: string
   body: string
   lotId?: string
