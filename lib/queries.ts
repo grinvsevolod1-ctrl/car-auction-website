@@ -50,7 +50,7 @@ export async function getPublicLots(filter: LotFilter = {}) {
   const where = {
     status:
       status === 'ALL'
-        ? { in: ['ACTIVE', 'ENDED', 'SOLD'] as const }
+        ? { in: ['ACTIVE', 'ENDED', 'SOLD'] as ('ACTIVE' | 'ENDED' | 'SOLD')[] }
         : status,
     ...(q
       ? {
