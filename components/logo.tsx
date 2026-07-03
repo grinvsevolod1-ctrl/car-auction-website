@@ -5,9 +5,11 @@ import { cn } from '@/lib/utils'
 export function Logo({
   className,
   compact = false,
+  onDark = false,
 }: {
   className?: string
   compact?: boolean
+  onDark?: boolean
 }) {
   return (
     <Link
@@ -20,10 +22,20 @@ export function Logo({
       </span>
       {!compact && (
         <span className="flex flex-col leading-none">
-          <span className="font-display text-xl font-bold tracking-[0.08em] text-foreground">
+          <span
+            className={cn(
+              'font-display text-xl font-bold tracking-[0.08em]',
+              onDark ? 'text-header-foreground' : 'text-foreground',
+            )}
+          >
             IGNIS
           </span>
-          <span className="text-[10px] font-medium uppercase tracking-[0.22em] text-primary">
+          <span
+            className={cn(
+              'text-[10px] font-medium uppercase tracking-[0.22em]',
+              onDark ? 'text-header-muted' : 'text-primary',
+            )}
+          >
             Автоаукцион
           </span>
         </span>

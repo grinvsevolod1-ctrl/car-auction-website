@@ -42,6 +42,11 @@ function maskName(name: string) {
     .join(' ')
 }
 
+// Короткий номер лота — как на площадках госимущества.
+function lotNumber(id: string) {
+  return id.replace(/[^a-z0-9]/gi, '').slice(-8).toUpperCase()
+}
+
 export function LiveLotPanel({
   lot,
   isAuthenticated,
@@ -74,61 +79,32 @@ export function LiveLotPanel({
   const status = live.status
 
   return (
-    <div className="lg:sticky lg:top-20 lg:self-start">
-      <span
-        className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold ${
-          isActive
-            ? 'bg-primary text-primary-foreground'
-            : 'bg-muted text-muted-foreground'
-        }`}
-      >
-        {isActive && (
-          <span className="inline-block size-1.5 animate-pulse-dot rounded-full bg-primary-foreground" />
-        )}
-        {LOT_STATUS_LABEL[status] ?? status}
-      </span>
-
-      <h1 className="mt-3 font-display text-3xl font-bold uppercase tracking-tight text-balance">
-        {lot.title}
-      </h1>
-
-      <div className="mt-5 rounded-2xl border border-border bg-card p-5">
-        <div className="flex items-center justify-between">
-          <p className="text-sm text-muted-foreground">Текущая ставка</p>
-          {isActive && (
-            <span className="inline-flex items-center gap-1 text-xs text-muted-foreground">
-              <span className="inline-block size-1.5 animate-pulse-dot rounded-full bg-success" />
-              обновляется вживую
-            </span>
-          )}
-        </div>
-        <p className="font-display text-4xl font-bold text-primary tabular-nums">
-          {formatBYN(live.currentPrice)}
-        </p>
-        <div className="mt-2 flex flex-wrap gap-x-4 text-xs text-muted-foreground">
-          <span>Старт: {formatBYN(lot.startPrice)}</span>
-          <span>Ставок: {live.bidCount}</span>
-          {lot.buyNowPrice && (
-            <span>Купить сразу: {formatBYN(lot.buyNowPrice)}</span>
-          )}
-        </div>
-
-        {isActive ? (
-          <div className="mt-4 border-t border-border pt-4">
-            <p className="mb-2 text-xs text-muted-foreground">
-              До завершения торгов
+    <div className="space-y-4 lg:sticky lg:top-20 lg:self-start">
+      {/* Бокс отсчёта */}
+      <div className="overflow-hidden rounded-md border border-border bg-card">
+        <div className="bg-muted px-5 py-4 text-center">
+          {isActive ? (
+            <>
+              <p className="text-sm font-semibold text-foreground">
+                Срок приёма заявок истекает через
+              </p>
+              <div className="mt-3 flex justify-center">
+                <Countdown
+                  endsAt={new Date(live.endsAt)}
+                  onEnd={() => mutate()}
+                />
+              </div>
+            </>
+          ) : (
+            <p className="text-sm font-semibold text-muted-foreground">
+              Приём заявок завершён {formatDateTime(new Date(live.endsAt))}
             </p>
-            <Countdown endsAt={new Date(live.endsAt)} onEnd={() => mutate()} />
-          </div>
-        ) : (
-          <p className="mt-4 border-t border-border pt-4 text-sm text-muted-foreground">
-            Завершён {formatDateTime(new Date(live.endsAt))}
-          </p>
-        )}
+          )}
+        </div>
       </div>
 
       {status === 'SOLD' && lot.winnerName && (
-        <div className="mt-4 flex items-center gap-3 rounded-2xl border border-success/30 bg-success/10 p-4">
+        <div className="flex items-center gap-3 rounded-md border border-success/30 bg-success/10 p-4">
           <Trophy className="size-5 text-success" />
           <div className="text-sm">
             <p className="font-semibold text-foreground">Лот продан</p>
@@ -139,57 +115,108 @@ export function LiveLotPanel({
         </div>
       )}
 
-      {isActive && (
-        <div className="mt-4">
-          <BidForm
-            lotId={lot.id}
-            currentPrice={live.currentPrice}
-            bidStep={live.bidStep}
-            isAuthenticated={isAuthenticated}
-            isVerified={isVerified}
-            onBidPlaced={() => mutate()}
-          />
-          {isAuthenticated && isVerified && (
-            <AutoBidForm
-              lotId={lot.id}
-              minMax={live.currentPrice + live.bidStep}
-              currentMax={autoBidMax}
-            />
+      {/* Бокс аукциона: цена и ставки */}
+      <div className="overflow-hidden rounded-md border border-border bg-card">
+        <div className="flex items-center justify-between gap-2 bg-primary px-5 py-3">
+          <h2 className="font-display text-sm font-bold uppercase tracking-wide text-primary-foreground">
+            Аукцион № {lotNumber(lot.id)}
+          </h2>
+          {isActive && (
+            <span className="inline-flex items-center gap-1 text-[11px] font-medium text-primary-foreground/85">
+              <span className="inline-block size-1.5 animate-pulse-dot rounded-full bg-primary-foreground" />
+              вживую
+            </span>
           )}
         </div>
-      )}
 
-      <div className="mt-4">
-        <WatchButton
-          lotId={lot.id}
-          initialWatching={initialWatching}
-          isAuthenticated={isAuthenticated}
-        />
+        <div className="p-5">
+          <dl className="divide-y divide-border text-sm">
+            <div className="flex items-center justify-between py-2">
+              <dt className="text-muted-foreground">Начальная цена</dt>
+              <dd className="font-semibold tabular-nums">
+                {formatBYN(lot.startPrice)}
+              </dd>
+            </div>
+            <div className="flex items-center justify-between py-2">
+              <dt className="text-muted-foreground">Текущая ставка</dt>
+              <dd className="font-display text-xl font-extrabold tabular-nums text-primary">
+                {formatBYN(live.currentPrice)}
+              </dd>
+            </div>
+            <div className="flex items-center justify-between py-2">
+              <dt className="text-muted-foreground">Сделано ставок</dt>
+              <dd className="font-semibold tabular-nums">{live.bidCount}</dd>
+            </div>
+            {lot.buyNowPrice && (
+              <div className="flex items-center justify-between py-2">
+                <dt className="text-muted-foreground">Купить сразу</dt>
+                <dd className="font-semibold tabular-nums">
+                  {formatBYN(lot.buyNowPrice)}
+                </dd>
+              </div>
+            )}
+          </dl>
+
+          {isActive && (
+            <div className="mt-4 border-t border-border pt-4">
+              <BidForm
+                lotId={lot.id}
+                currentPrice={live.currentPrice}
+                bidStep={live.bidStep}
+                isAuthenticated={isAuthenticated}
+                isVerified={isVerified}
+                onBidPlaced={() => mutate()}
+              />
+              {isAuthenticated && isVerified && (
+                <AutoBidForm
+                  lotId={lot.id}
+                  minMax={live.currentPrice + live.bidStep}
+                  currentMax={autoBidMax}
+                />
+              )}
+            </div>
+          )}
+
+          <div className="mt-4">
+            <WatchButton
+              lotId={lot.id}
+              initialWatching={initialWatching}
+              isAuthenticated={isAuthenticated}
+            />
+          </div>
+        </div>
       </div>
 
-      <div className="mt-4 rounded-2xl border border-border bg-card p-5">
-        <h3 className="font-display text-lg font-bold">История ставок</h3>
-        {live.bids.length === 0 ? (
-          <p className="mt-2 text-sm text-muted-foreground">
-            Ставок пока нет. Будьте первым!
-          </p>
-        ) : (
-          <ul className="mt-3 divide-y divide-border">
-            {live.bids.map((bid) => (
-              <li
-                key={bid.id}
-                className="flex items-center justify-between py-2.5 text-sm"
-              >
-                <span className="text-muted-foreground">
-                  {maskName(bid.name)}
-                </span>
-                <span className="font-mono font-semibold tabular-nums">
-                  {formatBYN(bid.amount)}
-                </span>
-              </li>
-            ))}
-          </ul>
-        )}
+      {/* История ставок */}
+      <div className="overflow-hidden rounded-md border border-border bg-card">
+        <div className="border-b border-border bg-muted px-5 py-3">
+          <h3 className="font-display text-sm font-bold uppercase tracking-wide">
+            История ставок
+          </h3>
+        </div>
+        <div className="p-5">
+          {live.bids.length === 0 ? (
+            <p className="text-sm text-muted-foreground">
+              Ставок пока нет. Будьте первым!
+            </p>
+          ) : (
+            <ul className="divide-y divide-border">
+              {live.bids.map((bid) => (
+                <li
+                  key={bid.id}
+                  className="flex items-center justify-between py-2.5 text-sm"
+                >
+                  <span className="text-muted-foreground">
+                    {maskName(bid.name)}
+                  </span>
+                  <span className="font-mono font-semibold tabular-nums">
+                    {formatBYN(bid.amount)}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
       </div>
     </div>
   )

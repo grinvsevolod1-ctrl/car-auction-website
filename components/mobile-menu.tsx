@@ -22,7 +22,7 @@ export function MobileMenu({ session }: { session: SessionPayload | null }) {
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className="inline-flex size-10 items-center justify-center rounded-md text-foreground hover:bg-muted"
+        className="inline-flex size-10 items-center justify-center rounded-md text-header-foreground hover:bg-white/10"
         aria-label={open ? 'Закрыть меню' : 'Открыть меню'}
         aria-expanded={open}
       >

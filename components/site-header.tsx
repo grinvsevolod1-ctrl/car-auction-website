@@ -17,10 +17,10 @@ export async function SiteHeader() {
   const session = await getSession()
 
   return (
-    <header className="sticky top-0 z-50 bg-card shadow-sm">
+    <header className="sticky top-0 z-50 bg-header text-header-foreground shadow-md">
       {/* Верхняя строка: логотип, поиск, аккаунт */}
       <div className="mx-auto flex h-16 max-w-6xl items-center gap-4 px-4">
-        <Logo />
+        <Logo onDark />
 
         <form
           action="/auctions"
@@ -33,7 +33,7 @@ export async function SiteHeader() {
             name="q"
             placeholder="Поиск по марке или модели…"
             aria-label="Поиск по сайту"
-            className="w-full rounded-md border border-border bg-background py-2.5 pl-4 pr-11 text-sm outline-none transition-colors focus:border-primary"
+            className="w-full rounded-md border border-transparent bg-card py-2.5 pl-4 pr-11 text-sm text-foreground outline-none transition-colors focus:border-primary"
           />
           <button
             type="submit"
@@ -50,7 +50,7 @@ export async function SiteHeader() {
               {session.role === 'ADMIN' && (
                 <Link
                   href="/admin"
-                  className="inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                  className="inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-header-muted transition-colors hover:bg-white/10 hover:text-header-foreground"
                 >
                   <LayoutDashboard className="size-4" />
                   Админка
@@ -58,7 +58,7 @@ export async function SiteHeader() {
               )}
               <Link
                 href="/account"
-                className="inline-flex items-center gap-2 rounded-md border border-border px-3 py-2 text-sm font-medium text-foreground transition-colors hover:bg-muted"
+                className="inline-flex items-center gap-2 rounded-md border border-white/25 px-3 py-2 text-sm font-medium text-header-foreground transition-colors hover:bg-white/10"
               >
                 <UserRound className="size-4" />
                 {session.name.split(' ')[0]}
@@ -68,17 +68,17 @@ export async function SiteHeader() {
           ) : (
             <>
               <Link
-                href="/login"
-                className="inline-flex items-center gap-1.5 rounded-md border border-border px-4 py-2 text-sm font-semibold text-foreground transition-colors hover:bg-muted"
-              >
-                <LogIn className="size-4" />
-                Вход
-              </Link>
-              <Link
                 href="/register"
                 className="rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
               >
                 Регистрация
+              </Link>
+              <Link
+                href="/login"
+                className="inline-flex items-center gap-1.5 rounded-md bg-info px-4 py-2 text-sm font-semibold text-info-foreground transition-colors hover:bg-info/90"
+              >
+                <LogIn className="size-4" />
+                Вход
               </Link>
             </>
           )}
@@ -87,14 +87,14 @@ export async function SiteHeader() {
         <MobileMenu session={session} />
       </div>
 
-      {/* Нижняя строка: зелёная навигация */}
-      <nav className="hidden bg-primary md:block">
+      {/* Нижняя строка: навигация */}
+      <nav className="hidden border-t border-white/10 bg-black/15 md:block">
         <div className="mx-auto flex max-w-6xl items-center px-4">
           {NAV.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className="px-4 py-3 text-sm font-semibold uppercase tracking-wide text-primary-foreground/90 transition-colors hover:bg-black/10 hover:text-primary-foreground"
+              className="border-b-2 border-transparent px-4 py-3 text-sm font-semibold uppercase tracking-wide text-header-foreground/85 transition-colors hover:border-primary hover:bg-white/5 hover:text-header-foreground"
             >
               {item.label}
             </Link>

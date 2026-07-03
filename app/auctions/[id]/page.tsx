@@ -1,7 +1,6 @@
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { ChevronLeft } from 'lucide-react'
 import { SiteHeader } from '@/components/site-header'
 import { SiteFooter } from '@/components/site-footer'
 import { LotGallery } from '@/components/lot-gallery'
@@ -113,26 +112,46 @@ export default async function LotPage({
       <SiteHeader />
       <main className="flex-1">
         <div className="mx-auto max-w-6xl px-4 py-6">
-          <Link
-            href="/auctions"
-            className="inline-flex items-center gap-1 text-sm text-muted-foreground transition-colors hover:text-foreground"
-          >
-            <ChevronLeft className="size-4" />
-            Ко всем аукционам
-          </Link>
+          <nav className="flex flex-wrap items-center gap-1.5 text-sm text-muted-foreground">
+            <Link href="/" className="transition-colors hover:text-primary">
+              Главная
+            </Link>
+            <span>›</span>
+            <Link
+              href="/auctions"
+              className="transition-colors hover:text-primary"
+            >
+              Аукционы
+            </Link>
+            <span>›</span>
+            <span className="text-foreground">{lot.title}</span>
+          </nav>
 
-          <div className="mt-5 grid gap-8 lg:grid-cols-[1.4fr_1fr]">
+          <div className="mt-3">
+            <h1 className="font-display text-2xl font-bold uppercase tracking-tight text-balance sm:text-3xl">
+              {lot.title}
+            </h1>
+            <div className="mt-3 h-0.5 w-24 bg-primary" />
+          </div>
+
+          <div className="mt-6 grid gap-8 lg:grid-cols-[1.4fr_1fr]">
             {/* Левая колонка */}
             <div>
               <LotGallery images={lot.images} title={lot.title} />
 
-              <div className="mt-8">
-                <h2 className="font-display text-2xl font-bold">Характеристики</h2>
-                <dl className="mt-4 grid grid-cols-1 gap-x-8 gap-y-0 sm:grid-cols-2">
-                  {specs.map((s) => (
+              <div className="mt-8 overflow-hidden rounded-md border border-border">
+                <div className="border-b border-border bg-muted px-4 py-3">
+                  <h2 className="font-display text-sm font-bold uppercase tracking-wide">
+                    Информация о предмете торгов
+                  </h2>
+                </div>
+                <dl>
+                  {specs.map((s, i) => (
                     <div
                       key={s.label}
-                      className="flex justify-between gap-4 border-b border-border py-3 text-sm"
+                      className={`flex justify-between gap-4 px-4 py-3 text-sm ${
+                        i % 2 === 1 ? 'bg-muted/40' : 'bg-card'
+                      }`}
                     >
                       <dt className="text-muted-foreground">{s.label}</dt>
                       <dd className="text-right font-medium">{s.value}</dd>
@@ -142,9 +161,13 @@ export default async function LotPage({
               </div>
 
               {lot.description && (
-                <div className="mt-8">
-                  <h2 className="font-display text-2xl font-bold">Описание</h2>
-                  <p className="mt-3 whitespace-pre-line leading-relaxed text-muted-foreground">
+                <div className="mt-8 overflow-hidden rounded-md border border-border">
+                  <div className="border-b border-border bg-muted px-4 py-3">
+                    <h2 className="font-display text-sm font-bold uppercase tracking-wide">
+                      Описание
+                    </h2>
+                  </div>
+                  <p className="whitespace-pre-line px-4 py-4 leading-relaxed text-muted-foreground">
                     {lot.description}
                   </p>
                 </div>
