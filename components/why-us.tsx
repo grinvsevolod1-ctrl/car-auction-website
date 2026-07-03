@@ -35,7 +35,7 @@ const features = [
 
 export function WhyUs() {
   return (
-    <section id="why" className="scroll-mt-24 border-t border-border py-16 sm:py-24">
+    <section id="guarantees" className="scroll-mt-16 border-t border-border py-16 sm:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <div className="max-w-2xl">
           <span className="text-sm font-medium text-primary">Почему IGNIS</span>

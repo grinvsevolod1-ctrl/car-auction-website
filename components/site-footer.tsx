@@ -1,48 +1,47 @@
-import { Flame, Phone, Mail, MapPin, Camera, Send } from 'lucide-react'
+import Link from 'next/link'
+import { Mail, Send } from 'lucide-react'
+import { Logo } from '@/components/logo'
 
 const columns = [
   {
     title: 'Аукцион',
-    links: ['Живые торги', 'Как это работает', 'Календарь торгов', 'Автоставка'],
+    links: [
+      { label: 'Все лоты', href: '/auctions' },
+      { label: 'Как это работает', href: '/#how' },
+      { label: 'Гарантии', href: '/#guarantees' },
+    ],
   },
   {
-    title: 'Компания',
-    links: ['О нас', 'Гарантии', 'Отзывы', 'Вакансии'],
-  },
-  {
-    title: 'Помощь',
-    links: ['Частые вопросы', 'Доставка', 'Оплата', 'Договор оферты'],
+    title: 'Аккаунт',
+    links: [
+      { label: 'Войти', href: '/login' },
+      { label: 'Регистрация', href: '/register' },
+      { label: 'Личный кабинет', href: '/account' },
+    ],
   },
 ]
 
 export function SiteFooter() {
   return (
-    <footer id="footer" className="scroll-mt-24 border-t border-border bg-card/40">
-      <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6">
-        <div className="grid gap-10 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
+    <footer className="border-t border-border bg-card">
+      <div className="mx-auto max-w-6xl px-4 py-12">
+        <div className="grid gap-10 md:grid-cols-[1.5fr_1fr_1fr_1fr]">
           <div>
-            <a href="#top" className="flex items-center gap-2">
-              <span className="grid size-9 place-items-center rounded-lg bg-primary text-primary-foreground">
-                <Flame className="size-5" />
-              </span>
-              <span className="font-display text-xl font-bold uppercase tracking-widest">
-                Ignis
-              </span>
-            </a>
+            <Logo />
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted-foreground">
-              Премиальный онлайн-аукцион автомобилей в Беларуси. Честные торги,
-              проверенные лоты, доставка под ключ.
+              Онлайн-аукцион автомобилей в Беларуси. Прозрачные торги,
+              проверенные лоты, честные ставки в реальном времени.
             </p>
             <div className="mt-6 flex gap-3">
               <a
-                href="#"
-                aria-label="Instagram"
+                href="mailto:info@ignis.by"
+                aria-label="Написать на email"
                 className="grid size-10 place-items-center rounded-lg border border-border text-muted-foreground transition-colors hover:border-primary/50 hover:text-primary"
               >
-                <Camera className="size-5" />
+                <Mail className="size-5" />
               </a>
               <a
-                href="#"
+                href="https://t.me"
                 aria-label="Telegram"
                 className="grid size-10 place-items-center rounded-lg border border-border text-muted-foreground transition-colors hover:border-primary/50 hover:text-primary"
               >
@@ -58,44 +57,40 @@ export function SiteFooter() {
               </h3>
               <ul className="mt-4 space-y-3">
                 {col.links.map((l) => (
-                  <li key={l}>
-                    <a
-                      href="#"
+                  <li key={l.href}>
+                    <Link
+                      href={l.href}
                       className="text-sm text-muted-foreground transition-colors hover:text-foreground"
                     >
-                      {l}
-                    </a>
+                      {l.label}
+                    </Link>
                   </li>
                 ))}
               </ul>
             </div>
           ))}
+
+          <div>
+            <h3 className="font-display text-sm font-semibold uppercase tracking-widest text-foreground">
+              Контакты
+            </h3>
+            <ul className="mt-4 space-y-3 text-sm text-muted-foreground">
+              <li>
+                <a
+                  href="mailto:info@ignis.by"
+                  className="transition-colors hover:text-foreground"
+                >
+                  info@ignis.by
+                </a>
+              </li>
+              <li>Минск, Беларусь</li>
+            </ul>
+          </div>
         </div>
 
-        <div className="mt-12 grid gap-4 border-t border-border pt-8 sm:grid-cols-3">
-          <a
-            href="tel:+375291234567"
-            className="flex items-center gap-3 text-sm text-muted-foreground transition-colors hover:text-foreground"
-          >
-            <Phone className="size-4 text-primary" />
-            +375 29 123-45-67
-          </a>
-          <a
-            href="mailto:hello@ignis.by"
-            className="flex items-center gap-3 text-sm text-muted-foreground transition-colors hover:text-foreground"
-          >
-            <Mail className="size-4 text-primary" />
-            hello@ignis.by
-          </a>
-          <span className="flex items-center gap-3 text-sm text-muted-foreground">
-            <MapPin className="size-4 text-primary" />
-            Минск, ул. Автомобильная, 7
-          </span>
-        </div>
-
-        <div className="mt-8 flex flex-col items-center justify-between gap-3 border-t border-border pt-6 text-xs text-muted-foreground sm:flex-row">
+        <div className="mt-10 flex flex-col items-center justify-between gap-3 border-t border-border pt-6 text-xs text-muted-foreground sm:flex-row">
           <p>© {new Date().getFullYear()} IGNIS. Все права защищены.</p>
-          <p>УНП 000000000 · ООО «Игнис Авто»</p>
+          <p>Онлайн-аукцион автомобилей</p>
         </div>
       </div>
     </footer>

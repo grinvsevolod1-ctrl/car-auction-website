@@ -1,0 +1,93 @@
+// IGNIS — автоаукцион. Схема базы данных (PostgreSQL).
+
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum LotStatus {
+  DRAFT // черновик, не виден публично
+  ACTIVE // идут торги
+  ENDED // торги завершены без покупки
+  SOLD // продано победителю
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  phone        String?
+  role         Role     @default(USER)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  bids    Bid[]
+  wonLots Lot[] @relation("LotWinner")
+
+  @@index([email])
+}
+
+model Lot {
+  id          String  @id @default(cuid())
+  title       String
+  make        String // марка
+  model       String // модель
+  year        Int
+  mileage     Int // пробег, км
+  engineVol   Float? // объём двигателя, л
+  power       Int? // мощность, л.с.
+  transmission String? // КПП
+  bodyType    String? // тип кузова
+  fuelType    String? // тип топлива
+  drive       String? // привод
+  color       String?
+  vin         String?
+  location    String? // город/регион
+  condition   String? // состояние
+  description String? @db.Text
+  images      String[] // список URL изображений
+
+  startPrice   Int // стартовая цена
+  bidStep      Int  @default(100) // шаг ставки
+  currentPrice Int // текущая цена (= стартовой, растёт со ставками)
+  buyNowPrice  Int? // цена «купить сразу»
+
+  status  LotStatus @default(DRAFT)
+  startsAt DateTime  @default(now())
+  endsAt   DateTime
+
+  winnerId String?
+  winner   User?   @relation("LotWinner", fields: [winnerId], references: [id])
+
+  bids Bid[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status])
+  @@index([endsAt])
+}
+
+model Bid {
+  id        String   @id @default(cuid())
+  amount    Int
+  createdAt DateTime @default(now())
+
+  lotId  String
+  lot    Lot    @relation(fields: [lotId], references: [id], onDelete: Cascade)
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([lotId])
+  @@index([userId])
+}

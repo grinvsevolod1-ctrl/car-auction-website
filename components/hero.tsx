@@ -1,108 +1,95 @@
+import Link from 'next/link'
 import Image from 'next/image'
-import { Flame, ShieldCheck, Gavel, ArrowRight } from 'lucide-react'
-import { stats } from '@/lib/auctions'
+import { ArrowRight, ShieldCheck, Zap } from 'lucide-react'
+import { formatNumber } from '@/lib/format'
 
-export function Hero() {
+export function Hero({
+  activeLots,
+  totalLots,
+  usersCount,
+}: {
+  activeLots: number
+  totalLots: number
+  usersCount: number
+}) {
   return (
-    <section id="top" className="relative overflow-hidden bg-ember-glow pt-28">
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
-
-      <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 pb-16 pt-8 sm:px-6 lg:grid-cols-[1.05fr_1fr] lg:pb-24">
+    <section className="relative overflow-hidden">
+      <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 py-14 lg:grid-cols-2 lg:py-20">
         <div>
-          <span className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
-            <Flame className="size-3.5" />
-            Автоаукцион №1 в Беларуси
+          <span className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1.5 text-xs font-medium text-muted-foreground">
+            <span className="inline-block size-1.5 animate-pulse-dot rounded-full bg-primary" />
+            Онлайн-аукцион автомобилей в Беларуси
           </span>
 
-          <h1 className="mt-6 font-display text-5xl font-bold uppercase leading-[0.95] tracking-tight text-balance sm:text-6xl lg:text-7xl">
-            Торгуйся за <span className="text-fire-gradient">мечту</span>
-            <br />
-            на колёсах
+          <h1 className="mt-5 font-display text-4xl font-bold uppercase leading-[1.05] tracking-tight text-balance sm:text-6xl">
+            Покупайте авто на <span className="text-fire-gradient">честных торгах</span>
           </h1>
 
-          <p className="mt-6 max-w-md text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
-            IGNIS — живые онлайн-торги проверенных автомобилей. Прозрачные ставки,
-            честная история каждого лота и доставка под ключ по всей Беларуси.
+          <p className="mt-5 max-w-lg text-pretty leading-relaxed text-muted-foreground">
+            IGNIS — прозрачный аукцион с проверенными лотами и живыми ставками в
+            реальном времени. Регистрируйтесь и участвуйте в торгах за лучшие
+            автомобили страны.
           </p>
 
-          <div className="mt-8 flex flex-wrap items-center gap-3">
-            <a
-              href="#auctions"
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Link
+              href="/auctions"
               className="group inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3.5 font-semibold text-primary-foreground transition-transform hover:scale-[1.03]"
             >
-              <Gavel className="size-5" />
-              Участвовать в торгах
+              Смотреть аукционы
               <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
-            </a>
-            <a
-              href="#how"
-              className="inline-flex items-center gap-2 rounded-xl border border-border px-6 py-3.5 font-semibold text-foreground transition-colors hover:bg-secondary"
+            </Link>
+            <Link
+              href="/register"
+              className="inline-flex items-center gap-2 rounded-xl border border-border bg-card px-6 py-3.5 font-semibold text-foreground transition-colors hover:bg-muted"
             >
-              Как это работает
-            </a>
+              Регистрация
+            </Link>
           </div>
 
-          <div className="mt-8 flex items-center gap-3 text-sm text-muted-foreground">
-            <ShieldCheck className="size-5 text-primary" />
-            Проверка юриста и техэксперта по каждому лоту
-          </div>
+          <dl className="mt-10 grid max-w-md grid-cols-3 gap-4">
+            {[
+              { label: 'Активных торгов', value: formatNumber(activeLots) },
+              { label: 'Лотов всего', value: formatNumber(totalLots) },
+              { label: 'Участников', value: formatNumber(usersCount) },
+            ].map((stat) => (
+              <div key={stat.label} className="rounded-xl border border-border bg-card p-4">
+                <dt className="text-xs text-muted-foreground">{stat.label}</dt>
+                <dd className="mt-1 font-display text-2xl font-bold">{stat.value}</dd>
+              </div>
+            ))}
+          </dl>
         </div>
 
-        {/* Hero image card */}
         <div className="relative">
-          <div className="relative overflow-hidden rounded-3xl border border-border bg-card">
-            <div className="absolute left-4 top-4 z-10 flex items-center gap-2 rounded-full bg-background/70 px-3 py-1.5 text-xs font-medium backdrop-blur">
-              <span className="relative flex size-2">
-                <span className="absolute inline-flex size-full animate-ping rounded-full bg-primary opacity-75" />
-                <span className="relative inline-flex size-2 rounded-full bg-primary" />
-              </span>
-              LIVE · 214 участников
-            </div>
-
+          <div className="relative aspect-[4/3] overflow-hidden rounded-3xl border border-border bg-card shadow-xl">
             <Image
               src="/cars/hero.png"
-              alt="Премиальный спорткар на аукционе IGNIS"
-              width={900}
-              height={640}
+              alt="Премиальный автомобиль на аукционе IGNIS"
+              fill
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              className="object-cover"
               priority
-              className="h-full w-full object-cover"
             />
-
-            <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 bg-gradient-to-t from-background via-background/70 to-transparent p-5">
-              <div>
-                <p className="text-xs uppercase tracking-widest text-muted-foreground">
-                  Лот вечера
-                </p>
-                <p className="font-display text-xl font-bold">
-                  Aurora GT · 2024
-                </p>
-              </div>
-              <div className="text-right">
-                <p className="text-xs uppercase tracking-widest text-muted-foreground">
-                  Ставка
-                </p>
-                <p className="font-mono text-xl font-bold text-primary">
-                  342 000 Br
-                </p>
-              </div>
+          </div>
+          <div className="absolute -bottom-4 -left-4 hidden items-center gap-3 rounded-2xl border border-border bg-background p-4 shadow-lg sm:flex">
+            <span className="grid size-10 place-items-center rounded-xl bg-primary/12 text-primary">
+              <ShieldCheck className="size-5" />
+            </span>
+            <div>
+              <p className="text-sm font-semibold">Проверенные лоты</p>
+              <p className="text-xs text-muted-foreground">Диагностика и история</p>
             </div>
           </div>
-        </div>
-      </div>
-
-      {/* Stats bar */}
-      <div className="border-y border-border bg-card/40">
-        <div className="mx-auto grid max-w-7xl grid-cols-2 divide-x divide-border px-4 sm:px-6 lg:grid-cols-4">
-          {stats.map((s) => (
-            <div key={s.label} className="px-2 py-6 text-center sm:py-8">
-              <p className="font-display text-3xl font-bold text-fire-gradient sm:text-4xl">
-                {s.value}
-              </p>
-              <p className="mt-1 text-xs text-muted-foreground sm:text-sm">
-                {s.label}
-              </p>
+          <div className="absolute -right-4 top-6 hidden items-center gap-3 rounded-2xl border border-border bg-background p-4 shadow-lg sm:flex">
+            <span className="grid size-10 place-items-center rounded-xl bg-primary/12 text-primary">
+              <Zap className="size-5" />
+            </span>
+            <div>
+              <p className="text-sm font-semibold">Ставки в реальном времени</p>
+              <p className="text-xs text-muted-foreground">Без задержек</p>
             </div>
-          ))}
+          </div>
         </div>
       </div>
     </section>

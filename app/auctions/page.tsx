@@ -1,0 +1,70 @@
+import { Suspense } from 'react'
+import type { Metadata } from 'next'
+import { SiteHeader } from '@/components/site-header'
+import { SiteFooter } from '@/components/site-footer'
+import { AuctionFilters } from '@/components/auction-filters'
+import { LotCard } from '@/components/lot-card'
+import { getPublicLots, type LotFilter } from '@/lib/queries'
+
+export const dynamic = 'force-dynamic'
+
+export const metadata: Metadata = {
+  title: 'Аукционы',
+  description: 'Каталог автомобилей на онлайн-аукционе IGNIS.',
+}
+
+export default async function AuctionsPage({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | string[] | undefined>>
+}) {
+  const sp = await searchParams
+  const filter: LotFilter = {
+    q: typeof sp.q === 'string' ? sp.q : undefined,
+    status: (typeof sp.status === 'string' ? sp.status : 'ACTIVE') as LotFilter['status'],
+    sort: (typeof sp.sort === 'string' ? sp.sort : 'ending') as LotFilter['sort'],
+  }
+
+  const lots = await getPublicLots(filter)
+
+  return (
+    <div className="flex min-h-dvh flex-col">
+      <SiteHeader />
+      <main className="flex-1">
+        <div className="border-b border-border bg-card">
+          <div className="mx-auto max-w-6xl px-4 py-10">
+            <h1 className="font-display text-4xl font-bold uppercase tracking-tight">
+              Аукционы
+            </h1>
+            <p className="mt-2 text-muted-foreground">
+              Выберите автомобиль и сделайте ставку. Участие в торгах доступно
+              после регистрации.
+            </p>
+          </div>
+        </div>
+
+        <div className="mx-auto max-w-6xl px-4 py-8">
+          <Suspense fallback={<div className="h-32" />}>
+            <AuctionFilters />
+          </Suspense>
+
+          {lots.length === 0 ? (
+            <div className="mt-10 rounded-2xl border border-dashed border-border bg-card p-12 text-center">
+              <p className="font-display text-xl font-bold">Ничего не найдено</p>
+              <p className="mt-2 text-sm text-muted-foreground">
+                Попробуйте изменить фильтры или зайти позже.
+              </p>
+            </div>
+          ) : (
+            <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {lots.map((lot) => (
+                <LotCard key={lot.id} lot={lot} />
+              ))}
+            </div>
+          )}
+        </div>
+      </main>
+      <SiteFooter />
+    </div>
+  )
+}

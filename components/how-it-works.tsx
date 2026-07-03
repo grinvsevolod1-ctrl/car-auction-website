@@ -4,7 +4,7 @@ const steps = [
   {
     icon: UserPlus,
     title: 'Регистрация',
-    text: 'Создайте аккаунт за минуту и подтвердите номер телефона. Депозит возвращается, если вы не выиграли.',
+    text: 'Создайте аккаунт за минуту. Регистрация обязательна для участия в торгах.',
   },
   {
     icon: Search,
@@ -14,7 +14,7 @@ const steps = [
   {
     icon: Gavel,
     title: 'Торги',
-    text: 'Делайте ставки онлайн в реальном времени. Автоставка перебьёт конкурентов до вашего лимита.',
+    text: 'Делайте ставки онлайн в реальном времени. Текущая цена и история ставок видны всем участникам.',
   },
   {
     icon: KeyRound,
@@ -25,8 +25,8 @@ const steps = [
 
 export function HowItWorks() {
   return (
-    <section id="how" className="scroll-mt-24 border-t border-border py-16 sm:py-24">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6">
+    <section id="how" className="scroll-mt-16 border-t border-border py-16 sm:py-24">
+      <div className="mx-auto max-w-6xl px-4">
         <div className="max-w-2xl">
           <span className="text-sm font-medium text-primary">Процесс</span>
           <h2 className="mt-3 font-display text-4xl font-bold uppercase tracking-tight sm:text-5xl">

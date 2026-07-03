@@ -1,4 +1,3 @@
-import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import { Oswald, Inter, JetBrains_Mono } from 'next/font/google'
 import './globals.css'
@@ -20,15 +19,26 @@ const mono = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'IGNIS — Автоаукцион №1 в Беларуси',
+  title: {
+    default: 'IGNIS — автомобильный аукцион в Беларуси',
+    template: '%s · IGNIS',
+  },
   description:
-    'IGNIS — премиальный онлайн-аукцион автомобилей в Беларуси. Живые торги, проверенные лоты, прозрачные ставки и доставка под ключ.',
-  generator: 'v0.app',
+    'IGNIS — онлайн-аукцион автомобилей в Беларуси. Прозрачные торги, проверенные лоты, честные ставки в реальном времени.',
+  keywords: [
+    'автоаукцион',
+    'аукцион авто',
+    'купить авто Беларусь',
+    'торги автомобили',
+    'IGNIS',
+  ],
 }
 
 export const viewport: Viewport = {
-  colorScheme: 'dark',
-  themeColor: '#141210',
+  colorScheme: 'light',
+  themeColor: '#ffffff',
+  width: 'device-width',
+  initialScale: 1,
 }
 
 export default function RootLayout({
@@ -41,10 +51,7 @@ export default function RootLayout({
       lang="ru"
       className={`${display.variable} ${sans.variable} ${mono.variable} bg-background`}
     >
-      <body className="font-sans antialiased">
-        {children}
-        {process.env.NODE_ENV === 'production' && <Analytics />}
-      </body>
+      <body className="font-sans antialiased">{children}</body>
     </html>
   )
 }
