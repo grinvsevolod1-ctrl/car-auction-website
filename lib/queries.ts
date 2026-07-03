@@ -76,6 +76,53 @@ export async function getLotDetail(id: string) {
   })
 }
 
+export async function getUserDashboard(userId: string) {
+  // Latest bid per lot the user participated in
+  const bids = await prisma.bid.findMany({
+    where: { userId },
+    orderBy: { createdAt: 'desc' },
+    include: {
+      lot: {
+        select: {
+          id: true,
+          title: true,
+          images: true,
+          currentPrice: true,
+          status: true,
+          endsAt: true,
+          winnerId: true,
+        },
+      },
+    },
+  })
+
+  // Reduce to one row per lot (the user's highest bid on that lot)
+  const byLot = new Map<
+    string,
+    { lot: (typeof bids)[number]['lot']; myMax: number; isLeading: boolean; isWon: boolean }
+  >()
+  for (const b of bids) {
+    const cur = byLot.get(b.lotId)
+    const myMax = Math.max(cur?.myMax ?? 0, b.amount)
+    byLot.set(b.lotId, {
+      lot: b.lot,
+      myMax,
+      isLeading: myMax >= b.lot.currentPrice && b.lot.status === 'ACTIVE',
+      isWon: b.lot.winnerId === userId,
+    })
+  }
+
+  const rows = Array.from(byLot.values())
+  return {
+    rows,
+    stats: {
+      participating: rows.filter((r) => r.lot.status === 'ACTIVE').length,
+      leading: rows.filter((r) => r.isLeading).length,
+      won: rows.filter((r) => r.isWon).length,
+    },
+  }
+}
+
 export async function getPublicStats() {
   const [activeLots, totalLots, usersCount] = await Promise.all([
     prisma.lot.count({ where: { status: 'ACTIVE' } }),

@@ -40,3 +40,7 @@ export const LOT_STATUS_LABEL: Record<string, string> = {
   ENDED: 'Завершён',
   SOLD: 'Продан',
 }
+
+export function statusLabel(status: string) {
+  return LOT_STATUS_LABEL[status] ?? status
+}
